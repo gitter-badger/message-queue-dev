@@ -31,12 +31,12 @@ class DbalMessageProducerTest extends \PHPUnit_Framework_TestCase
         $this->startTransaction();
     }
 
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        $this->rollbackTransaction();
-    }
+//    protected function tearDown()
+//    {
+//        parent::tearDown();
+//
+//        $this->rollbackTransaction();
+//    }
 
     public function testShouldCreateMessageInDb()
     {
