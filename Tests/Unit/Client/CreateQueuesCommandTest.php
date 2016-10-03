@@ -1,0 +1,72 @@
+<?php
+namespace FormaPro\MessageQueue\Tests\Unit\Client;
+
+use FormaPro\MessageQueue\Client\CreateQueuesCommand;
+use FormaPro\MessageQueue\Client\DriverInterface;
+use FormaPro\MessageQueue\Client\Meta\DestinationMeta;
+use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Symfony\Component\Console\Tester\CommandTester;
+
+class CreateQueuesCommandTest extends \PHPUnit_Framework_TestCase
+{
+    public function testCouldBeConstructedWithRequiredAttributes()
+    {
+        new CreateQueuesCommand($this->createDestinationMetaRegistryMock(), $this->createClientDriverMock());
+    }
+
+    public function testShouldHaveCommandName()
+    {
+        $command = new CreateQueuesCommand($this->createDestinationMetaRegistryMock(), $this->createClientDriverMock());
+
+        $this->assertEquals('fp:message-queue:create-queues', $command->getName());
+    }
+
+    public function testShouldCreateQueues()
+    {
+        $destinationMeta1 = new DestinationMeta('', 'queue1');
+        $destinationMeta2 = new DestinationMeta('', 'queue2');
+
+        $destinationMetaRegistry = $this->createDestinationMetaRegistryMock();
+        $destinationMetaRegistry
+            ->expects($this->once())
+            ->method('getDestinationsMeta')
+            ->will($this->returnValue([$destinationMeta1, $destinationMeta2]))
+        ;
+
+        $driver = $this->createClientDriverMock();
+        $driver
+            ->expects($this->at(0))
+            ->method('createQueue')
+            ->with('queue1')
+        ;
+        $driver
+            ->expects($this->at(1))
+            ->method('createQueue')
+            ->with('queue2')
+        ;
+
+        $command = new CreateQueuesCommand($destinationMetaRegistry, $driver);
+
+        $tester = new CommandTester($command);
+        $tester->execute([]);
+
+        $this->assertContains('Creating queue: queue1', $tester->getDisplay());
+        $this->assertContains('Creating queue: queue2', $tester->getDisplay());
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|DestinationMetaRegistry
+     */
+    private function createDestinationMetaRegistryMock()
+    {
+        return $this->createMock(DestinationMetaRegistry::class);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|DriverInterface
+     */
+    private function createClientDriverMock()
+    {
+        return $this->createMock(DriverInterface::class);
+    }
+}
