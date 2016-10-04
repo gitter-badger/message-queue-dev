@@ -6,14 +6,21 @@ git:
 language: php
 
 php:
-  - '5.6'
-  - '7.0'
+    - '5.6'
+    - '7.0'
+
+env:
+    - SYMFONY__DB__DRIVER=pdo_mysql SYMFONY__DB__HOST=localhost SYMFONY__DB__PORT="" SYMFONY__DB__NAME=message_queue SYMFONY__DB__USER=root SYMFONY__DB__PASSWORD=""
+
+services:
+    - mysql
 
 cache:
-  directories:
-    - $HOME/.composer/cache
+    directories:
+        - $HOME/.composer/cache
 
 install:
+    - sh -c "if [ '${SYMFONY__DB__DRIVER}' = 'pdo_mysql' ]; then mysql -u root -e 'CREATE DATABASE IF NOT EXISTS ${SYMFONY__DB__NAME};'; fi"
     - composer self-update
     - composer install --prefer-source
 
