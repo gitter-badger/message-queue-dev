@@ -1,0 +1,30 @@
+parameters:
+    locale: 'en'
+    secret: 'ThisTokenIsNotSoSecretChangeIt'
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: "%locale%" }
+    test: ~
+    templating:      { engines: ['php'] }
+    session:
+        storage_id: session.storage.mock_file
+    secret:          "%secret%"
+    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    default_locale:  "%locale%"
+
+doctrine:
+    dbal:
+        driver:   "pdo_mysql"
+        host:     "localhost"
+        port:     ~
+        dbname:   "test"
+        user:     "root"
+        password: ~
+        charset:  UTF8
+
+forma_pro_message_queue:
+    transport:
+        default: 'null'
+        'null': ~
+    client: ~

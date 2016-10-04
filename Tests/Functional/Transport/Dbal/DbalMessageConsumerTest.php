@@ -7,16 +7,13 @@ use FormaPro\MessageQueue\Transport\Dbal\DbalMessage;
 use FormaPro\MessageQueue\Transport\Dbal\DbalMessageConsumer;
 use FormaPro\MessageQueue\Transport\Dbal\DbalDestination;
 use FormaPro\MessageQueue\Transport\Dbal\DbalSession;
+use FormaPro\MessageQueue\Tests\Functional\WebTestCase;
 
-class DbalMessageConsumerTest extends \PHPUnit_Framework_TestCase
+class DbalMessageConsumerTest extends WebTestCase
 {
     protected function setUp()
     {
-        $this->markTestSkipped('Skipped until functional test environment is ready');
-
         parent::setUp();
-
-        $this->initClient();
 
         $connection = $this->createConnection();
 
@@ -27,16 +24,7 @@ class DbalMessageConsumerTest extends \PHPUnit_Framework_TestCase
 
         $session = new DbalSession($connection);
         $session->declareQueue(new DbalDestination('default'));
-
-        $this->startTransaction();
     }
-
-//    protected function tearDown()
-//    {
-//        parent::tearDown();
-//
-//        $this->rollbackTransaction();
-//    }
 
     public function testShouldRemoveRecordIfMessageIsAcknowledged()
     {
@@ -284,7 +272,7 @@ class DbalMessageConsumerTest extends \PHPUnit_Framework_TestCase
      */
     private function createConnection()
     {
-        $dbal = $this->getContainer()->get('doctrine.dbal.default_connection');
+        $dbal = $this->container->get('doctrine.dbal.default_connection');
 
         return new DbalConnection($dbal, 'message_queue');
     }

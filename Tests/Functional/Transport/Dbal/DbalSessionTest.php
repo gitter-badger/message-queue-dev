@@ -2,29 +2,12 @@
 namespace FormaPro\MessageQueue\Tests\Functional\Transport\Dbal;
 
 use Doctrine\DBAL\Exception\DriverException;
+use FormaPro\MessageQueue\Tests\Functional\WebTestCase;
 use FormaPro\MessageQueue\Transport\Dbal\DbalConnection;
 use FormaPro\MessageQueue\Transport\Dbal\DbalSession;
 
-class DbalSessionTest extends \PHPUnit_Framework_TestCase
+class DbalSessionTest extends WebTestCase
 {
-    protected function setUp()
-    {
-        $this->markTestSkipped('Skipped until functional test environment is ready');
-
-        parent::setUp();
-
-        $this->initClient();
-
-        $this->startTransaction();
-    }
-
-//    protected function tearDown()
-//    {
-//        parent::tearDown();
-//
-//        $this->rollbackTransaction();
-//    }
-
     public function testShouldCreateMessageQueueTableIfNotExistOnDeclareQueue()
     {
         $connection = $this->createConnection();
@@ -49,7 +32,7 @@ class DbalSessionTest extends \PHPUnit_Framework_TestCase
      */
     private function createConnection()
     {
-        $dbal = $this->getContainer()->get('doctrine.dbal.default_connection');
+        $dbal = $this->container->get('doctrine.dbal.default_connection');
 
         return new DbalConnection($dbal, 'message_queue');
     }
