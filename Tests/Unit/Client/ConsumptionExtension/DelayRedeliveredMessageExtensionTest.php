@@ -6,6 +6,7 @@ use FormaPro\MessageQueue\Client\DriverInterface;
 use FormaPro\MessageQueue\Client\Message;
 use FormaPro\MessageQueue\Consumption\Context;
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use FormaPro\MessageQueue\Consumption\MessageStatus;
 use FormaPro\MessageQueue\Transport\Null\NullMessage;
 use FormaPro\MessageQueue\Transport\Null\NullQueue;
 use FormaPro\MessageQueue\Transport\QueueInterface;
@@ -76,7 +77,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(MessageStatus::REJECT, $context->getStatus());
 
         self::assertInstanceOf(Message::class, $delayedMessage);
         self::assertEquals('theBody', $delayedMessage->getBody());
@@ -144,7 +145,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(MessageStatus::REJECT, $context->getStatus());
         self::assertArrayNotHasKey(
             DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT,
             $message->getProperties()
@@ -191,7 +192,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(MessageStatus::REJECT, $context->getStatus());
         $properties = $message->getProperties();
         self::assertArrayHasKey(DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT, $properties);
         self::assertSame(7, $properties[DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT]);

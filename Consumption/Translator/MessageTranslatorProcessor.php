@@ -2,6 +2,7 @@
 namespace FormaPro\MessageQueue\Consumption\Translator;
 
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use FormaPro\MessageQueue\Consumption\MessageStatus;
 use FormaPro\MessageQueue\Transport\MessageInterface;
 use FormaPro\MessageQueue\Transport\MessageProducerInterface;
 use FormaPro\MessageQueue\Transport\SessionInterface;
@@ -31,6 +32,6 @@ class MessageTranslatorProcessor implements MessageProcessorInterface
 
         $session->createProducer()->send($topic, $newMessage);
 
-        return self::ACK;
+        return MessageStatus::ACK;
     }
 }

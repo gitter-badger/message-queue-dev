@@ -2,6 +2,7 @@
 namespace FormaPro\MessageQueue\Router;
 
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use FormaPro\MessageQueue\Consumption\MessageStatus;
 use FormaPro\MessageQueue\Transport\MessageInterface;
 use FormaPro\MessageQueue\Transport\SessionInterface as TransportSession;
 
@@ -30,6 +31,6 @@ class RouteRecipientListProcessor implements MessageProcessorInterface
             $producer->send($recipient->getDestination(), $recipient->getMessage());
         }
 
-        return self::ACK;
+        return MessageStatus::ACK;
     }
 }

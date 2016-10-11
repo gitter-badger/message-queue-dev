@@ -2,6 +2,7 @@
 namespace FormaPro\MessageQueue\Tests\Unit\Router;
 
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use FormaPro\MessageQueue\Consumption\MessageStatus;
 use FormaPro\MessageQueue\Router\Recipient;
 use FormaPro\MessageQueue\Router\RecipientListRouterInterface;
 use FormaPro\MessageQueue\Router\RouteRecipientListProcessor;
@@ -63,7 +64,7 @@ class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
 
         $status = $processor->process($originalMessage, $sessionMock);
 
-        $this->assertEquals(MessageProcessorInterface::ACK, $status);
+        $this->assertEquals(MessageStatus::ACK, $status);
     }
 
     /**

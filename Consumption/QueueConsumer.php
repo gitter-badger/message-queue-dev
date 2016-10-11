@@ -184,13 +184,13 @@ class QueueConsumer
             }
 
             switch ($context->getStatus()) {
-                case MessageProcessorInterface::ACK:
+                case MessageStatus::ACK:
                     $messageConsumer->acknowledge($message);
                     break;
-                case MessageProcessorInterface::REJECT:
+                case MessageStatus::REJECT:
                     $messageConsumer->reject($message, false);
                     break;
-                case MessageProcessorInterface::REQUEUE:
+                case MessageStatus::REQUEUE:
                     $messageConsumer->reject($message, true);
                     break;
                 default:

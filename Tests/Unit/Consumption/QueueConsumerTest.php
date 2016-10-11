@@ -5,6 +5,7 @@ use FormaPro\MessageQueue\Consumption\Context;
 use FormaPro\MessageQueue\Consumption\ExtensionInterface;
 use FormaPro\MessageQueue\Consumption\ChainExtension;
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use FormaPro\MessageQueue\Consumption\MessageStatus;
 use FormaPro\MessageQueue\Consumption\QueueConsumer;
 use FormaPro\MessageQueue\Tests\Unit\Consumption\Mock\BreakCycleExtension;
 use FormaPro\MessageQueue\Transport\ConnectionInterface;
@@ -142,7 +143,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->exactly(5))
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $connectionStub = $this->createConnectionStub($sessionStub);
@@ -170,7 +171,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('process')
             ->with($this->identicalTo($messageMock))
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $connectionStub = $this->createConnectionStub($sessionStub);
@@ -222,7 +223,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('process')
             ->with($this->identicalTo($messageMock))
-            ->willReturn(MessageProcessorInterface::REJECT)
+            ->willReturn(MessageStatus::REJECT)
         ;
 
         $connectionStub = $this->createConnectionStub($sessionStub);
@@ -250,7 +251,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('process')
             ->with($this->identicalTo($messageMock))
-            ->willReturn(MessageProcessorInterface::REQUEUE)
+            ->willReturn(MessageStatus::REQUEUE)
         ;
 
         $connectionStub = $this->createConnectionStub($sessionStub);
@@ -294,7 +295,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->method('onPreReceived')
             ->with($this->isInstanceOf(Context::class))
             ->willReturnCallback(function (Context $context) {
-                $context->setStatus(MessageProcessorInterface::ACK);
+                $context->setStatus(MessageStatus::ACK);
             })
         ;
 
@@ -482,7 +483,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $this->assertSame($expectedMessage, $context->getMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
-                $this->assertSame(MessageProcessorInterface::ACK, $context->getStatus());
+                $this->assertSame(MessageStatus::ACK, $context->getStatus());
                 $this->assertFalse($context->isExecutionInterrupted());
             })
         ;
@@ -661,7 +662,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->once())
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $extension = $this->createExtension();
@@ -689,7 +690,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $this->assertSame($expectedMessage, $context->getMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
-                $this->assertSame(MessageProcessorInterface::ACK, $context->getStatus());
+                $this->assertSame(MessageStatus::ACK, $context->getStatus());
                 $this->assertTrue($context->isExecutionInterrupted());
             })
         ;
@@ -714,7 +715,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->once())
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $extension = $this->createExtension();
@@ -742,7 +743,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $this->assertSame($expectedMessage, $context->getMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
-                $this->assertSame(MessageProcessorInterface::ACK, $context->getStatus());
+                $this->assertSame(MessageStatus::ACK, $context->getStatus());
                 $this->assertTrue($context->isExecutionInterrupted());
             })
         ;
@@ -816,7 +817,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->once())
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $runtimeExtension = $this->createExtension();
@@ -860,7 +861,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->once())
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         $expectedLogger = new NullLogger();
@@ -1013,7 +1014,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageProcessorMock
             ->expects($this->any())
             ->method('process')
-            ->willReturn(MessageProcessorInterface::ACK)
+            ->willReturn(MessageStatus::ACK)
         ;
 
         return $messageProcessorMock;
