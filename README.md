@@ -18,16 +18,17 @@ This is a complete example of message producing using only a transport layer:
 ```php
 <?php
 
-use FormaPro\MessageQueue\Transport\Dbal\DbalConnection;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
+use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use PhpAmqpLib\Connection\AMQPLazyConnection;
 
-$doctrineConnection = DriverManager::getConnection(
-    ['url' => 'mysql://user:secret@localhost/mydb'],
-    new Configuration
-);
+$host = 'localhost';
+$port = 5672;
+$user = 'guest';
+$password = 'guest';
+$vhost = '/';
 
-$connection = new DbalConnection($doctrineConnection, 'message_queue');
+$amqpConnection = new AMQPLazyConnection($host, $port, $user, $password, $vhost);
+$connection = new AmqpConnection($amqpConnection);
 
 $session = $connection->createSession();
 
@@ -43,16 +44,19 @@ $connection->close();
 This is a complete example of message consuming using only a transport layer:
 
 ```php
-use FormaPro\MessageQueue\Transport\Dbal\DbalConnection;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
+<?php
 
-$doctrineConnection = DriverManager::getConnection(
-    ['url' => 'mysql://user:secret@localhost/mydb'],
-    new Configuration
-);
+use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use PhpAmqpLib\Connection\AMQPLazyConnection;
 
-$connection = new DbalConnection($doctrineConnection, 'message_queue');
+$host = 'localhost';
+$port = 5672;
+$user = 'guest';
+$password = 'guest';
+$vhost = '/';
+
+$amqpConnection = new AMQPLazyConnection($host, $port, $user, $password, $vhost);
+$connection = new AmqpConnection($amqpConnection);
 
 $session = $connection->createSession();
 
@@ -90,20 +94,22 @@ class FooMessageProcessor implements MessageProcessor
 
 ```php
 <?php
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
-use FormaPro\MessageQueue\Consumption\Extensions;
+
+use FormaPro\MessageQueue\Consumption\ChainExtension;
 use FormaPro\MessageQueue\Consumption\QueueConsumer;
-use FormaPro\MessageQueue\Transport\Dbal\DbalConnection;
+use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use PhpAmqpLib\Connection\AMQPLazyConnection;
 
-$doctrineConnection = DriverManager::getConnection(
-    ['url' => 'mysql://user:secret@localhost/mydb'],
-    new Configuration
-);
+$host = 'localhost';
+$port = 5672;
+$user = 'guest';
+$password = 'guest';
+$vhost = '/';
 
-$connection = new DbalConnection($doctrineConnection, 'message_queue');
+$amqpConnection = new AMQPLazyConnection($host, $port, $user, $password, $vhost);
+$connection = new AmqpConnection($amqpConnection);
 
-$queueConsumer = new QueueConsumer($connection, new Extensions([]));
+$queueConsumer = new QueueConsumer($connection, new ChainExtension([]));
 $queueConsumer->bind('aQueue', new FooMessageProcessor());
 
 try {
