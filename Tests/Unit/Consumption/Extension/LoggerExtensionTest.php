@@ -127,7 +127,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setBody('message body');
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::acknowledge('reason'));
+        $context->setStatus(MessageStatus::ack('reason'));
         $context->setMessage($message);
 
         $extension->onPostReceived($context);
@@ -144,7 +144,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new LoggerExtension($logger);
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::acknowledge());
+        $context->setStatus(MessageStatus::ack());
 
         $extension->onPostReceived($context);
     }

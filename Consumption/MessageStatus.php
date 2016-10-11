@@ -61,7 +61,7 @@ class MessageStatus
      *
      * @return MessageStatus
      */
-    public static function acknowledge($reason = '')
+    public static function ack($reason = '')
     {
         return new static(self::ACK, $reason);
     }
