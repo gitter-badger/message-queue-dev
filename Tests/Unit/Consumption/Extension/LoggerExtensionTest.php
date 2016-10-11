@@ -60,7 +60,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $logger
             ->expects($this->once())
             ->method('error')
-            ->with('reason', ['body' => 'message body'])
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
         ;
 
         $extension = new LoggerExtension($logger);
@@ -81,7 +81,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $logger
             ->expects($this->once())
             ->method('error')
-            ->with('reason', ['body' => 'message body'])
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
         ;
 
         $extension = new LoggerExtension($logger);
@@ -118,7 +118,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $logger
             ->expects($this->once())
             ->method('info')
-            ->with('reason', ['body' => 'message body'])
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
         ;
 
         $extension = new LoggerExtension($logger);
