@@ -33,7 +33,7 @@ class NullTransportFactory implements TransportFactoryInterface
      */
     public function createService(ContainerBuilder $container, array $config)
     {
-        $connectionId = sprintf('fp_message_queue.transport.%s.connection', $this->getName());
+        $connectionId = sprintf('formapro_message_queue.transport.%s.connection', $this->getName());
         $connection = new Definition(NullConnection::class);
         
         $container->setDefinition($connectionId, $connection);

@@ -72,9 +72,9 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $producer->send('theTopic', $message);
 
         $expectedProperties = [
-            'fp.message_queue.client.topic_name' => 'theTopic',
-            'fp.message_queue.client.processor_name' => 'theRouteMessageProcessor',
-            'fp.message_queue.client.queue_name' => 'therouterqueue',
+            'formapro.message_queue.client.topic_name' => 'theTopic',
+            'formapro.message_queue.client.processor_name' => 'theRouteMessageProcessor',
+            'formapro.message_queue.client.queue_name' => 'therouterqueue',
         ];
 
         self::assertEquals($expectedProperties, $message->getProperties());

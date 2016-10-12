@@ -3,9 +3,9 @@ namespace FormaPro\MessageQueue\Client;
 
 class Config
 {
-    const PARAMETER_TOPIC_NAME = 'fp.message_queue.client.topic_name';
-    const PARAMETER_PROCESSOR_NAME = 'fp.message_queue.client.processor_name';
-    const PARAMETER_QUEUE_NAME = 'fp.message_queue.client.queue_name';
+    const PARAMETER_TOPIC_NAME = 'formapro.message_queue.client.topic_name';
+    const PARAMETER_PROCESSOR_NAME = 'formapro.message_queue.client.processor_name';
+    const PARAMETER_QUEUE_NAME = 'formapro.message_queue.client.queue_name';
     const DEFAULT_QUEUE_NAME = 'default';
 
     /**

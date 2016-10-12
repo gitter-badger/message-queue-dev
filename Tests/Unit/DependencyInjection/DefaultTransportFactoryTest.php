@@ -52,14 +52,14 @@ class DefaultTransportFactoryTest extends \PHPUnit_Framework_TestCase
 
         $serviceId = $transport->createService($container, ['alias' => 'the_alias']);
 
-        $this->assertEquals('fp_message_queue.transport.default.connection', $serviceId);
+        $this->assertEquals('formapro_message_queue.transport.default.connection', $serviceId);
 
         $this->assertTrue($container->hasAlias($serviceId));
         $connection = $container->getAlias($serviceId);
-        $this->assertEquals('fp_message_queue.transport.the_alias.connection', (string) $connection);
+        $this->assertEquals('formapro_message_queue.transport.the_alias.connection', (string) $connection);
 
-        $this->assertTrue($container->hasAlias('fp_message_queue.transport.connection'));
-        $connection = $container->getAlias('fp_message_queue.transport.connection');
+        $this->assertTrue($container->hasAlias('formapro_message_queue.transport.connection'));
+        $connection = $container->getAlias('formapro_message_queue.transport.connection');
         $this->assertEquals($serviceId, (string) $connection);
     }
 }

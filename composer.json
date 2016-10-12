@@ -1,5 +1,5 @@
 {
-    "name": "fp/message-queue",
+    "name": "formapro/message-queue",
     "type": "library",
     "description": "Message Queue Library",
     "keywords": ["messaging", "queue", "amqp", "rabbitmq"],

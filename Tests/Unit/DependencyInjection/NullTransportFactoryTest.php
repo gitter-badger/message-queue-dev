@@ -53,7 +53,7 @@ class NullTransportFactoryTest extends \PHPUnit_Framework_TestCase
 
         $serviceId = $transport->createService($container, []);
 
-        $this->assertEquals('fp_message_queue.transport.null.connection', $serviceId);
+        $this->assertEquals('formapro_message_queue.transport.null.connection', $serviceId);
         $this->assertTrue($container->hasDefinition($serviceId));
 
         $connection = $container->getDefinition($serviceId);

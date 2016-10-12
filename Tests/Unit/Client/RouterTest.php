@@ -91,7 +91,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             \LogicException::class,
-            'Got message without required parameter: "fp.message_queue.client.topic_name"'
+            'Got message without required parameter: "formapro.message_queue.client.topic_name"'
         );
         $result = $router->route(new NullMessage());
 
