@@ -1,10 +1,10 @@
 <?php
 
-namespace FormaPro\MessageQueue\Client\ConsumptionExtension;
+namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Client\DriverInterface;
 
 class CreateQueueExtension extends AbstractExtension
 {

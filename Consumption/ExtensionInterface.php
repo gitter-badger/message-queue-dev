@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
 interface ExtensionInterface
 {

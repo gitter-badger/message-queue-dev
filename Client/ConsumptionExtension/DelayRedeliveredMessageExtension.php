@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Client\ConsumptionExtension;
+namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Client\Message;
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 
 class DelayRedeliveredMessageExtension extends AbstractExtension
 {

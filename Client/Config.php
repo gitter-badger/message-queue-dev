@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
 class Config
 {

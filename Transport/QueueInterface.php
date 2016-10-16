@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Transport;
+namespace Formapro\MessageQueue\Transport;
 
 /**
  * A Queue object encapsulates a provider-specific queue name.

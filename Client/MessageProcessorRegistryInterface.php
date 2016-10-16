@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 
 interface MessageProcessorRegistryInterface
 {

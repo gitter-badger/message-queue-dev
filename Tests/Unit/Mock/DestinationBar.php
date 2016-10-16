@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Mock;
+namespace Formapro\MessageQueue\Tests\Unit\Mock;
 
-use FormaPro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\DestinationInterface;
 
 class DestinationBar implements DestinationInterface
 {

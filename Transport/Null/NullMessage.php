@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Transport\Null;
+namespace Formapro\MessageQueue\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
 
 class NullMessage implements MessageInterface
 {

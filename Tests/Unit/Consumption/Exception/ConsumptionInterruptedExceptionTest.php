@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
-use FormaPro\MessageQueue\Consumption\Exception\ExceptionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
+use Formapro\MessageQueue\Consumption\Exception\ExceptionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class ConsumptionInterruptedExceptionTest extends \PHPUnit_Framework_TestCase
 {

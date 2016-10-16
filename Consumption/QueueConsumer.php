@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Util\VarExport;
+use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
 /**

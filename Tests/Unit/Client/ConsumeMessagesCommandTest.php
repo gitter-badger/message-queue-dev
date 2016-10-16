@@ -1,13 +1,13 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\ConsumeMessagesCommand;
-use FormaPro\MessageQueue\Client\DelegateMessageProcessor;
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Consumption\QueueConsumer;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\ConsumeMessagesCommand;
+use Formapro\MessageQueue\Client\DelegateMessageProcessor;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\QueueConsumer;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase

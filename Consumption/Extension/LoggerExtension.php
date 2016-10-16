@@ -1,8 +1,8 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Extension;
+namespace Formapro\MessageQueue\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\Context;
 use Psr\Log\LoggerInterface;
 
 class LoggerExtension extends AbstractExtension

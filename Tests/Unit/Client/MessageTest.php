@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Client\Message;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {

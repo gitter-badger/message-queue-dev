@@ -1,15 +1,15 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
-use FormaPro\MessageQueue\Client\Router;
-use FormaPro\MessageQueue\Router\Recipient;
-use FormaPro\MessageQueue\Router\RecipientListRouterInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\Router;
+use Formapro\MessageQueue\Router\Recipient;
+use Formapro\MessageQueue\Router\RecipientListRouterInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

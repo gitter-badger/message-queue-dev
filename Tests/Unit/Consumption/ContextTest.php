@@ -1,13 +1,13 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\NullLogger;
 
 class ContextTest extends \PHPUnit_Framework_TestCase

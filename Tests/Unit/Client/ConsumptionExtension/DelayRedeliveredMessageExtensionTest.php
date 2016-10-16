@@ -1,15 +1,15 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\ConsumptionExtension;
+namespace Formapro\MessageQueue\Tests\Unit\Client\ConsumptionExtension;
 
-use FormaPro\MessageQueue\Client\ConsumptionExtension\DelayRedeliveredMessageExtension;
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Client\Message;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Client\ConsumptionExtension\DelayRedeliveredMessageExtension;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

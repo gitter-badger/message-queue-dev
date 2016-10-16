@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Transport\Null;
+namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\MessageProducerInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullMessageProducer;
-use FormaPro\MessageQueue\Transport\Null\NullTopic;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\MessageProducerInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullMessageProducer;
+use Formapro\MessageQueue\Transport\Null\NullTopic;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullMessageProducerTest extends \PHPUnit_Framework_TestCase
 {

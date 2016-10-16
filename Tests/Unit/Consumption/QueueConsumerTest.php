@@ -1,17 +1,17 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\ExtensionInterface;
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Consumption\QueueConsumer;
-use FormaPro\MessageQueue\Tests\Unit\Consumption\Mock\BreakCycleExtension;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\QueueConsumer;
+use Formapro\MessageQueue\Tests\Unit\Consumption\Mock\BreakCycleExtension;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\NullLogger;
 
 /**

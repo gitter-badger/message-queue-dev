@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\ExtensionInterface;
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class ExtensionsTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption\Mock;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption\Mock;
 
-use FormaPro\MessageQueue\Consumption\LimitsExtensionsCommandTrait;
+use Formapro\MessageQueue\Consumption\LimitsExtensionsCommandTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

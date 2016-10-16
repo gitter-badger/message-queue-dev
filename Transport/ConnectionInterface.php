@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Transport;
+namespace Formapro\MessageQueue\Transport;
 
 /**
  * A Connection object is a client's active connection to its MQ provider.

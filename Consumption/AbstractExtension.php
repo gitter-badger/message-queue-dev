@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
 abstract class AbstractExtension implements ExtensionInterface
 {

@@ -1,14 +1,14 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\Message;
-use FormaPro\MessageQueue\Client\MessagePriority;
-use FormaPro\MessageQueue\Client\NullDriver;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullMessageProducer;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Transport\Null\NullSession;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Client\MessagePriority;
+use Formapro\MessageQueue\Client\NullDriver;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullMessageProducer;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Transport\Null\NullSession;
 
 class NullDriverTest extends \PHPUnit_Framework_TestCase
 {

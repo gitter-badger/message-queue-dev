@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Util;
+namespace Formapro\MessageQueue\Tests\Unit\Util;
 
-use FormaPro\MessageQueue\Tests\Unit\Util\Fixtures\JsonSerializableClass;
-use FormaPro\MessageQueue\Tests\Unit\Util\Fixtures\SimpleClass;
-use FormaPro\MessageQueue\Util\JSON;
+use Formapro\MessageQueue\Tests\Unit\Util\Fixtures\JsonSerializableClass;
+use Formapro\MessageQueue\Tests\Unit\Util\Fixtures\SimpleClass;
+use Formapro\MessageQueue\Util\JSON;
 
 class JSONTest extends \PHPUnit_Framework_TestCase
 {

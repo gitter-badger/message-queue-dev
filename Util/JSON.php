@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Util;
+namespace Formapro\MessageQueue\Util;
 
 class JSON
 {

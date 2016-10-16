@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\Meta;
+namespace Formapro\MessageQueue\Tests\Unit\Client\Meta;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\Meta\DestinationMeta;
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\Meta\DestinationMeta;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 
 class DestinationMetaRegistryTest extends \PHPUnit_Framework_TestCase
 {
