@@ -19,7 +19,7 @@ class DestinationsCommand extends Command
      */
     public function __construct(DestinationMetaRegistry $destinationRegistry)
     {
-        parent::__construct('fp:message-queue:destinations');
+        parent::__construct('formapro:message-queue:destinations');
 
         $this->destinationRegistry = $destinationRegistry;
     }

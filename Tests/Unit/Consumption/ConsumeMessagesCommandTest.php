@@ -20,7 +20,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command = new ConsumeMessagesCommand($this->createQueueConsumerMock());
 
-        $this->assertEquals('fp:message-queue:transport:consume', $command->getName());
+        $this->assertEquals('formapro:message-queue:transport:consume', $command->getName());
     }
 
     public function testShouldHaveExpectedOptions()

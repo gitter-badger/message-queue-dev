@@ -24,7 +24,7 @@ class CreateQueuesCommand extends Command
      */
     public function __construct(DestinationMetaRegistry $destinationMetaRegistry, DriverInterface $driver)
     {
-        parent::__construct('fp:message-queue:create-queues');
+        parent::__construct('formapro:message-queue:create-queues');
 
         $this->destinationMetaRegistry = $destinationMetaRegistry;
         $this->driver = $driver;

@@ -41,7 +41,7 @@ class ConsumeMessagesCommand extends Command
         DelegateMessageProcessor $processor,
         DestinationMetaRegistry $destinationMetaRegistry
     ) {
-        parent::__construct('fp:message-queue:consume');
+        parent::__construct('formapro:message-queue:consume');
 
         $this->consumer = $consumer;
         $this->processor = $processor;

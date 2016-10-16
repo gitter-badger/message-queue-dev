@@ -18,7 +18,7 @@ class CreateQueuesCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command = new CreateQueuesCommand($this->createDestinationMetaRegistryMock(), $this->createClientDriverMock());
 
-        $this->assertEquals('fp:message-queue:create-queues', $command->getName());
+        $this->assertEquals('formapro:message-queue:create-queues', $command->getName());
     }
 
     public function testShouldCreateQueues()

@@ -29,7 +29,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
             $this->createDestinationMetaRegistry([])
         );
 
-        $this->assertEquals('fp:message-queue:consume', $command->getName());
+        $this->assertEquals('formapro:message-queue:consume', $command->getName());
     }
 
     public function testShouldHaveExpectedOptions()

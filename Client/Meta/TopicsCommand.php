@@ -19,7 +19,7 @@ class TopicsCommand extends Command
      */
     public function __construct(TopicMetaRegistry $topicRegistry)
     {
-        parent::__construct('fp:message-queue:topics');
+        parent::__construct('formapro:message-queue:topics');
 
         $this->topicRegistry = $topicRegistry;
     }
