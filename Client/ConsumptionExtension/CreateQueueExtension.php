@@ -2,12 +2,15 @@
 
 namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
-use Formapro\MessageQueue\Consumption\AbstractExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 
-class CreateQueueExtension extends AbstractExtension
+class CreateQueueExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var DriverInterface
      */

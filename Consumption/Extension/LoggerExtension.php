@@ -1,14 +1,17 @@
 <?php
 namespace Formapro\MessageQueue\Consumption\Extension;
 
-use Formapro\MessageQueue\Consumption\AbstractExtension;
 use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\MessageInterface;
 use Psr\Log\LoggerInterface;
 
-class LoggerExtension extends AbstractExtension
+class LoggerExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var LoggerInterface
      */

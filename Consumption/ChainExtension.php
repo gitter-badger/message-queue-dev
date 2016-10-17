@@ -1,8 +1,10 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
-class ChainExtension extends AbstractExtension
+class ChainExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var ExtensionInterface[]
      */

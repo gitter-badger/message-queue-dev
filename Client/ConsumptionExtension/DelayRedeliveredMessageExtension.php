@@ -3,12 +3,15 @@ namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
-use Formapro\MessageQueue\Consumption\AbstractExtension;
 use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Formapro\MessageQueue\Consumption\Result;
 
-class DelayRedeliveredMessageExtension extends AbstractExtension
+class DelayRedeliveredMessageExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     const PROPERTY_REDELIVER_COUNT = 'fp-redeliver-count';
 
     /**

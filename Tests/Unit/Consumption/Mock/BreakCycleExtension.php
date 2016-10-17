@@ -1,11 +1,14 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Unit\Consumption\Mock;
 
-use Formapro\MessageQueue\Consumption\AbstractExtension;
 use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 
-class BreakCycleExtension extends AbstractExtension
+class BreakCycleExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     protected $cycles = 1;
 
     private $limit;
