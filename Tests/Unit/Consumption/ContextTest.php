@@ -136,9 +136,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $context = new Context($this->createSession());
 
-        $context->setStatus($status);
+        $context->setResult($status);
 
-        $this->assertSame($status, $context->getStatus());
+        $this->assertSame($status, $context->getResult());
     }
 
     public function testThrowOnTryToChangeStatusIfAlreadySet()
@@ -152,8 +152,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             'The status modification is not allowed'
         );
 
-        $context->setStatus($status);
-        $context->setStatus($status);
+        $context->setResult($status);
+        $context->setResult($status);
     }
 
     public function testShouldAllowGetPreviouslySetExecutionInterrupted()

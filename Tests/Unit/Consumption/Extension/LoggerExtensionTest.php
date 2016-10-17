@@ -4,7 +4,9 @@ namespace Formapro\MessageQueue\Tests\Unit\Consumption\Extension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\LoggerInterface;
@@ -50,6 +52,101 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $context = new Context($this->createSessionMock());
 
         $extension->onStart($context);
+    }
+
+    public function testShouldLogRejectMessageStatus()
+    {
+        $logger = $this->createLogger();
+        $logger
+            ->expects($this->once())
+            ->method('error')
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
+        ;
+
+        $extension = new LoggerExtension($logger);
+
+        $message = new NullMessage();
+        $message->setBody('message body');
+
+        $context = new Context($this->createSessionMock());
+        $context->setResult(Result::reject('reason'));
+        $context->setMessage($message);
+
+        $extension->onPostReceived($context);
+    }
+
+    public function testShouldLogRequeueMessageStatus()
+    {
+        $logger = $this->createLogger();
+        $logger
+            ->expects($this->once())
+            ->method('error')
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
+        ;
+
+        $extension = new LoggerExtension($logger);
+
+        $message = new NullMessage();
+        $message->setBody('message body');
+
+        $context = new Context($this->createSessionMock());
+        $context->setResult(Result::requeue('reason'));
+        $context->setMessage($message);
+
+        $extension->onPostReceived($context);
+    }
+
+    public function testShouldNotLogRequeueMessageStatusIfReasonIsEmpty()
+    {
+        $logger = $this->createLogger();
+        $logger
+            ->expects($this->never())
+            ->method('error')
+        ;
+
+        $extension = new LoggerExtension($logger);
+
+        $context = new Context($this->createSessionMock());
+        $context->setResult(Result::requeue());
+
+        $extension->onPostReceived($context);
+    }
+
+    public function testShouldLogAckMessageStatus()
+    {
+        $logger = $this->createLogger();
+        $logger
+            ->expects($this->once())
+            ->method('info')
+            ->with('reason', ['body' => 'message body', 'headers' => [], 'properties' => []])
+        ;
+
+        $extension = new LoggerExtension($logger);
+
+        $message = new NullMessage();
+        $message->setBody('message body');
+
+        $context = new Context($this->createSessionMock());
+        $context->setResult(Result::ack('reason'));
+        $context->setMessage($message);
+
+        $extension->onPostReceived($context);
+    }
+
+    public function testShouldNotLogAckMessageStatusIfReasonIsEmpty()
+    {
+        $logger = $this->createLogger();
+        $logger
+            ->expects($this->never())
+            ->method('info')
+        ;
+
+        $extension = new LoggerExtension($logger);
+
+        $context = new Context($this->createSessionMock());
+        $context->setResult(Result::ack());
+
+        $extension->onPostReceived($context);
     }
 
     /**

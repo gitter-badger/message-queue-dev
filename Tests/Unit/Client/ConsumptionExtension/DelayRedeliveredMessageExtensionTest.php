@@ -5,7 +5,7 @@ use Formapro\MessageQueue\Client\ConsumptionExtension\DelayRedeliveredMessageExt
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\QueueInterface;
@@ -71,12 +71,12 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $context->setMessage($originMessage);
         $context->setLogger($logger);
 
-        self::assertNull($context->getStatus());
+        self::assertNull($context->getResult());
 
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(Result::REJECT, $context->getResult());
 
         self::assertInstanceOf(Message::class, $delayedMessage);
         self::assertEquals('theBody', $delayedMessage->getBody());
@@ -104,7 +104,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertNull($context->getStatus());
+        self::assertNull($context->getResult());
     }
 
     public function testShouldAddRedeliverCountHeaderAndRemoveItAfterDelayFromOriginalMessage()
@@ -139,12 +139,12 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $context->setMessage($message);
         $context->setLogger(new NullLogger());
 
-        self::assertNull($context->getStatus());
+        self::assertNull($context->getResult());
 
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(Result::REJECT, $context->getResult());
         self::assertArrayNotHasKey(
             DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT,
             $message->getProperties()
@@ -186,12 +186,12 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         $context->setMessage($message);
         $context->setLogger(new NullLogger());
 
-        self::assertNull($context->getStatus());
+        self::assertNull($context->getResult());
 
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
 
-        self::assertEquals(MessageProcessorInterface::REJECT, $context->getStatus());
+        self::assertEquals(Result::REJECT, $context->getResult());
         $properties = $message->getProperties();
         self::assertArrayHasKey(DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT, $properties);
         self::assertSame(7, $properties[DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT]);

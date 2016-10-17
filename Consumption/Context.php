@@ -42,7 +42,7 @@ class Context
     /**
      * @var string
      */
-    private $status;
+    private $result;
 
     /**
      * @var string
@@ -151,21 +151,21 @@ class Context
     /**
      * @return string
      */
-    public function getStatus()
+    public function getResult()
     {
-        return $this->status;
+        return $this->result;
     }
 
     /**
-     * @param string $status
+     * @param string $result
      */
-    public function setStatus($status)
+    public function setResult($result)
     {
-        if ($this->status) {
+        if ($this->result) {
             throw new IllegalContextModificationException('The status modification is not allowed');
         }
 
-        $this->status = $status;
+        $this->result = $result;
     }
 
     /**

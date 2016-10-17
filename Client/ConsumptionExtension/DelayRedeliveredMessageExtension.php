@@ -5,7 +5,7 @@ use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Consumption\AbstractExtension;
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\Result;
 
 class DelayRedeliveredMessageExtension extends AbstractExtension
 {
@@ -61,7 +61,7 @@ class DelayRedeliveredMessageExtension extends AbstractExtension
         $this->driver->send($queue, $delayedMessage);
         $context->getLogger()->debug('[DelayRedeliveredMessageExtension] Send delayed message');
 
-        $context->setStatus(MessageProcessorInterface::REJECT);
+        $context->setResult(Result::REJECT);
         $context->getLogger()->debug(
             '[DelayRedeliveredMessageExtension] '.
             'Reject redelivered original message by setting reject status to context.'
