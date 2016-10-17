@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
-use FormaPro\MessageQueue\Tests\Unit\Consumption\Mock\LimitsExtensionsCommand;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
+use Formapro\MessageQueue\Tests\Unit\Consumption\Mock\LimitsExtensionsCommand;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Tester\CommandTester;

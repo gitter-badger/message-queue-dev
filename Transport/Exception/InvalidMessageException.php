@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Transport\Exception;
+namespace Formapro\MessageQueue\Transport\Exception;
 
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
 
 class InvalidMessageException extends Exception
 {

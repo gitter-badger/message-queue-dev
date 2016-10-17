@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
 class ChainExtension extends AbstractExtension
 {

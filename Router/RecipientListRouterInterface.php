@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Router;
+namespace Formapro\MessageQueue\Router;
 
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
 
 interface RecipientListRouterInterface
 {

@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Util;
+namespace Formapro\MessageQueue\Tests\Unit\Util;
 
-use FormaPro\MessageQueue\Util\VarExport;
+use Formapro\MessageQueue\Util\VarExport;
 
 class VarExportTest extends \PHPUnit_Framework_TestCase
 {

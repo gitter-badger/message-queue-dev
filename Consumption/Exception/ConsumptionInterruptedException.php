@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Exception;
+namespace Formapro\MessageQueue\Consumption\Exception;
 
 class ConsumptionInterruptedException extends \LogicException implements ExceptionInterface
 {

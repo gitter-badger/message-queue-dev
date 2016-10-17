@@ -1,13 +1,13 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\NullLogger;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
@@ -136,9 +136,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $context = new Context($this->createSession());
 
-        $context->setStatus($status);
+        $context->setResult($status);
 
-        $this->assertSame($status, $context->getStatus());
+        $this->assertSame($status, $context->getResult());
     }
 
     public function testThrowOnTryToChangeStatusIfAlreadySet()
@@ -152,8 +152,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             'The status modification is not allowed'
         );
 
-        $context->setStatus($status);
-        $context->setStatus($status);
+        $context->setResult($status);
+        $context->setResult($status);
     }
 
     public function testShouldAllowGetPreviouslySetExecutionInterrupted()

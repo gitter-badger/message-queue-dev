@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-class MessageStatus
+class Result
 {
     /**
      * Use this constant when the message is processed successfully and the message could be removed from the queue.
@@ -59,7 +59,7 @@ class MessageStatus
     /**
      * @param string $reason
      *
-     * @return MessageStatus
+     * @return Result
      */
     public static function ack($reason = '')
     {
@@ -69,7 +69,7 @@ class MessageStatus
     /**
      * @param string $reason
      *
-     * @return MessageStatus
+     * @return Result
      */
     public static function reject($reason)
     {
@@ -79,7 +79,7 @@ class MessageStatus
     /**
      * @param string $reason
      *
-     * @return MessageStatus
+     * @return Result
      */
     public static function requeue($reason = '')
     {

@@ -1,12 +1,12 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\ConsumptionExtension;
+namespace Formapro\MessageQueue\Tests\Unit\Client\ConsumptionExtension;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\ExtensionInterface;
-use FormaPro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension;
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\LoggerInterface;
 
 class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase

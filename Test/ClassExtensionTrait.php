@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Test;
+namespace Formapro\MessageQueue\Test;
 
 trait ClassExtensionTrait
 {

@@ -1,8 +1,8 @@
 <?php
-namespace FormaPro\MessageQueue\Transport\Null;
+namespace Formapro\MessageQueue\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\DestinationInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 
 class NullSession implements SessionInterface
 {

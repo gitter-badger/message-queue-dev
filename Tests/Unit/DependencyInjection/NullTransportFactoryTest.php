@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\DependencyInjection;
+namespace Formapro\MessageQueue\Tests\Unit\DependencyInjection;
 
-use FormaPro\MessageQueue\DependencyInjection\NullTransportFactory;
-use FormaPro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use FormaPro\MessageQueue\Transport\Null\NullConnection;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
+use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
+use Formapro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

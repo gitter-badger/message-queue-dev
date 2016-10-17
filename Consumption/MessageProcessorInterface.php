@@ -1,8 +1,8 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 
 interface MessageProcessorInterface
 {

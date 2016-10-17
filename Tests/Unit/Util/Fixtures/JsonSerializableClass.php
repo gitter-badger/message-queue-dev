@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Util\Fixtures;
+namespace Formapro\MessageQueue\Tests\Unit\Util\Fixtures;
 
 class JsonSerializableClass implements \JsonSerializable
 {

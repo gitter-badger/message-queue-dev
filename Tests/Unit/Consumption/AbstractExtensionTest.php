@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\ExtensionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
 {

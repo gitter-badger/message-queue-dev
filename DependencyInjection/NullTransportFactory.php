@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\DependencyInjection;
+namespace Formapro\MessageQueue\DependencyInjection;
 
-use FormaPro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Transport\Null\NullConnection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

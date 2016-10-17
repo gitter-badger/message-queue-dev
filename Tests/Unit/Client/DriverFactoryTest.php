@@ -1,12 +1,12 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\DriverFactory;
-use FormaPro\MessageQueue\Client\NullDriver;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\Null\NullConnection;
-use FormaPro\MessageQueue\Transport\Null\NullSession;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\DriverFactory;
+use Formapro\MessageQueue\Client\NullDriver;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Transport\Null\NullSession;
 
 class DriverFactoryTest extends \PHPUnit_Framework_TestCase
 {

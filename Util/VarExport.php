@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Util;
+namespace Formapro\MessageQueue\Util;
 
 /**
  * This is used to log message parts when in debug mode.

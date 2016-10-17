@@ -1,14 +1,14 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption\Extension;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\ExtensionInterface;
-use FormaPro\MessageQueue\Consumption\Extension\LoggerExtension;
-use FormaPro\MessageQueue\Consumption\MessageStatus;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\Result;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\LoggerInterface;
 
 class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
@@ -69,7 +69,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setBody('message body');
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::reject('reason'));
+        $context->setResult(Result::reject('reason'));
         $context->setMessage($message);
 
         $extension->onPostReceived($context);
@@ -90,7 +90,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setBody('message body');
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::requeue('reason'));
+        $context->setResult(Result::requeue('reason'));
         $context->setMessage($message);
 
         $extension->onPostReceived($context);
@@ -107,7 +107,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new LoggerExtension($logger);
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::requeue());
+        $context->setResult(Result::requeue());
 
         $extension->onPostReceived($context);
     }
@@ -127,7 +127,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setBody('message body');
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::ack('reason'));
+        $context->setResult(Result::ack('reason'));
         $context->setMessage($message);
 
         $extension->onPostReceived($context);
@@ -144,7 +144,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new LoggerExtension($logger);
 
         $context = new Context($this->createSessionMock());
-        $context->setStatus(MessageStatus::ack());
+        $context->setResult(Result::ack());
 
         $extension->onPostReceived($context);
     }

@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Router;
+namespace Formapro\MessageQueue\Router;
 
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Consumption\MessageStatus;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface as TransportSession;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\Result;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\SessionInterface as TransportSession;
 
 class RouteRecipientListProcessor implements MessageProcessorInterface
 {
@@ -31,6 +31,6 @@ class RouteRecipientListProcessor implements MessageProcessorInterface
             $producer->send($recipient->getDestination(), $recipient->getMessage());
         }
 
-        return MessageStatus::ACK;
+        return Result::ACK;
     }
 }

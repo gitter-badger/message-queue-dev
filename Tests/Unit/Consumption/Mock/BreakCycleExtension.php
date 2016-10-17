@@ -1,8 +1,8 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption\Mock;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption\Mock;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\Context;
 
 class BreakCycleExtension extends AbstractExtension
 {

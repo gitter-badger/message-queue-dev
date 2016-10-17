@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Extension;
+namespace Formapro\MessageQueue\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\MessageStatus;
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Consumption\AbstractExtension;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Result;
+use Formapro\MessageQueue\Transport\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggerExtension extends AbstractExtension
@@ -36,29 +36,29 @@ class LoggerExtension extends AbstractExtension
      */
     public function onPostReceived(Context $context)
     {
-        if (false == $context->getStatus() instanceof MessageStatus) {
+        if (false == $context->getResult() instanceof Result) {
             return;
         }
 
-        /** @var $status MessageStatus */
-        $status = $context->getStatus();
+        /** @var $result Result */
+        $result = $context->getResult();
 
-        switch ($status->getStatus()) {
-            case MessageStatus::REJECT:
-            case MessageStatus::REQUEUE:
-                if ($status->getReason()) {
-                    $this->logger->error($status->getReason(), $this->messageToLogContext($context->getMessage()));
+        switch ($result->getStatus()) {
+            case Result::REJECT:
+            case Result::REQUEUE:
+                if ($result->getReason()) {
+                    $this->logger->error($result->getReason(), $this->messageToLogContext($context->getMessage()));
                 }
 
                 break;
-            case MessageStatus::ACK:
-                if ($status->getReason()) {
-                    $this->logger->info($status->getReason(), $this->messageToLogContext($context->getMessage()));
+            case Result::ACK:
+                if ($result->getReason()) {
+                    $this->logger->info($result->getReason(), $this->messageToLogContext($context->getMessage()));
                 }
 
                 break;
             default:
-                throw new \LogicException(sprintf('Got unexpected message status. "%s"', $status->getStatus()));
+                throw new \LogicException(sprintf('Got unexpected message result. "%s"', $result->getStatus()));
         }
     }
 

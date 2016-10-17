@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LoggerExtension;
-use FormaPro\MessageQueue\Consumption\LimitsExtensionsCommandTrait;
-use FormaPro\MessageQueue\Consumption\QueueConsumer;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\LimitsExtensionsCommandTrait;
+use Formapro\MessageQueue\Consumption\QueueConsumer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +41,7 @@ class ConsumeMessagesCommand extends Command
         DelegateMessageProcessor $processor,
         DestinationMetaRegistry $destinationMetaRegistry
     ) {
-        parent::__construct('fp:message-queue:consume');
+        parent::__construct('formapro:message-queue:consume');
 
         $this->consumer = $consumer;
         $this->processor = $processor;

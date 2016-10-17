@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Util\JSON;
+use Formapro\MessageQueue\Util\JSON;
 
 class MessageProducer implements MessageProducerInterface
 {

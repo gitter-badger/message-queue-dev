@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Client\Meta;
+namespace Formapro\MessageQueue\Client\Meta;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -19,7 +19,7 @@ class DestinationsCommand extends Command
      */
     public function __construct(DestinationMetaRegistry $destinationRegistry)
     {
-        parent::__construct('fp:message-queue:destinations');
+        parent::__construct('formapro:message-queue:destinations');
 
         $this->destinationRegistry = $destinationRegistry;
     }

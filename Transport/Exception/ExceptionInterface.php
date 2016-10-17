@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Transport\Exception;
+namespace Formapro\MessageQueue\Transport\Exception;
 
 interface ExceptionInterface
 {
