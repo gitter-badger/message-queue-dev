@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-trait ExtensionTrait
+trait EmptyExtensionTrait
 {
     /**
      * @param Context $context

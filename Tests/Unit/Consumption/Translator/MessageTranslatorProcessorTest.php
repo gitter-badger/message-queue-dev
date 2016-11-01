@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption\Translator;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption\Translator;
 
-use FormaPro\MessageQueue\Consumption\Translator\MessageTranslatorProcessor;
-use FormaPro\MessageQueue\Transport\MessageProducerInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullTopic;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\Translator\MessageTranslatorProcessor;
+use Formapro\MessageQueue\Transport\MessageProducerInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullTopic;
+use Formapro\MessageQueue\Transport\SessionInterface;
 
 class MessageTranslatorProcessorTest extends \PHPUnit_Framework_TestCase
 {

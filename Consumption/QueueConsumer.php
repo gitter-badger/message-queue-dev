@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Util\VarExport;
+use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
 /**
@@ -184,26 +184,26 @@ class QueueConsumer
             $context->setMessage($message);
 
             $extension->onPreReceived($context);
-            if (!$context->getStatus()) {
+            if (!$context->getResult()) {
                 $status = $messageProcessor->process($message, $session);
-                $context->setStatus($status);
+                $context->setResult($status);
             }
 
-            switch ($context->getStatus()) {
-                case MessageProcessorInterface::ACK:
+            switch ($context->getResult()) {
+                case Result::ACK:
                     $messageConsumer->acknowledge($message);
                     break;
-                case MessageProcessorInterface::REJECT:
+                case Result::REJECT:
                     $messageConsumer->reject($message, false);
                     break;
-                case MessageProcessorInterface::REQUEUE:
+                case Result::REQUEUE:
                     $messageConsumer->reject($message, true);
                     break;
                 default:
-                    throw new \LogicException(sprintf('Status is not supported: %s', $context->getStatus()));
+                    throw new \LogicException(sprintf('Status is not supported: %s', $context->getResult()));
             }
 
-            $logger->info(sprintf('Message processed: %s', $context->getStatus()));
+            $logger->info(sprintf('Message processed: %s', $context->getResult()));
 
             $extension->onPostReceived($context);
         } else {

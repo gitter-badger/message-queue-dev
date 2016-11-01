@@ -1,11 +1,14 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Extension;
+namespace Formapro\MessageQueue\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 
-class LimitConsumedMessagesExtension extends AbstractExtension
+class LimitConsumedMessagesExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var int
      */

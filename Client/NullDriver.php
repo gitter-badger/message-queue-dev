@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Transport\Exception\InvalidDestinationException;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Transport\Null\NullSession;
-use FormaPro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Transport\Null\NullSession;
+use Formapro\MessageQueue\Transport\QueueInterface;
 
 class NullDriver implements DriverInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\DependencyInjection;
+namespace Formapro\MessageQueue\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

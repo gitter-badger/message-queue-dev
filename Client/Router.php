@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
-use FormaPro\MessageQueue\Router\Recipient;
-use FormaPro\MessageQueue\Router\RecipientListRouterInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Router\Recipient;
+use Formapro\MessageQueue\Router\RecipientListRouterInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
 
 class Router implements RecipientListRouterInterface
 {

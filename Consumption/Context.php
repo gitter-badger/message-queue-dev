@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 class Context
@@ -43,7 +43,7 @@ class Context
     /**
      * @var string
      */
-    private $status;
+    private $result;
 
     /**
      * @var QueueInterface
@@ -152,21 +152,21 @@ class Context
     /**
      * @return string
      */
-    public function getStatus()
+    public function getResult()
     {
-        return $this->status;
+        return $this->result;
     }
 
     /**
-     * @param string $status
+     * @param string $result
      */
-    public function setStatus($status)
+    public function setResult($result)
     {
-        if ($this->status) {
+        if ($this->result) {
             throw new IllegalContextModificationException('The status modification is not allowed');
         }
 
-        $this->status = $status;
+        $this->result = $result;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,7 +24,7 @@ class CreateQueuesCommand extends Command
      */
     public function __construct(DestinationMetaRegistry $destinationMetaRegistry, DriverInterface $driver)
     {
-        parent::__construct('fp:message-queue:create-queues');
+        parent::__construct('formapro:message-queue:create-queues');
 
         $this->destinationMetaRegistry = $destinationMetaRegistry;
         $this->driver = $driver;

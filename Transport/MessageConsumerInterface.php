@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Transport;
+namespace Formapro\MessageQueue\Transport;
 
 /**
  * A client uses a MessageConsumer object to receive messages from a destination.

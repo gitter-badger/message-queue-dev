@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Transport\Null;
+namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\Null\NullConnection;
-use FormaPro\MessageQueue\Transport\Null\NullSession;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Transport\Null\NullSession;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullConnectionTest extends \PHPUnit_Framework_TestCase
 {

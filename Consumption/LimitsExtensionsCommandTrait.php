@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
-use FormaPro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
+use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;

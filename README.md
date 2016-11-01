@@ -18,7 +18,7 @@ This is a complete example of message producing using only a transport layer:
 ```php
 <?php
 
-use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use Formapro\MessageQueue\Transport\Amqp\AmqpConnection;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 
 $host = 'localhost';
@@ -46,7 +46,7 @@ This is a complete example of message consuming using only a transport layer:
 ```php
 <?php
 
-use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use Formapro\MessageQueue\Transport\Amqp\AmqpConnection;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 
 $host = 'localhost';
@@ -79,7 +79,7 @@ This is a complete example of message consuming using consumption layer:
 
 ```php
 <?php
-use FormaPro\MessageQueue\Consumption\MessageProcessor;
+use Formapro\MessageQueue\Consumption\MessageProcessor;
 
 class FooMessageProcessor implements MessageProcessor
 {
@@ -95,9 +95,9 @@ class FooMessageProcessor implements MessageProcessor
 ```php
 <?php
 
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Consumption\QueueConsumer;
-use FormaPro\MessageQueue\Transport\Amqp\AmqpConnection;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\QueueConsumer;
+use Formapro\MessageQueue\Transport\Amqp\AmqpConnection;
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 
 $host = 'localhost';

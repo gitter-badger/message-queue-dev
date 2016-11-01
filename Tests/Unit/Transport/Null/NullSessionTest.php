@@ -1,14 +1,14 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Transport\Null;
+namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\Null\NullMessageConsumer;
-use FormaPro\MessageQueue\Transport\Null\NullMessageProducer;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Transport\Null\NullSession;
-use FormaPro\MessageQueue\Transport\Null\NullTopic;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullMessageConsumer;
+use Formapro\MessageQueue\Transport\Null\NullMessageProducer;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Transport\Null\NullSession;
+use Formapro\MessageQueue\Transport\Null\NullTopic;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullSessionTest extends \PHPUnit_Framework_TestCase
 {

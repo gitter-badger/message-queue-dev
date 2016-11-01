@@ -1,13 +1,16 @@
 <?php
 
-namespace FormaPro\MessageQueue\Client\ConsumptionExtension;
+namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 
-class CreateQueueExtension extends AbstractExtension
+class CreateQueueExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var DriverInterface
      */

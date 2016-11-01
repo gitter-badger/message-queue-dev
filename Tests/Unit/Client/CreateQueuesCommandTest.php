@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\CreateQueuesCommand;
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Client\Meta\DestinationMeta;
-use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\CreateQueuesCommand;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Client\Meta\DestinationMeta;
+use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateQueuesCommandTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +18,7 @@ class CreateQueuesCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command = new CreateQueuesCommand($this->createDestinationMetaRegistryMock(), $this->createClientDriverMock());
 
-        $this->assertEquals('fp:message-queue:create-queues', $command->getName());
+        $this->assertEquals('formapro:message-queue:create-queues', $command->getName());
     }
 
     public function testShouldCreateQueues()

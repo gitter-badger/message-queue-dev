@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\Meta;
+namespace Formapro\MessageQueue\Tests\Unit\Client\Meta;
 
-use FormaPro\MessageQueue\Client\Meta\TopicMeta;
+use Formapro\MessageQueue\Client\Meta\TopicMeta;
 
 class TopicMetaTest extends \PHPUnit_Framework_TestCase
 {

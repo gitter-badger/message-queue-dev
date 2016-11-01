@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client\Meta;
+namespace Formapro\MessageQueue\Client\Meta;
 
-use FormaPro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\Config;
 
 class DestinationMetaRegistry
 {

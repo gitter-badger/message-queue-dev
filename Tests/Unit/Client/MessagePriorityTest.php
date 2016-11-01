@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\MessagePriority;
+use Formapro\MessageQueue\Client\MessagePriority;
 
 class MessagePriorityTest extends \PHPUnit_Framework_TestCase
 {

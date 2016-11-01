@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\MessageProducerInterface;
-use FormaPro\MessageQueue\Client\TraceableMessageProducer;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Client\MessageProducerInterface;
+use Formapro\MessageQueue\Client\TraceableMessageProducer;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class TraceableMessageProducerTest extends \PHPUnit_Framework_TestCase
 {

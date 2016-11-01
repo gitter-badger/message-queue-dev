@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption;
+namespace Formapro\MessageQueue\Consumption;
 
-use FormaPro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ class ConsumeMessagesCommand extends Command implements ContainerAwareInterface
      */
     public function __construct(QueueConsumer $consumer)
     {
-        parent::__construct('fp:message-queue:transport:consume');
+        parent::__construct('formapro:message-queue:transport:consume');
         
         $this->consumer = $consumer;
     }
@@ -39,7 +39,7 @@ class ConsumeMessagesCommand extends Command implements ContainerAwareInterface
         $this->configureLimitsExtensions();
 
         $this
-            ->setName('fp:message-queue:transport:consume')
+            ->setName('formapro:message-queue:transport:consume')
             ->setDescription('A worker that consumes message from a broker. '.
                 'To use this broker you have to explicitly set a queue to consume from '.
                 'and a message processor service')

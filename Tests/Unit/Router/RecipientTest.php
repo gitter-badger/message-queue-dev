@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Router;
+namespace Formapro\MessageQueue\Tests\Unit\Router;
 
-use FormaPro\MessageQueue\Router\Recipient;
-use FormaPro\MessageQueue\Transport\DestinationInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Router\Recipient;
+use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\MessageInterface;
 
 class RecipientTest extends \PHPUnit_Framework_TestCase
 {

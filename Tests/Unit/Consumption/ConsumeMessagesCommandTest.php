@@ -1,13 +1,13 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption;
 
-use FormaPro\MessageQueue\Consumption\ConsumeMessagesCommand;
-use FormaPro\MessageQueue\Consumption\ChainExtension;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Consumption\QueueConsumer;
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\ConsumeMessagesCommand;
+use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\QueueConsumer;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -22,7 +22,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command = new ConsumeMessagesCommand($this->createQueueConsumerMock());
 
-        $this->assertEquals('fp:message-queue:transport:consume', $command->getName());
+        $this->assertEquals('formapro:message-queue:transport:consume', $command->getName());
     }
 
     public function testShouldHaveExpectedOptions()
@@ -51,7 +51,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     public function testShouldThrowExceptionIfProcessorInstanceHasWrongClass()
     {
         $this->setExpectedException(\LogicException::class, 'Invalid message processor service given.'.
-            ' It must be an instance of FormaPro\MessageQueue\Consumption\MessageProcessorInterface but stdClass');
+            ' It must be an instance of Formapro\MessageQueue\Consumption\MessageProcessorInterface but stdClass');
 
         $container = new Container();
         $container->set('processor-service', new \stdClass());

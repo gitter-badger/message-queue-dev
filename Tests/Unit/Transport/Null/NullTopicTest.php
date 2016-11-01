@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Transport\Null;
+namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
-use FormaPro\MessageQueue\Transport\Null\NullTopic;
-use FormaPro\MessageQueue\Transport\TopicInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullTopic;
+use Formapro\MessageQueue\Transport\TopicInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullTopicTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\Meta;
+namespace Formapro\MessageQueue\Tests\Unit\Client\Meta;
 
-use FormaPro\MessageQueue\Client\Meta\TopicsCommand;
-use FormaPro\MessageQueue\Client\Meta\TopicMetaRegistry;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Client\Meta\TopicsCommand;
+use Formapro\MessageQueue\Client\Meta\TopicMetaRegistry;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 

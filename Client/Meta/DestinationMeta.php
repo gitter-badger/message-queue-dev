@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Client\Meta;
+namespace Formapro\MessageQueue\Client\Meta;
 
 class DestinationMeta
 {

@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

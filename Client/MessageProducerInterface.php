@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
 interface MessageProducerInterface
 {
@@ -11,7 +11,7 @@ interface MessageProducerInterface
      *
      * @return void
      *
-     * @throws \FormaPro\MessageQueue\Transport\Exception\Exception - if the producer fails to send
+     * @throws \Formapro\MessageQueue\Transport\Exception\Exception - if the producer fails to send
      * the message due to some internal error.
      */
     public function send($topic, $message);

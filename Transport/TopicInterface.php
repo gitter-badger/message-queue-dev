@@ -1,5 +1,5 @@
 <?php
-namespace FormaPro\MessageQueue\Transport;
+namespace Formapro\MessageQueue\Transport;
 
 /**
  * A Topic object encapsulates a provider-specific topic name.

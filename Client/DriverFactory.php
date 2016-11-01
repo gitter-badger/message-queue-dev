@@ -1,7 +1,7 @@
 <?php
-namespace FormaPro\MessageQueue\Client;
+namespace Formapro\MessageQueue\Client;
 
-use FormaPro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\ConnectionInterface;
 
 class DriverFactory
 {

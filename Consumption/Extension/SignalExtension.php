@@ -1,13 +1,16 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Extension;
+namespace Formapro\MessageQueue\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\AbstractExtension;
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\Exception\LogicException;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Exception\LogicException;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Psr\Log\LoggerInterface;
 
-class SignalExtension extends AbstractExtension
+class SignalExtension implements ExtensionInterface
 {
+    use EmptyExtensionTrait;
+
     /**
      * @var bool
      */

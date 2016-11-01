@@ -1,8 +1,8 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client\Meta;
+namespace Formapro\MessageQueue\Tests\Unit\Client\Meta;
 
-use FormaPro\MessageQueue\Client\Meta\TopicMeta;
-use FormaPro\MessageQueue\Client\Meta\TopicMetaRegistry;
+use Formapro\MessageQueue\Client\Meta\TopicMeta;
+use Formapro\MessageQueue\Client\Meta\TopicMetaRegistry;
 
 class TopicMetaRegistryTest extends \PHPUnit_Framework_TestCase
 {

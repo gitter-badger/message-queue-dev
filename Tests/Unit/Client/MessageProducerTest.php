@@ -1,15 +1,15 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\DriverInterface;
-use FormaPro\MessageQueue\Client\Message;
-use FormaPro\MessageQueue\Client\MessagePriority;
-use FormaPro\MessageQueue\Client\MessageProducer;
-use FormaPro\MessageQueue\Client\MessageProducerInterface;
-use FormaPro\MessageQueue\Transport\Null\NullQueue;
-use FormaPro\MessageQueue\Transport\QueueInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Client\MessagePriority;
+use Formapro\MessageQueue\Client\MessageProducer;
+use Formapro\MessageQueue\Client\MessageProducerInterface;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class MessageProducerTest extends \PHPUnit_Framework_TestCase
 {

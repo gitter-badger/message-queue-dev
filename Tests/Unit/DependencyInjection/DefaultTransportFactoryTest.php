@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\DependencyInjection;
+namespace Formapro\MessageQueue\Tests\Unit\DependencyInjection;
 
-use FormaPro\MessageQueue\DependencyInjection\DefaultTransportFactory;
-use FormaPro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
+use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

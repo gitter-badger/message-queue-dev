@@ -1,9 +1,9 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Transport\Exception;
+namespace Formapro\MessageQueue\Tests\Unit\Transport\Exception;
 
-use FormaPro\MessageQueue\Transport\Exception\ExceptionInterface;
-use FormaPro\MessageQueue\Transport\Exception\Exception;
-use FormaPro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Exception\ExceptionInterface;
+use Formapro\MessageQueue\Transport\Exception\Exception;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {

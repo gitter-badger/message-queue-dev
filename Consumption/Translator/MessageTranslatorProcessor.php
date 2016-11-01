@@ -1,10 +1,10 @@
 <?php
-namespace FormaPro\MessageQueue\Consumption\Translator;
+namespace Formapro\MessageQueue\Consumption\Translator;
 
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\MessageInterface;
-use FormaPro\MessageQueue\Transport\MessageProducerInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Consumption\Result;
+use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 
 class MessageTranslatorProcessor implements MessageProcessorInterface
 {
@@ -31,6 +31,6 @@ class MessageTranslatorProcessor implements MessageProcessorInterface
 
         $session->createProducer()->send($topic, $newMessage);
 
-        return self::ACK;
+        return Result::ACK;
     }
 }

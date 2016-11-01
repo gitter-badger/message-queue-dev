@@ -1,11 +1,11 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Consumption\Extension;
+namespace Formapro\MessageQueue\Tests\Unit\Consumption\Extension;
 
-use FormaPro\MessageQueue\Consumption\Context;
-use FormaPro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
-use FormaPro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 class LimitConsumptionTimeExtensionTest extends \PHPUnit_Framework_TestCase

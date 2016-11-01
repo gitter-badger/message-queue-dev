@@ -1,12 +1,12 @@
 <?php
-namespace FormaPro\MessageQueue\Tests\Unit\Client;
+namespace Formapro\MessageQueue\Tests\Unit\Client;
 
-use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
-use FormaPro\MessageQueue\Transport\Null\NullMessage;
-use FormaPro\MessageQueue\Transport\SessionInterface;
-use FormaPro\MessageQueue\Client\Config;
-use FormaPro\MessageQueue\Client\MessageProcessorRegistryInterface;
-use FormaPro\MessageQueue\Client\DelegateMessageProcessor;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\MessageProcessorRegistryInterface;
+use Formapro\MessageQueue\Client\DelegateMessageProcessor;
 
 class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
 {
