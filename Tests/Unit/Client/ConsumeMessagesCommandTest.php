@@ -4,10 +4,12 @@ namespace FormaPro\MessageQueue\Tests\Unit\Client;
 use FormaPro\MessageQueue\Client\Config;
 use FormaPro\MessageQueue\Client\ConsumeMessagesCommand;
 use FormaPro\MessageQueue\Client\DelegateMessageProcessor;
+use FormaPro\MessageQueue\Client\DriverInterface;
 use FormaPro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use FormaPro\MessageQueue\Consumption\ChainExtension;
 use FormaPro\MessageQueue\Consumption\QueueConsumer;
 use FormaPro\MessageQueue\Transport\ConnectionInterface;
+use FormaPro\MessageQueue\Transport\QueueInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +19,8 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         new ConsumeMessagesCommand(
             $this->createQueueConsumerMock(),
             $this->createDelegateMessageProcessorMock(),
-            $this->createDestinationMetaRegistry([])
+            $this->createDestinationMetaRegistry([]),
+            $this->createDriverMock()
         );
     }
 
@@ -26,7 +29,8 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $command = new ConsumeMessagesCommand(
             $this->createQueueConsumerMock(),
             $this->createDelegateMessageProcessorMock(),
-            $this->createDestinationMetaRegistry([])
+            $this->createDestinationMetaRegistry([]),
+            $this->createDriverMock()
         );
 
         $this->assertEquals('fp:message-queue:consume', $command->getName());
@@ -37,7 +41,8 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $command = new ConsumeMessagesCommand(
             $this->createQueueConsumerMock(),
             $this->createDelegateMessageProcessorMock(),
-            $this->createDestinationMetaRegistry([])
+            $this->createDestinationMetaRegistry([]),
+            $this->createDriverMock()
         );
 
         $options = $command->getDefinition()->getOptions();
@@ -53,7 +58,8 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $command = new ConsumeMessagesCommand(
             $this->createQueueConsumerMock(),
             $this->createDelegateMessageProcessorMock(),
-            $this->createDestinationMetaRegistry([])
+            $this->createDestinationMetaRegistry([]),
+            $this->createDriverMock()
         );
 
         $arguments = $command->getDefinition()->getArguments();
@@ -65,6 +71,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     public function testShouldExecuteConsumptionAndUseDefaultQueueName()
     {
         $processor = $this->createDelegateMessageProcessorMock();
+        $queue = $this->createQueueMock();
 
         $connection = $this->createConnectionMock();
         $connection
@@ -76,7 +83,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $consumer
             ->expects($this->once())
             ->method('bind')
-            ->with('aprefixt.adefaultqueuename', $this->identicalTo($processor))
+            ->with($this->identicalTo($queue), $this->identicalTo($processor))
         ;
         $consumer
             ->expects($this->once())
@@ -93,7 +100,14 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
             'default' => [],
         ]);
 
-        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry);
+        $driver = $this->createDriverMock();
+        $driver
+            ->expects($this->once())
+            ->method('createQueue')
+            ->willReturn($queue)
+        ;
+
+        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry, $driver);
 
         $tester = new CommandTester($command);
         $tester->execute([]);
@@ -102,6 +116,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     public function testShouldExecuteConsumptionAndUseCustomClientDestinationName()
     {
         $processor = $this->createDelegateMessageProcessorMock();
+        $queue = $this->createQueueMock();
 
         $connection = $this->createConnectionMock();
         $connection
@@ -113,7 +128,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $consumer
             ->expects($this->once())
             ->method('bind')
-            ->with('aprefixt.non-default-queue', $this->identicalTo($processor))
+            ->with($this->identicalTo($queue), $this->identicalTo($processor))
         ;
         $consumer
             ->expects($this->once())
@@ -130,7 +145,14 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
             'non-default-queue' => []
         ]);
 
-        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry);
+        $driver = $this->createDriverMock();
+        $driver
+            ->expects($this->once())
+            ->method('createQueue')
+            ->willReturn($queue)
+        ;
+
+        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry, $driver);
 
         $tester = new CommandTester($command);
         $tester->execute([
@@ -141,6 +163,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     public function testShouldExecuteConsumptionAndUseCustomClientDestinationNameWithCustomQueueFromArgument()
     {
         $processor = $this->createDelegateMessageProcessorMock();
+        $queue = $this->createQueueMock();
 
         $connection = $this->createConnectionMock();
         $connection
@@ -152,7 +175,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $consumer
             ->expects($this->once())
             ->method('bind')
-            ->with('non-default-transport-queue', $this->identicalTo($processor))
+            ->with($this->identicalTo($queue), $this->identicalTo($processor))
         ;
         $consumer
             ->expects($this->once())
@@ -170,7 +193,14 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
             'non-default-queue' => ['transportName' => 'non-default-transport-queue']
         ]);
 
-        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry);
+        $driver = $this->createDriverMock();
+        $driver
+            ->expects($this->once())
+            ->method('createQueue')
+            ->willReturn($queue)
+        ;
+
+        $command = new ConsumeMessagesCommand($consumer, $processor, $destinationMetaRegistry, $driver);
 
         $tester = new CommandTester($command);
         $tester->execute([
@@ -183,7 +213,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
      *
      * @return DestinationMetaRegistry
      */
-    protected function createDestinationMetaRegistry(array $destinationNames)
+    private function createDestinationMetaRegistry(array $destinationNames)
     {
         $config = new Config('aPrefixt', 'aRouterMessageProcessorName', 'aRouterQueueName', 'aDefaultQueueName');
 
@@ -193,7 +223,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|ConnectionInterface
      */
-    protected function createConnectionMock()
+    private function createConnectionMock()
     {
         return $this->createMock(ConnectionInterface::class);
     }
@@ -201,7 +231,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|DelegateMessageProcessor
      */
-    protected function createDelegateMessageProcessorMock()
+    private function createDelegateMessageProcessorMock()
     {
         return $this->createMock(DelegateMessageProcessor::class);
     }
@@ -209,8 +239,24 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|QueueConsumer
      */
-    protected function createQueueConsumerMock()
+    private function createQueueConsumerMock()
     {
         return $this->createMock(QueueConsumer::class);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|DriverInterface
+     */
+    private function createDriverMock()
+    {
+        return $this->createMock(DriverInterface::class);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|QueueInterface
+     */
+    private function createQueueMock()
+    {
+        return $this->createMock(QueueInterface::class);
     }
 }

@@ -4,6 +4,7 @@ namespace FormaPro\MessageQueue\Consumption;
 use FormaPro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
 use FormaPro\MessageQueue\Transport\MessageInterface;
 use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
+use FormaPro\MessageQueue\Transport\QueueInterface;
 use FormaPro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -45,9 +46,9 @@ class Context
     private $status;
 
     /**
-     * @var string
+     * @var QueueInterface
      */
-    private $queueName;
+    private $queue;
 
     /**
      * @var boolean
@@ -209,22 +210,22 @@ class Context
     }
 
     /**
-     * @return string
+     * @return QueueInterface
      */
-    public function getQueueName()
+    public function getQueue()
     {
-        return $this->queueName;
+        return $this->queue;
     }
 
     /**
-     * @param string $queueName
+     * @param QueueInterface $queue
      */
-    public function setQueueName($queueName)
+    public function setQueue(QueueInterface $queue)
     {
-        if ($this->queueName) {
-            throw new IllegalContextModificationException('The queueName modification is not allowed');
+        if ($this->queue) {
+            throw new IllegalContextModificationException('The queue modification is not allowed');
         }
 
-        $this->queueName = $queueName;
+        $this->queue = $queue;
     }
 }

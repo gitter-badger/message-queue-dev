@@ -56,9 +56,7 @@ class DelayRedeliveredMessageExtension extends AbstractExtension
         $delayedMessage->setProperties($properties);
         $delayedMessage->setDelay($this->delay);
 
-        $queue = $context->getSession()->createQueue($context->getQueueName());
-
-        $this->driver->send($queue, $delayedMessage);
+        $this->driver->send($context->getQueue(), $delayedMessage);
         $context->getLogger()->debug('[DelayRedeliveredMessageExtension] Send delayed message');
 
         $context->setStatus(MessageProcessorInterface::REJECT);

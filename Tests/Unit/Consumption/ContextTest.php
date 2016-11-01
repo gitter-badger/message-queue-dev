@@ -6,6 +6,7 @@ use FormaPro\MessageQueue\Consumption\Exception\IllegalContextModificationExcept
 use FormaPro\MessageQueue\Consumption\MessageProcessorInterface;
 use FormaPro\MessageQueue\Transport\MessageInterface;
 use FormaPro\MessageQueue\Transport\MessageConsumerInterface;
+use FormaPro\MessageQueue\Transport\Null\NullQueue;
 use FormaPro\MessageQueue\Transport\SessionInterface;
 use FormaPro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\NullLogger;
@@ -213,26 +214,26 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $context->setLogger(new NullLogger());
     }
 
-    public function testShouldAllowGetPreviouslySetQueueName()
+    public function testShouldAllowGetPreviouslySetQueue()
     {
         $context = new Context($this->createSession());
 
-        $context->setQueueName('theQueueName');
+        $context->setQueue($queue = new NullQueue(''));
 
-        $this->assertSame('theQueueName', $context->getQueueName());
+        $this->assertSame($queue, $context->getQueue());
     }
 
     public function testThrowOnSettingQueueNameIfAlreadySet()
     {
         $context = new Context($this->createSession());
 
-        $context->setQueueName('theQueueName');
+        $context->setQueue(new NullQueue(''));
 
         $this->setExpectedException(
             IllegalContextModificationException::class,
-            'The queueName modification is not allowed'
+            'The queue modification is not allowed'
         );
-        $context->setQueueName('theAnotherQueueName');
+        $context->setQueue(new NullQueue(''));
     }
 
     /**
