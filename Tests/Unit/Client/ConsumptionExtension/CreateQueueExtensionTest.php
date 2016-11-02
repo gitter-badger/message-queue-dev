@@ -5,6 +5,7 @@ use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension;
 use Formapro\MessageQueue\Client\DriverInterface;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Psr\Log\LoggerInterface;
@@ -33,7 +34,7 @@ class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase
         ;
 
         $context = new Context($this->createSessionMock());
-        $context->setQueueName('theQueueName');
+        $context->setQueue(new NullQueue('theQueueName'));
         $context->setLogger($loggerMock);
 
         $driverMock = $this->createDriverMock();
@@ -78,14 +79,14 @@ class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
         $context = new Context($this->createSessionMock());
         $context->setLogger($loggerMock);
-        $context->setQueueName('theQueueName1');
+        $context->setQueue(new NullQueue('theQueueName1'));
 
         $extension->onBeforeReceive($context);
         $extension->onBeforeReceive($context);
 
         $context = new Context($this->createSessionMock());
         $context->setLogger($loggerMock);
-        $context->setQueueName('theQueueName2');
+        $context->setQueue(new NullQueue('theQueueName2'));
 
         $extension->onBeforeReceive($context);
         $extension->onBeforeReceive($context);

@@ -6,6 +6,8 @@ use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\QueueConsumer;
 use Formapro\MessageQueue\Transport\ConnectionInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\SessionInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -68,17 +70,31 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     {
         $processor = $this->createMessageProcessor();
 
+        $queue = $this->createQueueMock();
+
+        $session = $this->createSessionMock();
+        $session
+            ->expects($this->once())
+            ->method('createQueue')
+            ->willReturn($queue)
+        ;
+
         $connection = $this->createConnectionMock();
         $connection
             ->expects($this->once())
             ->method('close')
+        ;
+        $connection
+            ->expects($this->once())
+            ->method('createSession')
+            ->willReturn($session)
         ;
 
         $consumer = $this->createQueueConsumerMock();
         $consumer
             ->expects($this->once())
             ->method('bind')
-            ->with('queue-name', $this->identicalTo($processor))
+            ->with($this->identicalTo($queue), $this->identicalTo($processor))
         ;
         $consumer
             ->expects($this->once())
@@ -86,7 +102,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
             ->with($this->isInstanceOf(ChainExtension::class))
         ;
         $consumer
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getConnection')
             ->will($this->returnValue($connection))
         ;
@@ -110,6 +126,22 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     protected function createConnectionMock()
     {
         return $this->createMock(ConnectionInterface::class);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|SessionInterface
+     */
+    protected function createSessionMock()
+    {
+        return $this->createMock(SessionInterface::class);
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|QueueInterface
+     */
+    protected function createQueueMock()
+    {
+        return $this->createMock(QueueInterface::class);
     }
 
     /**

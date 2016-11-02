@@ -43,14 +43,6 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             })
         ;
 
-        $session = $this->createSessionMock();
-        $session
-            ->expects(self::once())
-            ->method('createQueue')
-            ->with('queue')
-            ->will($this->returnValue($queue))
-        ;
-
         $logger = $this->createLoggerMock();
         $logger
             ->expects($this->at(0))
@@ -66,8 +58,8 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             )
         ;
 
-        $context = new Context($session);
-        $context->setQueueName('queue');
+        $context = new Context($this->createSessionMock());
+        $context->setQueue($queue);
         $context->setMessage($originMessage);
         $context->setLogger($logger);
 
@@ -98,7 +90,6 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
         ;
 
         $context = new Context($this->createSessionMock());
-        $context->setQueueName('queue');
         $context->setMessage($message);
 
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
@@ -126,16 +117,8 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             }))
         ;
 
-        $session = $this->createSessionMock();
-        $session
-            ->expects(self::once())
-            ->method('createQueue')
-            ->with('queue')
-            ->will($this->returnValue($queue))
-        ;
-
-        $context = new Context($session);
-        $context->setQueueName('queue');
+        $context = new Context($this->createSessionMock());
+        $context->setQueue($queue);
         $context->setMessage($message);
         $context->setLogger(new NullLogger());
 
@@ -173,16 +156,8 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             }))
         ;
 
-        $session = $this->createSessionMock();
-        $session
-            ->expects(self::once())
-            ->method('createQueue')
-            ->with('queue')
-            ->will($this->returnValue($queue))
-        ;
-
-        $context = new Context($session);
-        $context->setQueueName('queue');
+        $context = new Context($this->createSessionMock());
+        $context->setQueue($queue);
         $context->setMessage($message);
         $context->setLogger(new NullLogger());
 

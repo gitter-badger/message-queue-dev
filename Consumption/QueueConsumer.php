@@ -4,6 +4,7 @@ namespace Formapro\MessageQueue\Consumption;
 use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
 use Formapro\MessageQueue\Transport\ConnectionInterface;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\MessageQueue\Transport\QueueInterface;
 use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
@@ -23,7 +24,11 @@ class QueueConsumer
     private $extension;
 
     /**
-     * @var MessageProcessorInterface[]
+     * [
+     *   [QueueInterface, MessageProcessorInterface],
+     * ]
+     *
+     * @var array
      */
     private $boundMessageProcessors;
 
@@ -58,21 +63,21 @@ class QueueConsumer
     }
 
     /**
-     * @param string $queueName
+     * @param QueueInterface $queue
      * @param MessageProcessorInterface $messageProcessor
      *
      * @return self
      */
-    public function bind($queueName, MessageProcessorInterface $messageProcessor)
+    public function bind(QueueInterface $queue, MessageProcessorInterface $messageProcessor)
     {
-        if (empty($queueName)) {
+        if (empty($queue->getQueueName())) {
             throw new \LogicException('The queue name must be not empty.');
         }
-        if (array_key_exists($queueName, $this->boundMessageProcessors)) {
-            throw new \LogicException(sprintf('The queue was already bound. Queue: %s', $queueName));
+        if (array_key_exists($queue->getQueueName(), $this->boundMessageProcessors)) {
+            throw new \LogicException(sprintf('The queue was already bound. Queue: %s', $queue->getQueueName()));
         }
 
-        $this->boundMessageProcessors[$queueName] = $messageProcessor;
+        $this->boundMessageProcessors[$queue->getQueueName()] = [$queue, $messageProcessor];
 
         return $this;
     }
@@ -91,9 +96,9 @@ class QueueConsumer
 
         /** @var MessageConsumerInterface[] $messageConsumers */
         $messageConsumers = [];
-        foreach ($this->boundMessageProcessors as $queueName => $messageProcessor) {
-            $queue = $session->createQueue($queueName);
-            $messageConsumers[$queueName] = $session->createConsumer($queue);
+        /** @var QueueInterface $queue */
+        foreach ($this->boundMessageProcessors as list($queue, $messageProcessor)) {
+            $messageConsumers[$queue->getQueueName()] = $session->createConsumer($queue);
         }
 
         $extension = $this->extension ?: new ChainExtension([]);
@@ -109,14 +114,15 @@ class QueueConsumer
 
         while (true) {
             try {
-                foreach ($this->boundMessageProcessors as $queueName => $messageProcessor) {
-                    $logger->debug(sprintf('Switch to a queue %s', $queueName));
+                /** @var QueueInterface $queue */
+                foreach ($this->boundMessageProcessors as list($queue, $messageProcessor)) {
+                    $logger->debug(sprintf('Switch to a queue %s', $queue->getQueueName()));
 
-                    $messageConsumer = $messageConsumers[$queueName];
+                    $messageConsumer = $messageConsumers[$queue->getQueueName()];
 
                     $context = new Context($session);
                     $context->setLogger($logger);
-                    $context->setQueueName($queueName);
+                    $context->setQueue($queue);
                     $context->setMessageConsumer($messageConsumer);
                     $context->setMessageProcessor($messageProcessor);
 

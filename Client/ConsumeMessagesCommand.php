@@ -19,12 +19,12 @@ class ConsumeMessagesCommand extends Command
    /**
     * @var QueueConsumer
     */
-    protected $consumer;
+    private $consumer;
 
     /**
      * @var DelegateMessageProcessor
      */
-    protected $processor;
+    private $processor;
 
     /**
      * @var DestinationMetaRegistry
@@ -32,20 +32,28 @@ class ConsumeMessagesCommand extends Command
     private $destinationMetaRegistry;
 
     /**
+     * @var DriverInterface
+     */
+    private $driver;
+
+    /**
      * @param QueueConsumer $consumer
      * @param DelegateMessageProcessor $processor
      * @param DestinationMetaRegistry $destinationMetaRegistry
+     * @param DriverInterface $driver
      */
     public function __construct(
         QueueConsumer $consumer,
         DelegateMessageProcessor $processor,
-        DestinationMetaRegistry $destinationMetaRegistry
+        DestinationMetaRegistry $destinationMetaRegistry,
+        DriverInterface $driver
     ) {
         parent::__construct('formapro:message-queue:consume');
 
         $this->consumer = $consumer;
         $this->processor = $processor;
         $this->destinationMetaRegistry = $destinationMetaRegistry;
+        $this->driver = $driver;
     }
 
     /**
@@ -69,16 +77,16 @@ class ConsumeMessagesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($clientDestinationName = $input->getArgument('clientDestinationName')) {
-            $this->consumer->bind(
-                $this->destinationMetaRegistry->getDestinationMeta($clientDestinationName)->getTransportName(),
-                $this->processor
+            $queue = $this->driver->createQueue(
+                $this->destinationMetaRegistry->getDestinationMeta($clientDestinationName)->getTransportName()
             );
+
+            $this->consumer->bind($queue, $this->processor);
         } else {
             foreach ($this->destinationMetaRegistry->getDestinationsMeta() as $destinationMeta) {
-                $this->consumer->bind(
-                    $destinationMeta->getTransportName(),
-                    $this->processor
-                );
+                $queue = $this->driver->createQueue($destinationMeta->getTransportName());
+
+                $this->consumer->bind($queue, $this->processor);
             }
         }
 
