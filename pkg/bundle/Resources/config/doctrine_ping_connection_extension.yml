@@ -1,0 +1,8 @@
+services:
+    fp_message_queue.consumption.doctrine_ping_connection_extension:
+        class: 'FormaPro\MessageQueueBundle\Consumption\Extension\DoctrinePingConnectionExtension'
+        public: false
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: 'fp_message_queue.consumption.extension' }

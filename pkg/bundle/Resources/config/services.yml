@@ -1,0 +1,25 @@
+services:
+    formapro_message_queue.consumption.extensions:
+        class: 'Formapro\MessageQueue\Consumption\ChainExtension'
+        public: false
+        arguments:
+            - []
+
+    formapro_message_queue.consumption.signal_extension:
+        class: 'Formapro\MessageQueue\Consumption\Extension\SignalExtension'
+        public: false
+        tags:
+            - { name: 'formapro_message_queue.consumption.extension' }
+
+    formapro_message_queue.consumption.queue_consumer:
+        class: 'Formapro\MessageQueue\Consumption\QueueConsumer'
+        arguments:
+            - '@formapro_message_queue.transport.connection'
+            - '@formapro_message_queue.consumption.extensions'
+
+    formapro_message_queue.command.consume_messages:
+        class: 'Formapro\MessageQueue\Consumption\ConsumeMessagesCommand'
+        arguments:
+            - '@formapro_message_queue.consumption.queue_consumer'
+        tags:
+            - { name: 'console.command' }

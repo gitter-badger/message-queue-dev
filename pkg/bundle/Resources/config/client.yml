@@ -1,0 +1,130 @@
+services:
+    formapro_message_queue.client.config:
+        class: 'Formapro\MessageQueue\Client\Config'
+        public: false
+
+    formapro_message_queue.client.driver_factory:
+        class: 'Formapro\MessageQueue\Client\DriverFactory'
+        public: false
+        arguments:
+            - []
+
+    formapro_message_queue.client.driver:
+        class: 'Formapro\MessageQueue\Client\DriverInterface'
+        factory: ['@formapro_message_queue.client.driver_factory', 'create']
+        arguments:
+            - '@formapro_message_queue.transport.connection'
+            - '@formapro_message_queue.client.config'
+
+    formapro_message_queue.client.message_producer:
+        class: 'Formapro\MessageQueue\Client\MessageProducer'
+        arguments: ['@formapro_message_queue.client.driver']
+
+    formapro_message_queue.message_producer:
+        alias: 'formapro_message_queue.client.message_producer'
+
+    formapro_message_queue.client.router:
+        class: 'Formapro\MessageQueue\Client\Router'
+        public: false
+        arguments:
+            - '@formapro_message_queue.client.driver'
+            - '@formapro_message_queue.client.meta.destination_meta_registry'
+            - []
+
+    formapro_message_queue.client.route_message_processor:
+        class: 'Formapro\MessageQueue\Router\RouteRecipientListProcessor'
+        public: true
+        arguments:
+            - '@formapro_message_queue.client.router'
+        tags:
+            - { name: 'formapro_message_queue.client.message_processor', 'topicName': 'formapro_message_queue.route_message' }
+
+    formapro_message_queue.client.message_processor_registry:
+        class: 'Formapro\MessageQueue\Client\ContainerAwareMessageProcessorRegistry'
+        public: false
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    formapro_message_queue.client.meta.topic_meta_registry:
+        class: 'Formapro\MessageQueue\Client\Meta\TopicMetaRegistry'
+        public: true
+        arguments: [[]]
+
+    formapro_message_queue.client.meta.destination_meta_registry:
+        class: 'Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry'
+        public: true
+        arguments: ['@formapro_message_queue.client.config', [], 'default']
+
+    formapro_message_queue.client.delegate_message_processor:
+        class: 'Formapro\MessageQueue\Client\DelegateMessageProcessor'
+        public: false
+        arguments:
+            - '@formapro_message_queue.client.message_processor_registry'
+
+    formapro_message_queue.client.extension.create_queue:
+        class: 'Formapro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension'
+        public: false
+        arguments:
+            - '@formapro_message_queue.client.driver'
+        tags:
+            - { name: 'formapro_message_queue.consumption.extension', priority: 10 }
+
+    formapro_message_queue.client.delay_redelivered_message_extension:
+        class: 'Formapro\MessageQueue\Client\ConsumptionExtension\DelayRedeliveredMessageExtension'
+        public: false
+        arguments:
+            - '@formapro_message_queue.client.driver'
+            - ~
+        tags:
+            - { name: 'formapro_message_queue.consumption.extension' }
+
+    formapro_message_queue.client.queue_consumer:
+        class: 'Formapro\MessageQueue\Consumption\QueueConsumer'
+        public: false
+        arguments:
+            - '@formapro_message_queue.transport.connection'
+            - '@formapro_message_queue.consumption.extensions'
+
+    formapro_message_queue.client.consume_messages_command:
+        class: 'Formapro\MessageQueue\Client\ConsumeMessagesCommand'
+        public: true
+        arguments:
+            - '@formapro_message_queue.client.queue_consumer'
+            - '@formapro_message_queue.client.delegate_message_processor'
+            - '@formapro_message_queue.client.meta.destination_meta_registry'
+            - '@formapro_message_queue.client.driver'
+        tags:
+            - { name: 'console.command' }
+
+    formapro_message_queue.client.meta.topics_command:
+        class: 'Formapro\MessageQueue\Client\Meta\TopicsCommand'
+        arguments:
+            - '@formapro_message_queue.client.meta.topic_meta_registry'
+        tags:
+            - { name: 'console.command' }
+
+    formapro_message_queue.client.meta.destinations_command:
+        class: 'Formapro\MessageQueue\Client\Meta\DestinationsCommand'
+        arguments:
+            - '@formapro_message_queue.client.meta.destination_meta_registry'
+        tags:
+            - { name: 'console.command' }
+
+    formapro_message_queue.client.create_queues_command:
+        class: 'Formapro\MessageQueue\Client\CreateQueuesCommand'
+        public: true
+        arguments:
+            - '@formapro_message_queue.client.meta.destination_meta_registry'
+            - '@formapro_message_queue.client.driver'
+        tags:
+            - { name: 'console.command' }
+
+    formapro_message_queue.profiler.message_queue_collector:
+        class: 'Formapro\MessageQueueBundle\Profiler\MessageQueueCollector'
+        public: false
+        arguments: ['@formapro_message_queue.message_producer']
+        tags:
+            -
+              name: 'data_collector'
+              template: 'FormaproMessageQueueBundle:Profiler:panel.html.twig'
+              id: 'formapro.message_queue'

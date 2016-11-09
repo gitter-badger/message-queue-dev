@@ -1,0 +1,50 @@
+parameters:
+    formapro_message_queue.job.unique_job_table_name: 'formapro_message_queue_job_unique'
+
+services:
+    formapro_message_queue.job.storage:
+        class: 'Formapro\MessageQueueJob\Job\JobStorage'
+        arguments:
+            - '@doctrine'
+            - 'Formapro\MessageQueueBundle\Entity\Job'
+            - '%formapro_message_queue.job.unique_job_table_name%'
+
+    formapro_message_queue.job.processor:
+        class: 'Formapro\MessageQueueJob\Job\JobProcessor'
+        arguments:
+            - '@formapro_message_queue.job.storage'
+            - '@formapro_message_queue.client.message_producer'
+
+    formapro_message_queue.job.runner:
+        class: 'Formapro\MessageQueueJob\Job\JobRunner'
+        arguments:
+            - '@formapro_message_queue.job.processor'
+
+    formapro_message_queue.job.calculate_root_job_status_service:
+        class: 'Formapro\MessageQueueJob\Job\CalculateRootJobStatusService'
+        arguments:
+            - '@formapro_message_queue.job.storage'
+
+    formapro_message_queue.job.calculate_root_job_status_processor:
+        class: 'Formapro\MessageQueueJob\Job\CalculateRootJobStatusProcessor'
+        arguments:
+            - '@formapro_message_queue.job.storage'
+            - '@formapro_message_queue.job.calculate_root_job_status_service'
+            - '@formapro_message_queue.client.message_producer'
+            - '@logger'
+        tags:
+            - { name: 'formapro_message_queue.client.message_processor' }
+
+    formapro_message_queue.job.dependent_job_processor:
+        class: 'Formapro\MessageQueueJob\Job\DependentJobMessageProcessor'
+        arguments:
+            - '@formapro_message_queue.job.storage'
+            - '@formapro_message_queue.client.message_producer'
+            - '@logger'
+        tags:
+            - { name: 'formapro_message_queue.client.message_processor' }
+
+    formapro_message_queue.job.dependent_job_service:
+        class: 'Formapro\MessageQueueJob\Job\DependentJobService'
+        arguments:
+            - '@formapro_message_queue.job.storage'
