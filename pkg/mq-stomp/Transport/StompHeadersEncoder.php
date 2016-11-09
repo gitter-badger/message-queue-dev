@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 
 class StompHeadersEncoder
 {
-    const TYPE_PREFIX = '__type_';
+    const TYPE_PREFIX = '_type_';
     const TYPE_STRING = 's';
     const TYPE_INT = 'i';
     const TYPE_FLOAT = 'f';
@@ -12,131 +12,96 @@ class StompHeadersEncoder
 
     /**
      * @param array $headers
-     * @param array $properties
      *
      * @return array
      */
-    public static function encode(array $headers = [], array $properties = [])
+    public static function encode(array $headers)
     {
         $encoded = [];
 
         foreach ($headers as $key => $value) {
-            $encoded[$key] = self::encodeHeaderValue($value);
-        }
+            switch ($type = gettype($value)) {
+                case 'string':
+                    $encoded[$key] = (string) $value;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_STRING;
 
-        foreach ($properties as $key => $value) {
-            $encoded[self::PROPERTY_PREFIX.$key] = self::encodePropertyValue($value);
+                    break;
+                case 'integer':
+                    $encoded[$key] = (string) $value;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_INT;
+
+                    break;
+                case 'double':
+                    $encoded[$key] = (string) $value;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_FLOAT;
+
+                    break;
+                case 'NULL':
+                    $encoded[$key] = '';
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_NULL;
+
+                    break;
+                case 'boolean':
+                    $encoded[$key] = $value ? 'true' : 'false';
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_BOOL;
+
+                    break;
+                default:
+                    throw new \LogicException(sprintf('Value type is not valid: "%s"', $type));
+            }
         }
 
         return $encoded;
     }
 
-    public static function encode2(array $properties)
-    {
-        $encoded = [];
-
-        foreach ($properties as $key => $value) {
-
-        }
-    }
-
     /**
      * @param array $headers
      *
-     * @return array [[headers], [properties]]
+     * @return array
      */
     public static function decode(array $headers = [])
     {
-        $decodedHeaders = [];
-        $decodedProperties = [];
-        $prefixLength = strlen(self::PROPERTY_PREFIX);
+        $decoded = [];
 
         foreach ($headers as $key => $value) {
-            if (0 === strpos($key, self::PROPERTY_PREFIX)) {
-                $decodedProperties[substr($key, $prefixLength)] = self::decodePropertyValue($value);
-            } else {
-                // does nothing there is no info about value type
-                $decodedHeaders[$key] = $value;
+            // skip type header
+            if (0 === strpos($key, self::TYPE_PREFIX)) {
+                continue;
+            }
+
+            // copy value as is if here is no type header
+            if (false == array_key_exists(self::TYPE_PREFIX.$key, $headers)) {
+                $decoded[$key] = $value;
+
+                continue;
+            }
+
+            switch ($headers[self::TYPE_PREFIX.$key]) {
+                case self::TYPE_STRING:
+                    $decoded[$key] = (string) $value;
+
+                    break;
+                case self::TYPE_INT:
+                    $decoded[$key] = (int) $value;
+
+                    break;
+                case self::TYPE_FLOAT:
+                    $decoded[$key] = (float) $value;
+
+                    break;
+                case self::TYPE_NULL:
+                    $decoded[$key] = null;
+
+                    break;
+                case self::TYPE_BOOL:
+                    $decoded[$key] = $value === 'true';
+
+                    break;
+                default:
+                    throw new \LogicException(sprintf('Type is invalid: "%s"', $value));
             }
         }
 
-        return [$decodedHeaders, $decodedProperties];
-    }
-
-    /**
-     * @param string|bool|int|float $value
-     *
-     * @return string
-     */
-    private static function encodeHeaderValue($value)
-    {
-        switch ($type = gettype($value)) {
-            case 'string':
-            case 'integer':
-            case 'double':
-            case 'NULL':
-                return (string) $value;
-            case 'boolean':
-                return $value ? 'true' : 'false';
-            default:
-                throw new \LogicException(sprintf('Value type is not valid: "%s"', $type));
-        }
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return bool|float|int|null
-     */
-    private static function decodePropertyValue($value)
-    {
-        if (strlen($value) < 2) {
-            throw new \LogicException(sprintf('Invalid length of value, must be 2 or more characters: "%s"', $value));
-        }
-
-        if (':' !== $value[1]) {
-            throw new \LogicException(sprintf('Seems value is not valid, expected format {s|i|f|b|n}:{value} : "%s"', $value));
-        }
-
-        $type = $value[0];
-        $v = substr($value, 2);
-
-        switch ($type) {
-            case self::TYPE_STRING:
-                return (string) $v;
-            case self::TYPE_INT:
-                return (int) $v;
-            case self::TYPE_BOOL:
-                return $v === 'true';
-            case self::TYPE_FLOAT:
-                return (float) $v;
-            case self::TYPE_NULL:
-                return null;
-            default:
-                throw new \LogicException(sprintf('Type is invalid: "%s"', $value));
-        }
-    }
-
-    /**
-     * @param bool|float|int|null $value
-     *
-     * @return string
-     */
-    private static function encodePropertyValue($value)
-    {
-        switch ($type = gettype($value)) {
-            case 'string':
-                return self::TYPE_STRING.':'.$value;
-            case 'integer':
-                return self::TYPE_INT.':'.$value;
-            case 'boolean':
-                return self::TYPE_BOOL.':'.($value ? 'true' : 'false');
-            case 'double':
-                return self::TYPE_FLOAT.':'.$value;
-            case 'NULL':
-                return self::TYPE_NULL.':null';
-            default:
-                throw new \LogicException(sprintf('Value type is not valid: "%s"', $type));
-        }
+        return $decoded;
     }
 }

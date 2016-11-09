@@ -3,6 +3,6 @@ namespace Formapro\Jms;
 
 interface DeliveryMode
 {
-    const NON_PERSISTENT = 'jms.delivery_mode.non_persistent';
-    const PERSISTENT = 'jms.delivery_mode.persistent';
+    const NON_PERSISTENT = 1;
+    const PERSISTENT = 2;
 }

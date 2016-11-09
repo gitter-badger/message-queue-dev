@@ -95,6 +95,14 @@ class StompMessage implements Message
     }
 
     /**
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
      * {@inheritdoc}
      */
     private function setJmsProperty($name, $value)

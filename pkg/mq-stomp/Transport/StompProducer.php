@@ -162,7 +162,8 @@ class StompProducer implements JMSProducer
             $headers['expiration'] = $this->ttl;
         }
 
-        $headers = StompHeadersEncoder::encode($headers, $message->getProperties());
+        $headers = array_merge($headers, $message->getProperties());
+        $headers = StompHeadersEncoder::encode($headers);
 
         $stompMessage = new Message($message->getBody(), $headers);
 
