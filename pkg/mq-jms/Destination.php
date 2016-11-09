@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueue\Transport;
+namespace Formapro\MessageQueue\Jms;
 
 /**
  * A Destination object encapsulates a provider-specific address.
