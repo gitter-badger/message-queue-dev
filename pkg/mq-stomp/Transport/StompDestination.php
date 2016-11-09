@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\MessageQueue\Transport\Queue;
-use Formapro\MessageQueue\Transport\Topic;
+use Formapro\Jms\Queue;
+use Formapro\Jms\Topic;
 
 class StompDestination implements Topic, Queue
 {

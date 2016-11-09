@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\MessageQueue\Transport\DeliveryMode;
-use Formapro\MessageQueue\Transport\Destination;
+use Formapro\Jms\DeliveryMode;
+use Formapro\Jms\Destination;
+use Formapro\Jms\JMSProducer;
 use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Transport\Exception\InvalidMessageException;
-use Formapro\MessageQueue\Transport\JMSProducer;
 use Stomp\Client;
 use Stomp\Transport\Message;
 

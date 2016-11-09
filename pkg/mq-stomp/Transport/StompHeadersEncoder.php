@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 
 class StompHeadersEncoder
 {
-    const PROPERTY_PREFIX = '__property_';
+    const TYPE_PREFIX = '__type_';
     const TYPE_STRING = 's';
     const TYPE_INT = 'i';
     const TYPE_FLOAT = 'f';
@@ -29,6 +29,15 @@ class StompHeadersEncoder
         }
 
         return $encoded;
+    }
+
+    public static function encode2(array $properties)
+    {
+        $encoded = [];
+
+        foreach ($properties as $key => $value) {
+
+        }
     }
 
     /**

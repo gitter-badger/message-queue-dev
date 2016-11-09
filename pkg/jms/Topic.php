@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueue\Jms;
+namespace Formapro\Jms;
 
 /**
  * A Topic object encapsulates a provider-specific topic name.

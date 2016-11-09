@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueue\Jms;
+namespace Formapro\Jms;
 
 interface MessageListener
 {

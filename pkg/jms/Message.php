@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueue\Jms;
+namespace Formapro\Jms;
 
 /**
  * The Message interface is the root interface of all transport messages.

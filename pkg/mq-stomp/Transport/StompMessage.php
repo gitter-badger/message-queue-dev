@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\MessageQueue\Transport\Destination;
-use Formapro\MessageQueue\Transport\Message;
+use Formapro\Jms\Destination;
+use Formapro\Jms\Message;
 use Stomp\Transport\Frame;
 
 class StompMessage implements Message
