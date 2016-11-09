@@ -1,17 +1,17 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Exception;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 
 class InvalidDestinationException extends Exception
 {
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      * @param string $class
      *
      * @throws static
      */
-    public static function assertDestinationInstanceOf(DestinationInterface $destination, $class)
+    public static function assertDestinationInstanceOf(Destination $destination, $class)
     {
         if (!$destination instanceof $class) {
             throw new static(sprintf(

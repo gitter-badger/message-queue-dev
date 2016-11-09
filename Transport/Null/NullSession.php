@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 use Formapro\MessageQueue\Transport\SessionInterface;
 
 class NullSession implements SessionInterface
@@ -46,7 +46,7 @@ class NullSession implements SessionInterface
      *
      * @return NullMessageConsumer
      */
-    public function createConsumer(DestinationInterface $destination)
+    public function createConsumer(Destination $destination)
     {
         return new NullMessageConsumer($destination);
     }
@@ -62,21 +62,21 @@ class NullSession implements SessionInterface
     /**
      * {@inheritdoc}
      */
-    public function declareTopic(DestinationInterface $destination)
+    public function declareTopic(Destination $destination)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function declareQueue(DestinationInterface $destination)
+    public function declareQueue(Destination $destination)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function declareBind(DestinationInterface $source, DestinationInterface $target)
+    public function declareBind(Destination $source, Destination $target)
     {
     }
 

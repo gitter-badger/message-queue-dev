@@ -8,7 +8,7 @@ use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -110,7 +110,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             ->expects(self::once())
             ->method('send')
             ->with($this->identicalTo($queue), $this->isInstanceOf(Message::class))
-            ->will($this->returnCallback(function (QueueInterface $queue, Message $message) {
+            ->will($this->returnCallback(function (Queue $queue, Message $message) {
                 $properties = $message->getProperties();
                 self::assertArrayHasKey(DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT, $properties);
                 self::assertSame(1, $properties[DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT]);
@@ -149,7 +149,7 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             ->expects(self::once())
             ->method('send')
             ->with($this->identicalTo($queue), $this->isInstanceOf(Message::class))
-            ->will($this->returnCallback(function (QueueInterface $queue, Message $message) {
+            ->will($this->returnCallback(function (Queue $queue, Message $message) {
                 $properties = $message->getProperties();
                 self::assertArrayHasKey(DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT, $properties);
                 self::assertSame(8, $properties[DelayRedeliveredMessageExtension::PROPERTY_REDELIVER_COUNT]);

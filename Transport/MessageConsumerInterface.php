@@ -13,7 +13,7 @@ interface MessageConsumerInterface
     /**
      * Gets the Queue associated with this queue receiver.
      *
-     * @return QueueInterface
+     * @return Queue
      */
     public function getQueue();
 

@@ -1,21 +1,21 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 use Formapro\MessageQueue\Transport\MessageInterface;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
 
 class NullMessageConsumer implements MessageConsumerInterface
 {
     /**
-     * @var DestinationInterface
+     * @var Destination
      */
     private $queue;
 
     /**
-     * @param DestinationInterface $queue
+     * @param Destination $queue
      */
-    public function __construct(DestinationInterface $queue)
+    public function __construct(Destination $queue)
     {
         $this->queue = $queue;
     }

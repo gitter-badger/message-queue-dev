@@ -4,7 +4,7 @@ namespace Formapro\MessageQueue\Consumption;
 use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
 use Formapro\MessageQueue\Transport\MessageInterface;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -46,7 +46,7 @@ class Context
     private $result;
 
     /**
-     * @var QueueInterface
+     * @var Queue
      */
     private $queue;
 
@@ -210,7 +210,7 @@ class Context
     }
 
     /**
-     * @return QueueInterface
+     * @return Queue
      */
     public function getQueue()
     {
@@ -218,9 +218,9 @@ class Context
     }
 
     /**
-     * @param QueueInterface $queue
+     * @param Queue $queue
      */
-    public function setQueue(QueueInterface $queue)
+    public function setQueue(Queue $queue)
     {
         if ($this->queue) {
             throw new IllegalContextModificationException('The queue modification is not allowed');

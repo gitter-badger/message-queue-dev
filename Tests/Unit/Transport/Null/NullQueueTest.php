@@ -2,7 +2,7 @@
 namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullQueueTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class NullQueueTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementQueueInterface()
     {
-        $this->assertClassImplements(QueueInterface::class, NullQueue::class);
+        $this->assertClassImplements(Queue::class, NullQueue::class);
     }
 
     public function testCouldBeConstructedWithNameAsArgument()

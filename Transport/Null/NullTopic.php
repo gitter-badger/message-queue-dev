@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\TopicInterface;
+use Formapro\MessageQueue\Transport\Topic;
 
-class NullTopic implements TopicInterface
+class NullTopic implements Topic
 {
     /**
      * @var string

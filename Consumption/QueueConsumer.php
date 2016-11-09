@@ -4,7 +4,7 @@ namespace Formapro\MessageQueue\Consumption;
 use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
 use Formapro\MessageQueue\Transport\ConnectionInterface;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
@@ -25,7 +25,7 @@ class QueueConsumer
 
     /**
      * [
-     *   [QueueInterface, MessageProcessorInterface],
+     *   [Queue, MessageProcessorInterface],
      * ]
      *
      * @var array
@@ -63,12 +63,12 @@ class QueueConsumer
     }
 
     /**
-     * @param QueueInterface $queue
+     * @param Queue $queue
      * @param MessageProcessorInterface $messageProcessor
      *
      * @return self
      */
-    public function bind(QueueInterface $queue, MessageProcessorInterface $messageProcessor)
+    public function bind(Queue $queue, MessageProcessorInterface $messageProcessor)
     {
         if (empty($queue->getQueueName())) {
             throw new \LogicException('The queue name must be not empty.');
@@ -96,7 +96,7 @@ class QueueConsumer
 
         /** @var MessageConsumerInterface[] $messageConsumers */
         $messageConsumers = [];
-        /** @var QueueInterface $queue */
+        /** @var Queue $queue */
         foreach ($this->boundMessageProcessors as list($queue, $messageProcessor)) {
             $messageConsumers[$queue->getQueueName()] = $session->createConsumer($queue);
         }
@@ -114,7 +114,7 @@ class QueueConsumer
 
         while (true) {
             try {
-                /** @var QueueInterface $queue */
+                /** @var Queue $queue */
                 foreach ($this->boundMessageProcessors as list($queue, $messageProcessor)) {
                     $logger->debug(sprintf('Switch to a queue %s', $queue->getQueueName()));
 

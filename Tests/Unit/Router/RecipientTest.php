@@ -2,7 +2,7 @@
 namespace Formapro\MessageQueue\Tests\Unit\Router;
 
 use Formapro\MessageQueue\Router\Recipient;
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 use Formapro\MessageQueue\Transport\MessageInterface;
 
 class RecipientTest extends \PHPUnit_Framework_TestCase
@@ -11,14 +11,14 @@ class RecipientTest extends \PHPUnit_Framework_TestCase
     {
         $message = $this->createMock(MessageInterface::class);
 
-        $recipient = new Recipient($this->createMock(DestinationInterface::class), $message);
+        $recipient = new Recipient($this->createMock(Destination::class), $message);
 
         $this->assertSame($message, $recipient->getMessage());
     }
 
     public function testShouldAllowGetDestinationSetInConstructor()
     {
-        $destination = $this->createMock(DestinationInterface::class);
+        $destination = $this->createMock(Destination::class);
 
         $recipient = new Recipient($destination, $this->createMock(MessageInterface::class));
 

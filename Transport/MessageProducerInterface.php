@@ -4,7 +4,7 @@ namespace Formapro\MessageQueue\Transport;
 interface MessageProducerInterface
 {
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      * @param MessageInterface $message
      *
      * @return void
@@ -18,5 +18,5 @@ interface MessageProducerInterface
      * @throws \Formapro\MessageQueue\Transport\Exception\InvalidMessageException - if an invalid message
      * is specified.
      */
-    public function send(DestinationInterface $destination, MessageInterface $message);
+    public function send(Destination $destination, MessageInterface $message);
 }

@@ -2,7 +2,7 @@
 namespace Formapro\MessageQueue\Client;
 
 use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 
 interface DriverInterface
 {
@@ -12,15 +12,15 @@ interface DriverInterface
     public function createTransportMessage();
 
     /**
-     * @param QueueInterface $queue
+     * @param Queue $queue
      * @param Message $message
      */
-    public function send(QueueInterface $queue, Message $message);
+    public function send(Queue $queue, Message $message);
 
     /**
      * @param string $queueName
      *
-     * @return QueueInterface
+     * @return Queue
      */
     public function createQueue($queueName);
 

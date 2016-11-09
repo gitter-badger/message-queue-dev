@@ -15,23 +15,23 @@ interface SessionInterface
     /**
      * @param string $name
      *
-     * @return QueueInterface
+     * @return Queue
      */
     public function createQueue($name);
 
     /**
      * @param string $name
      *
-     * @return TopicInterface
+     * @return Topic
      */
     public function createTopic($name);
 
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      *
      * @return MessageConsumerInterface
      */
-    public function createConsumer(DestinationInterface $destination);
+    public function createConsumer(Destination $destination);
 
     /**
      * @return MessageProducerInterface
@@ -39,20 +39,20 @@ interface SessionInterface
     public function createProducer();
 
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      */
-    public function declareTopic(DestinationInterface $destination);
+    public function declareTopic(Destination $destination);
 
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      */
-    public function declareQueue(DestinationInterface $destination);
+    public function declareQueue(Destination $destination);
 
     /**
-     * @param DestinationInterface $source
-     * @param DestinationInterface $target
+     * @param Destination $source
+     * @param Destination $target
      */
-    public function declareBind(DestinationInterface $source, DestinationInterface $target);
+    public function declareBind(Destination $source, Destination $target);
     
     public function close();
 }

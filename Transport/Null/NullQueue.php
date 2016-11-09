@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 
-class NullQueue implements QueueInterface
+class NullQueue implements Queue
 {
     /**
      * @var string

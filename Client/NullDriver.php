@@ -5,7 +5,7 @@ use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\Null\NullSession;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 
 class NullDriver implements DriverInterface
 {
@@ -58,7 +58,7 @@ class NullDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function send(QueueInterface $queue, Message $message)
+    public function send(Queue $queue, Message $message)
     {
         InvalidDestinationException::assertDestinationInstanceOf($queue, NullQueue::class);
 

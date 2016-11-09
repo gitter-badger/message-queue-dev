@@ -2,7 +2,7 @@
 namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
 use Formapro\MessageQueue\Transport\Null\NullTopic;
-use Formapro\MessageQueue\Transport\TopicInterface;
+use Formapro\MessageQueue\Transport\Topic;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullTopicTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class NullTopicTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementTopicInterface()
     {
-        $this->assertClassImplements(TopicInterface::class, NullTopic::class);
+        $this->assertClassImplements(Topic::class, NullTopic::class);
     }
 
     public function testCouldBeConstructedWithNameAsArgument()

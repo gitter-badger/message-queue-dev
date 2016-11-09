@@ -1,13 +1,13 @@
 <?php
 namespace Formapro\MessageQueue\Router;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 use Formapro\MessageQueue\Transport\MessageInterface;
 
 class Recipient
 {
     /**
-     * @var DestinationInterface
+     * @var Destination
      */
     private $destination;
     
@@ -17,17 +17,17 @@ class Recipient
     private $message;
 
     /**
-     * @param DestinationInterface $destination
+     * @param Destination $destination
      * @param MessageInterface $message
      */
-    public function __construct(DestinationInterface $destination, MessageInterface $message)
+    public function __construct(Destination $destination, MessageInterface $message)
     {
         $this->destination = $destination;
         $this->message = $message;
     }
 
     /**
-     * @return DestinationInterface
+     * @return Destination
      */
     public function getDestination()
     {

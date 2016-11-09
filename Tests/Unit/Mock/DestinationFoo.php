@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Unit\Mock;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\MessageQueue\Transport\Destination;
 
-class DestinationFoo implements DestinationInterface
+class DestinationFoo implements Destination
 {
 }

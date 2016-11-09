@@ -12,7 +12,7 @@ use Formapro\MessageQueue\Transport\ConnectionInterface;
 use Formapro\MessageQueue\Transport\MessageInterface;
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\NullLogger;
 
@@ -988,7 +988,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $sessionMock
             ->expects($this->any())
             ->method('createQueue')
-            ->willReturn($this->createMock(QueueInterface::class))
+            ->willReturn($this->createMock(Queue::class))
         ;
         $sessionMock
             ->expects($this->any())

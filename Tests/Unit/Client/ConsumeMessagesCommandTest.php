@@ -9,7 +9,7 @@ use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\QueueConsumer;
 use Formapro\MessageQueue\Transport\ConnectionInterface;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
@@ -253,10 +253,10 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|QueueInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|Queue
      */
     private function createQueueMock()
     {
-        return $this->createMock(QueueInterface::class);
+        return $this->createMock(Queue::class);
     }
 }

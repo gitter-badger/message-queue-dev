@@ -8,7 +8,7 @@ use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\MessageQueue\Client\MessageProducer;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class MessageProducerTest extends \PHPUnit_Framework_TestCase
@@ -212,7 +212,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertSame('theStringMessage', $message->getBody());
                 self::assertSame('text/plain', $message->getContentType());
             })
@@ -231,7 +231,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertSame('{"foo":"fooVal"}', $message->getBody());
                 self::assertSame('application/json', $message->getContentType());
             })
@@ -253,7 +253,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertSame('{"foo":"fooVal"}', $message->getBody());
                 self::assertSame('application/json', $message->getContentType());
             })
@@ -272,7 +272,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertEquals('text/plain', $message->getContentType());
 
                 self::assertInternalType('string', $message->getBody());
@@ -296,7 +296,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertEquals('text/plain', $message->getContentType());
 
                 self::assertInternalType('string', $message->getBody());
@@ -317,7 +317,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertEquals('text/plain', $message->getContentType());
 
                 self::assertInternalType('string', $message->getBody());
@@ -341,7 +341,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
         $driver
             ->expects($this->once())
             ->method('send')
-            ->willReturnCallback(function (QueueInterface $queue, Message $message) {
+            ->willReturnCallback(function (Queue $queue, Message $message) {
                 self::assertEquals('text/plain', $message->getContentType());
 
                 self::assertInternalType('string', $message->getBody());
