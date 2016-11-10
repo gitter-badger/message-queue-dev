@@ -7,7 +7,7 @@ use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSProducer;
 use Formapro\Jms\Message;
 use Stomp\Client;
-use Stomp\Transport\Message as StompMessage;
+use Stomp\Transport\Message as StompLibMessage;
 
 class StompProducer implements JMSProducer
 {
@@ -39,7 +39,7 @@ class StompProducer implements JMSProducer
         $headers = array_merge($message->getHeaders(), $destination->getHeaders());
         $headers = StompHeadersEncoder::encode($headers, $message->getProperties());
 
-        $stompMessage = new StompMessage($message->getBody(), $headers);
+        $stompMessage = new StompLibMessage($message->getBody(), $headers);
 
         $this->stomp->send($destination->getStompName(), $stompMessage);
     }

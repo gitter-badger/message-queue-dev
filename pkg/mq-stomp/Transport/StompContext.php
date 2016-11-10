@@ -25,9 +25,9 @@ class StompContext implements JMSContext
      *
      * @return StompMessage
      */
-    public function createMessage()
+    public function createMessage($body = '', array $properties = [], array $headers = [])
     {
-        return new StompMessage();
+        return new StompMessage($body, $properties, $headers);
     }
 
     /**
