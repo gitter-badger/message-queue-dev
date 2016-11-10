@@ -1,6 +1,7 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
+use Formapro\Jms\DeliveryMode;
 use Formapro\Jms\Destination;
 use Formapro\Jms\Message;
 use Stomp\Transport\Frame;
@@ -276,6 +277,21 @@ class StompMessage implements Message
     public function getJMSTimestamp()
     {
         return $this->getJmsProperty('JMSTimestamp');
+    }
+
+    /**
+     * @return array
+     */
+    public function toStompHeaders()
+    {
+        $headers = $this->properties;
+        $headers['JMSDeliveryMode'] = $this->getJMSDeliveryMode() === DeliveryMode::PERSISTENT ? 'PERSISTENT' : 'NON_PERSISTENT';
+        $headers['JMSMessageID'] = $this->getJMSMessageID();
+        $headers['JMSTimestamp'] = $this->getJMSTimestamp();
+        $headers['JMSPriority'] = $this->getJMSPriority();
+        $headers['JMSCorrelationID'] = $this->getJMSCorrelationID();
+
+        return $headers;
     }
 
     /**

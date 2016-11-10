@@ -1,17 +1,17 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Exception;
 
-use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\Jms\Message;
 
 class InvalidMessageException extends Exception
 {
     /**
-     * @param MessageInterface $message
+     * @param Message $message
      * @param string $class
      *
      * @throws static
      */
-    public static function assertMessageInstanceOf(MessageInterface $message, $class)
+    public static function assertMessageInstanceOf(Message $message, $class)
     {
         if (!$message instanceof $class) {
             throw new static(sprintf(

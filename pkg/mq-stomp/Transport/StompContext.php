@@ -1,17 +1,20 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\MessageQueue\Transport\DestinationInterface;
+use Formapro\Jms\Destination;
+use Formapro\Jms\JMSContext;
 use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Transport\SessionInterface;
 
-class StompSession implements SessionInterface
+class StompContext implements JMSContext
 {
     /**
      * @var BufferedStompClient
      */
     private $stomp;
 
+    /**
+     * @param BufferedStompClient $stomp
+     */
     public function __construct(BufferedStompClient $stomp)
     {
         $this->stomp = $stomp;
@@ -22,9 +25,9 @@ class StompSession implements SessionInterface
      *
      * @return StompMessage
      */
-    public function createMessage($body = null, array $properties = [], array $headers = [])
+    public function createMessage()
     {
-        return new StompMessage($body, $properties, $headers);
+        return new StompMessage();
     }
 
     /**
@@ -57,7 +60,7 @@ class StompSession implements SessionInterface
      *
      * @return StompMessageConsumer
      */
-    public function createConsumer(DestinationInterface $destination)
+    public function createConsumer(Destination $destination)
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, StompDestination::class);
 
@@ -72,27 +75,6 @@ class StompSession implements SessionInterface
     public function createProducer()
     {
         return new StompProducer($this->stomp);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function declareTopic(DestinationInterface $destination)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function declareQueue(DestinationInterface $destination)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function declareBind(DestinationInterface $source, DestinationInterface $target)
-    {
     }
 
     /**

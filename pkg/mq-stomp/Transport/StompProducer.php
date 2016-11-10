@@ -4,8 +4,10 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 use Formapro\Jms\DeliveryMode;
 use Formapro\Jms\Destination;
 use Formapro\Jms\JMSProducer;
+use Formapro\MessageQueue\Transport\Exception\InvalidDeliveryModeException;
 use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Transport\Exception\InvalidMessageException;
+use Formapro\MessageQueue\Util\UUID;
 use Stomp\Client;
 use Stomp\Transport\Message;
 
@@ -42,6 +44,7 @@ class StompProducer implements JMSProducer
     public function __construct(Client $stomp)
     {
         $this->stomp = $stomp;
+        $this->properties = [];
         $this->deliveryMode = DeliveryMode::PERSISTENT;
     }
 
@@ -86,7 +89,11 @@ class StompProducer implements JMSProducer
      */
     public function setDeliveryMode($deliveryMode)
     {
+        InvalidDeliveryModeException::assertValidDeliveryMode($deliveryMode);
+
         $this->deliveryMode = $deliveryMode;
+
+        return $this;
     }
 
     /**
@@ -105,6 +112,8 @@ class StompProducer implements JMSProducer
     public function setPriority($priority)
     {
         $this->priority = $priority;
+
+        return $this;
     }
 
     /**
@@ -123,6 +132,8 @@ class StompProducer implements JMSProducer
     public function setTimeToLive($timeToLive)
     {
         $this->ttl = $timeToLive;
+
+        return $this;
     }
 
     /**
@@ -148,7 +159,17 @@ class StompProducer implements JMSProducer
         InvalidDestinationException::assertDestinationInstanceOf($destination, StompDestination::class);
         InvalidMessageException::assertMessageInstanceOf($message, StompMessage::class);
 
-        $headers = $destination->getHeaders();
+        $currentTime = time() * 1000;
+        $expiration = $this->ttl ? $currentTime + $this->ttl : 0;
+
+        $message->setJMSMessageID(UUID::generate());
+        $message->setJMSDeliveryMode($this->deliveryMode);
+        $message->setJMSTimestamp($currentTime);
+        $message->setJMSExpiration($expiration);
+        $message->setJMSDestination($destination);
+
+        $headers = $this->properties;
+        $headers = array_merge($headers, $destination->getHeaders());
 
         if ($this->deliveryMode === DeliveryMode::PERSISTENT) {
             $headers['persistent'] = true;
@@ -162,7 +183,7 @@ class StompProducer implements JMSProducer
             $headers['expiration'] = $this->ttl;
         }
 
-        $headers = array_merge($headers, $message->getProperties());
+        $headers = array_merge($headers, $message->toStompHeaders());
         $headers = StompHeadersEncoder::encode($headers);
 
         $stompMessage = new Message($message->getBody(), $headers);
