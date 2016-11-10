@@ -3,6 +3,7 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 
 class StompHeadersEncoder
 {
+    const PROPERTY_PREFIX = '_property_';
     const TYPE_PREFIX = '_type_';
     const TYPE_STRING = 's';
     const TYPE_INT = 'i';
@@ -12,10 +13,27 @@ class StompHeadersEncoder
 
     /**
      * @param array $headers
+     * @param array $properties
      *
      * @return array
      */
-    public static function encode(array $headers)
+    public static function encode(array $headers = [], array $properties = [])
+    {
+        $encodedHeaders = self::doEncode($headers);
+
+        foreach (self::doEncode($properties) as $key => $value) {
+            $encodedHeaders[self::PROPERTY_PREFIX.$key] = $value;
+        }
+
+        return $encodedHeaders;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return array
+     */
+    private static function doEncode($headers = [])
     {
         $encoded = [];
 
@@ -23,27 +41,27 @@ class StompHeadersEncoder
             switch ($type = gettype($value)) {
                 case 'string':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_STRING;
+                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_STRING;
 
                     break;
                 case 'integer':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_INT;
+                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_INT;
 
                     break;
                 case 'double':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_FLOAT;
+                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_FLOAT;
 
                     break;
                 case 'NULL':
                     $encoded[$key] = '';
-                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_NULL;
+                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_NULL;
 
                     break;
                 case 'boolean':
                     $encoded[$key] = $value ? 'true' : 'false';
-                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_BOOL;
+                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_BOOL;
 
                     break;
                 default:
@@ -57,9 +75,35 @@ class StompHeadersEncoder
     /**
      * @param array $headers
      *
-     * @return array
+     * @return array [[headers], [properties]]
      */
     public static function decode(array $headers = [])
+    {
+        $encodedHeaders = [];
+        $encodedProperties = [];
+        $prefixLength = strlen(self::PROPERTY_PREFIX);
+
+        // separate headers/properties
+        foreach ($headers as $key => $value) {
+            if (0 === strpos($key, self::PROPERTY_PREFIX)) {
+                $encodedProperties[substr($key, $prefixLength)] = $value;
+            } else {
+                $encodedHeaders[$key] = $value;
+            }
+        }
+
+        $decodedHeaders = self::doDecode($encodedHeaders);
+        $decodedProperties = self::doDecode($encodedProperties);
+
+        return [$decodedHeaders, $decodedProperties];
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return array
+     */
+    private static function doDecode(array $headers = [])
     {
         $decoded = [];
 

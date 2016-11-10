@@ -1,13 +1,13 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\MessageQueue\Transport\Exception\InvalidMessageException;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\MessageQueue\Transport\MessageInterface;
 use Stomp\Client;
 use Stomp\Transport\Frame;
 
-class StompMessageConsumer implements MessageConsumerInterface
+class StompConsumer implements JMSConsumer
 {
     const ACK_AUTO = 'auto';
     const ACK_CLIENT = 'client';

@@ -26,6 +26,9 @@
             "/Tests/"
         ]
     },
+    "bin": [
+        "stomp/phpunit"
+    ],
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {

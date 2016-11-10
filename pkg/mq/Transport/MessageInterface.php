@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Transport;
 
-use Formapro\MessageQueue\Transport\Exception\Exception;
+use Formapro\Jms\Exception\Exception;
 
 /**
  * The Message interface is the root interface of all transport messages.

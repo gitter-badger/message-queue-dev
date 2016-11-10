@@ -17,17 +17,17 @@ try {
 
     $connection = new StompConnection($stomp);
 
-    $session = $connection->createSession();
+    $context = $connection->createSession();
 
     $consumers = [];
     $count = 100;
 
     for ($i = 1; $i <= $count; $i++) {
-        $destination = $session->createQueue('destination' . $i);
+        $destination = $context->createQueue('destination' . $i);
         $destination->setDurable(true);
         $destination->setAutoDelete(false);
 
-        $consumer = $session->createConsumer($destination);
+        $consumer = $context->createConsumer($destination);
         $consumer->setPrefetchCount(100);
 
         $consumers[$i] = $consumer;

@@ -1,14 +1,14 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
-use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
+use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\SessionInterface;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
 use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
 use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompMessageConsumer;
+use Formapro\MessageQueueStompTransport\Transport\StompConsumer;
 use Formapro\MessageQueueStompTransport\Transport\StompMessageProducer;
 use Formapro\MessageQueueStompTransport\Transport\StompSession;
 
@@ -75,7 +75,7 @@ class StompSessionTest extends \PHPUnit_Framework_TestCase
     {
         $session = new StompSession($this->createStompClientMock());
 
-        $this->assertInstanceOf(StompMessageConsumer::class, $session->createConsumer(new StompDestination('')));
+        $this->assertInstanceOf(StompConsumer::class, $session->createConsumer(new StompDestination('')));
     }
 
     public function testShouldCreateMessageProducerInstance()

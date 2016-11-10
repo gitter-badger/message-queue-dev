@@ -5,7 +5,7 @@ use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
-use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
+use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Transport\QueueInterface;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
 use Formapro\MessageQueueStompTransport\Transport\StompSession;

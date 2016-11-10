@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 
 use Formapro\Jms\Destination;
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
+use Formapro\Jms\Exception\InvalidDestinationException;
 
 class StompContext implements JMSContext
 {
@@ -58,13 +58,13 @@ class StompContext implements JMSContext
      *
      * @param StompDestination $destination
      *
-     * @return StompMessageConsumer
+     * @return StompConsumer
      */
     public function createConsumer(Destination $destination)
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, StompDestination::class);
 
-        return new StompMessageConsumer($this->stomp, $destination);
+        return new StompConsumer($this->stomp, $destination);
     }
 
     /**

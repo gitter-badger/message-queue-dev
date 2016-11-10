@@ -4,9 +4,13 @@ namespace Formapro\Jms;
 interface JMSContext
 {
     /**
+     * @param string $body
+     * @param array $properties
+     * @param array $headers
+     *
      * @return Message
      */
-    public function createMessage();
+    public function createMessage($body = '', array $properties = [], array $headers = []);
 
     /**
      * @param string $topicName

@@ -1,10 +1,10 @@
 <?php
-namespace Formapro\MessageQueue\Transport\Exception;
+namespace Formapro\Jms\Exception;
 
 /**
  * This is the root class of all transport's exceptions.
  *
- * @link https://docs.oracle.com/javaee/1.4/api/javax/jms/JMSException.html
+ * @link https://docs.oracle.com/javaee/7/api/javax/jms/JMSException.html
  */
 class Exception extends \Exception implements ExceptionInterface
 {

@@ -1,77 +1,22 @@
 <?php
 namespace Formapro\Jms;
 
-
 interface JMSProducer
 {
     /**
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function setProperty($name, $value);
-
-    /**
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public function getProperty($name);
-
-    /**
-     * @return $this
-     */
-    public function clearProperties();
-
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function propertyExists($name);
-
-    /**
-     * @param string $deliveryMode
-     *
-     * @return $this
-     */
-    public function setDeliveryMode($deliveryMode);
-
-    /**
-     * @return string
-     */
-    public function getDeliveryMode();
-
-    /**
-     * @param int $priority
-     *
-     * @return $this
-     */
-    public function setPriority($priority);
-
-    /**
-     * @return int
-     */
-    public function getPriority();
-
-    /**
-     * @param int $timeToLive
-     *
-     * @return $this
-     */
-    public function setTimeToLive($timeToLive);
-
-    /**
-     * @return int
-     */
-    public function getTimeToLive();
-
-    /**
      * @param Destination $destination
-     * @param string|Message $message
+     * @param Message $message
      *
-     * @return $this
+     * @return void
+     *
+     * @throws \Formapro\Jms\Exception\Exception - if the JMS provider fails to send
+     * the message due to some internal error.
+     *
+     * @throws \Formapro\Jms\Exception\InvalidDestinationException - if a client uses
+     * this method with an invalid destination.
+     *
+     * @throws \Formapro\Jms\Exception\InvalidMessageException - if an invalid message
+     * is specified.
      */
-    public function send(Destination $destination, $message);
+    public function send(Destination $destination, Message $message);
 }

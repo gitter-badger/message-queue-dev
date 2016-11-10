@@ -1,8 +1,6 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Transport;
 
-use Formapro\Jms\DeliveryMode;
-use Formapro\Jms\Destination;
 use Formapro\Jms\Message;
 use Stomp\Transport\Frame;
 
@@ -16,12 +14,17 @@ class StompMessage implements Message
     /**
      * @var array
      */
-    private $jmsProperties;
+    private $properties;
 
     /**
      * @var array
      */
-    private $properties;
+    private $headers;
+
+    /**
+     * @var boolean
+     */
+    private $redelivered;
 
     /**
      * @var Frame
@@ -31,12 +34,14 @@ class StompMessage implements Message
     /**
      * @param string $body
      * @param array $properties
+     * @param array $headers
      */
-    public function __construct($body = '', array $properties = [])
+    public function __construct($body = '', array $properties = [], array $headers = [])
     {
         $this->body = $body;
-        $this->jmsProperties = [];
         $this->properties = $properties;
+        $this->headers = $headers;
+        $this->redelivered = false;
     }
 
     /**
@@ -56,11 +61,19 @@ class StompMessage implements Message
     }
 
     /**
+     * @param array $properties
+     */
+    public function setProperties(array $properties)
+    {
+        $this->properties = $properties;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function clearBody()
+    public function getProperties()
     {
-        $this->body = '';
+        return $this->properties;
     }
 
     /**
@@ -74,224 +87,127 @@ class StompMessage implements Message
     /**
      * {@inheritdoc}
      */
-    public function getProperty($name)
+    public function getProperty($name, $default = null)
     {
-        return  $this->propertyExists($name) ? $this->properties[$name] : null;
+        return array_key_exists($name, $this->properties) ? $this->properties[$name] : $default;
+    }
+
+    /**
+     * @param array $headers
+     */
+    public function setHeaders(array $headers)
+    {
+        $this->headers = $headers;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function propertyExists($name)
+    public function getHeaders()
     {
-        return array_key_exists($name, $this->properties);
+        return $this->headers;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function clearProperties()
+    public function setHeader($name, $value)
     {
-        $this->properties = [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getProperties()
-    {
-        return $this->properties;
+        $this->headers[$name] = $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    private function setJmsProperty($name, $value)
+    public function getHeader($name, $default = null)
     {
-        $this->jmsProperties[$name] = $value;
+        return array_key_exists($name, $this->headers) ? $this->headers[$name] : $default;
+    }
+
+    /**
+     * note: rabbitmq STOMP protocol extension
+     *
+     * @return bool
+     */
+    public function isPersistent()
+    {
+        return $this->getHeader('persistent', false);
+    }
+
+    /**
+     * note: rabbitmq STOMP protocol extension
+     *
+     * @param bool $persistent
+     */
+    public function setPersistent($persistent)
+    {
+        $this->setHeader('persistent', (bool) $persistent);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRedelivered()
+    {
+        return $this->redelivered;
+    }
+
+    /**
+     * @param boolean $redelivered
+     */
+    public function setRedelivered($redelivered)
+    {
+        $this->redelivered = $redelivered;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getJmsProperty($name)
+    public function setCorrelationId($correlationId)
     {
-        return array_key_exists($name, $this->jmsProperties) ? $this->jmsProperties[$name] : null;
+        $this->setHeader('correlation_id', (string) $correlationId);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setJMSCorrelationID($correlationId)
+    public function getCorrelationId()
     {
-        $this->setJmsProperty('JMSCorrelationID', (string) $correlationId);
+        return $this->getHeader('correlation_id', '');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getJMSCorrelationID()
+    public function setMessageId($messageId)
     {
-        return $this->getJmsProperty('JMSCorrelationID');
+        $this->setHeader('message_id', (string) $messageId);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setJMSDeliveryMode($mode)
+    public function getMessageId()
     {
-        $this->setJmsProperty('JMSDeliveryMode', $mode);
+        return $this->getHeader('message_id', '');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getJMSDeliveryMode()
+    public function getTimestamp()
     {
-        return $this->getJmsProperty('JMSDeliveryMode');
+        $value = $this->getHeader('timestamp');
+
+        return $value === null ? null : (int) $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setJMSDeliveryTime($deliveryTime)
+    public function setTimestamp($timestamp)
     {
-        $this->setJmsProperty('JMSDeliveryTime', $deliveryTime);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSDeliveryTime()
-    {
-        return $this->getJmsProperty('JMSDeliveryTime');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSDestination(Destination $destination)
-    {
-        $this->setJmsProperty('JMSDestination', $destination);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSDestination()
-    {
-        return $this->getJmsProperty('JMSDestination');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSExpiration($expiration)
-    {
-        $this->setJmsProperty('JMSExpiration', $expiration);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSExpiration()
-    {
-        return $this->getJmsProperty('JMSExpiration');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSMessageID($messageId)
-    {
-        $this->setJmsProperty('JMSMessageID', $messageId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSMessageID()
-    {
-        return $this->getJmsProperty('JMSMessageID');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSPriority($priority)
-    {
-        $this->setJmsProperty('JMSPriority', $priority);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSPriority()
-    {
-        return $this->getJmsProperty('JMSPriority');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSRedelivered($redelivered)
-    {
-        $this->setJmsProperty('JMSRedelivered', $redelivered);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSRedelivered()
-    {
-        return $this->getJmsProperty('JMSRedelivered');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSReplyTo(Destination $destination)
-    {
-        $this->setJmsProperty('JMSReplyTo', $destination);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSReplyTo()
-    {
-        return $this->getJmsProperty('JMSReplyTo');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJMSTimestamp($timestamp)
-    {
-        $this->setJmsProperty('JMSTimestamp', $timestamp);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getJMSTimestamp()
-    {
-        return $this->getJmsProperty('JMSTimestamp');
-    }
-
-    /**
-     * @return array
-     */
-    public function toStompHeaders()
-    {
-        $headers = $this->properties;
-        $headers['JMSDeliveryMode'] = $this->getJMSDeliveryMode() === DeliveryMode::PERSISTENT ? 'PERSISTENT' : 'NON_PERSISTENT';
-        $headers['JMSMessageID'] = $this->getJMSMessageID();
-        $headers['JMSTimestamp'] = $this->getJMSTimestamp();
-        $headers['JMSPriority'] = $this->getJMSPriority();
-        $headers['JMSCorrelationID'] = $this->getJMSCorrelationID();
-
-        return $headers;
+        $this->setHeader('timestamp', $timestamp);
     }
 
     /**

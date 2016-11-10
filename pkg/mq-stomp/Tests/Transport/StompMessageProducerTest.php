@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
-use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Transport\Exception\InvalidMessageException;
+use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\MessageQueue\Transport\MessageProducerInterface;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;

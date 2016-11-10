@@ -3,8 +3,8 @@ namespace Formapro\MessageQueue\Tests\Unit\Transport\Exception;
 
 use Formapro\MessageQueue\Tests\Unit\Mock\DestinationBar;
 use Formapro\MessageQueue\Tests\Unit\Mock\DestinationFoo;
-use Formapro\MessageQueue\Transport\Exception\Exception as ExceptionInterface;
-use Formapro\MessageQueue\Transport\Exception\InvalidDestinationException;
+use Formapro\Jms\Exception\Exception as ExceptionInterface;
+use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase

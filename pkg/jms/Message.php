@@ -1,5 +1,6 @@
 <?php
 namespace Formapro\Jms;
+use Formapro\Jms\Exception\Exception;
 
 /**
  * The Message interface is the root interface of all transport messages.
@@ -15,6 +16,11 @@ namespace Formapro\Jms;
 interface Message
 {
     /**
+     * @return string
+     */
+    public function getBody();
+
+    /**
      * @param string $body
      *
      * @return void
@@ -22,14 +28,16 @@ interface Message
     public function setBody($body);
 
     /**
-     * @return mixed
-     */
-    public function getBody();
-
-    /**
+     * @param array $properties
+     *
      * @return void
      */
-    public function clearBody();
+    public function setProperties(array $properties);
+
+    /**
+     * @return array [name => value, ...]
+     */
+    public function getProperties();
 
     /**
      * @param string $name
@@ -41,140 +49,123 @@ interface Message
 
     /**
      * @param string $name
+     * @param mixed $default
      *
      * @return mixed
      */
-    public function getProperty($name);
+    public function getProperty($name, $default = null);
+
+    /**
+     * @param array $headers
+     *
+     * @return void
+     */
+    public function setHeaders(array $headers);
+
+    /**
+     * @return array [name => value, ...]
+     */
+    public function getHeaders();
 
     /**
      * @param string $name
-     *
-     * @return bool
-     */
-    public function propertyExists($name);
-
-    /**
-     * @return void
-     */
-    public function clearProperties();
-
-    /**
-     * @param string $correlationId
+     * @param mixed $value
      *
      * @return void
      */
-    public function setJMSCorrelationID($correlationId);
+    public function setHeader($name, $value);
 
     /**
+     * @param string $name
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getHeader($name, $default = null);
+
+    /**
+     * @param boolean $redelivered
+     */
+    public function setRedelivered($redelivered);
+
+    /**
+     * Gets an indication of whether this message is being redelivered.
+     * The message is considered as redelivered,
+     * when it was sent by a broker to consumer but consumer does not ACK or REJECT it.
+     * The broker brings the message back to the queue and mark it as redelivered.
+     *
+     * @return boolean
+     */
+    public function isRedelivered();
+
+    /**
+     * Sets the correlation ID for the message.
+     * A client can use the correlation header field to link one message with another.
+     * A typical use is to link a response message with its request message.
+     *
+     * @param string $correlationId the message ID of a message being referred to
+     *
+     * @throws Exception if the provider fails to set the correlation ID due to some internal error.
+     *
+     * @return void
+     */
+    public function setCorrelationId($correlationId);
+
+    /**
+     * Gets the correlation ID for the message.
+     * This method is used to return correlation ID values that are either provider-specific message IDs
+     * or application-specific String values.
+     *
+     * @throws Exception if the provider fails to get the correlation ID due to some internal error.
      * @return string
      */
-    public function getJMSCorrelationID();
+    public function getCorrelationId();
 
     /**
-     * @param string $mode
+     * Sets the message ID.
+     * Providers set this field when a message is sent.
+     * This method can be used to change the value for a message that has been received.
+     *
+     * @param string $messageId the ID of the message
+     *
+     * @throws Exception if the provider fails to set the message ID due to some internal error.
      *
      * @return void
      */
-    public function setJMSDeliveryMode($mode);
+    public function setMessageId($messageId);
 
     /**
+     * Gets the message Id.
+     * The MessageId header field contains a value that uniquely identifies each message sent by a provider.
+     *
+     * When a message is sent, MessageId can be ignored.
+     *
+     * @throws Exception if the provider fails to get the message ID due to some internal error.
+     *
      * @return string
      */
-    public function getJMSDeliveryMode();
+    public function getMessageId();
 
     /**
-     * @param int $deliveryTime
+     * Gets the message timestamp.
+     * The JMSTimestamp header field contains the time a message was handed off to a provider to be sent.
+     * It is not the time the message was actually transmitted,
+     * because the actual send may occur later due to transactions or other client-side queueing of messages.
      *
-     * @return void
-     */
-    public function setJMSDeliveryTime($deliveryTime);
-
-    /**
      * @return int
      */
-    public function getJMSDeliveryTime();
+    public function getTimestamp();
 
     /**
-     * @param Destination $destination
+     * Sets the message timestamp.
+     * Providers set this field when a message is sent.
+     * This method can be used to change the value for a message that has been received.
      *
-     * @return void
-     */
-    public function setJMSDestination(Destination $destination);
-
-    /**
-     * @return Destination
-     */
-    public function getJMSDestination();
-
-    /**
-     * @param int $expiration
-     *
-     * @return void
-     */
-    public function setJMSExpiration($expiration);
-
-    /**
-     * @return int
-     */
-    public function getJMSExpiration();
-
-    /**
-     * @param string $messageId
-     *
-     * @return void
-     */
-    public function setJMSMessageID($messageId);
-
-    /**
-     * @return string
-     */
-    public function getJMSMessageID();
-
-    /**
-     * @param int $priority
-     *
-     * @return void
-     */
-    public function setJMSPriority($priority);
-
-    /**
-     * @return int
-     */
-    public function getJMSPriority();
-
-    /**
-     * @param bool $redelivered
-     *
-     * @return void
-     */
-    public function setJMSRedelivered($redelivered);
-
-    /**
-     * @return bool
-     */
-    public function getJMSRedelivered();
-
-    /**
-     * @param Destination $destination
-     *
-     * @return void
-     */
-    public function setJMSReplyTo(Destination $destination);
-
-    /**
-     * @return Destination
-     */
-    public function getJMSReplyTo();
-
-    /**
      * @param int $timestamp
      *
+     * @throws Exception if the provider fails to set the timestamp due to some internal error.
+     *
      * @return void
      */
-    public function setJMSTimestamp($timestamp);
-
-    /**
-     * @return int
-     */
-    public function getJMSTimestamp();
+    public function setTimestamp($timestamp);
 }

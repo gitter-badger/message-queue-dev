@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueue\Transport\Exception;
+namespace Formapro\Jms\Exception;
 
 use Formapro\Jms\Destination;
 
