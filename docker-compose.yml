@@ -7,7 +7,6 @@ services:
     volumes:
       - ./:/mqs
     environment:
-      - FORMAPRO_MESSAGE_QUEUE_FUNCTIONAL_TESTS=1
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_USER=guest
       - RABBITMQ_PASSWORD=guest

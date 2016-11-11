@@ -43,6 +43,48 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         curl_close($ch);
     }
 
+    public function tearDown()
+    {
+       $this->stompContext->close();
+    }
+
+    public function testWaitsForTwoSecondsAndReturnNullOnReceive()
+    {
+        $queue = $this->stompContext->createQueue('stomp.test');
+        $queue->setDurable(true);
+        $queue->setAutoDelete(false);
+
+        $startAt = microtime(true);
+
+        $consumer = $this->stompContext->createConsumer($queue);
+        $message = $consumer->receive(2);
+
+        $endAt = microtime(true);
+
+        $this->assertNull($message);
+
+        $this->assertGreaterThan(1.5, $endAt - $startAt);
+        $this->assertLessThan(2.5, $endAt - $startAt);
+    }
+
+    public function testReturnNullImmediatelyOnReceiveNoWait()
+    {
+        $queue = $this->stompContext->createQueue('stomp.test');
+        $queue->setDurable(true);
+        $queue->setAutoDelete(false);
+
+        $startAt = microtime(true);
+
+        $consumer = $this->stompContext->createConsumer($queue);
+        $message = $consumer->receiveNoWait();
+
+        $endAt = microtime(true);
+
+        $this->assertNull($message);
+
+        $this->assertLessThan(0.5, $endAt - $startAt);
+    }
+
     public function testProduceAndReceiveOneMessage()
     {
         $queue = $this->stompContext->createQueue('stomp.test');
