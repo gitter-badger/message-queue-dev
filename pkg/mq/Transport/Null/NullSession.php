@@ -44,11 +44,11 @@ class NullSession implements SessionInterface
     /**
      * {@inheritdoc}
      *
-     * @return NullMessageConsumer
+     * @return NullConsumer
      */
     public function createConsumer(Destination $destination)
     {
-        return new NullMessageConsumer($destination);
+        return new NullConsumer($destination);
     }
     
     /**

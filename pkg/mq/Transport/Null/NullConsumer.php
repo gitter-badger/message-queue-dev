@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\Destination;
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
+use Formapro\Jms\Destination;
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\Message;
 
-class NullMessageConsumer implements MessageConsumerInterface
+class NullConsumer implements JMSConsumer
 {
     /**
      * @var Destination
@@ -51,14 +51,14 @@ class NullMessageConsumer implements MessageConsumerInterface
     /**
      * {@inheritdoc}
      */
-    public function acknowledge(MessageInterface $message)
+    public function acknowledge(Message $message)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function reject(MessageInterface $message, $requeue = false)
+    public function reject(Message $message, $requeue = false)
     {
     }
 }

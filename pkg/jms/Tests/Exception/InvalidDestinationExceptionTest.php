@@ -1,11 +1,10 @@
 <?php
-namespace Formapro\MessageQueue\Tests\Unit\Transport\Exception;
+namespace Formapro\Jms\Tests\Exception;
 
-use Formapro\MessageQueue\Tests\Unit\Mock\DestinationBar;
-use Formapro\MessageQueue\Tests\Unit\Mock\DestinationFoo;
+use Formapro\Jms\Destination;
 use Formapro\Jms\Exception\Exception as ExceptionInterface;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\Jms\Test\ClassExtensionTrait;
 
 class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,10 +22,10 @@ class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowIfAssertDestinationInstanceOfNotSameAsExpected()
     {
-        $this->setExpectedException(
-            InvalidDestinationException::class,
-            'The destination must be an instance of Formapro\MessageQueue\Tests\Unit\Mock\DestinationBar'.
-            ' but it is Formapro\MessageQueue\Tests\Unit\Mock\DestinationFoo.'
+        $this->expectException(InvalidDestinationException::class);
+        $this->expectExceptionMessage(
+            'The destination must be an instance of Formapro\Jms\Tests\Exception\DestinationBar'.
+            ' but it is Formapro\Jms\Tests\Exception\DestinationFoo.'
         );
 
         InvalidDestinationException::assertDestinationInstanceOf(new DestinationFoo(), DestinationBar::class);
@@ -36,4 +35,12 @@ class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase
     {
         InvalidDestinationException::assertDestinationInstanceOf(new DestinationFoo(), DestinationFoo::class);
     }
+}
+
+class DestinationBar implements Destination
+{
+}
+
+class DestinationFoo implements Destination
+{
 }

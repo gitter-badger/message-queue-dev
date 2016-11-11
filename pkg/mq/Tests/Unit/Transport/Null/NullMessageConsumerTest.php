@@ -3,7 +3,7 @@ namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
 use Formapro\MessageQueue\Transport\MessageConsumerInterface;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
-use Formapro\MessageQueue\Transport\Null\NullMessageConsumer;
+use Formapro\MessageQueue\Transport\Null\NullConsumer;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
@@ -13,17 +13,17 @@ class NullMessageConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageConsumerInterface()
     {
-        $this->assertClassImplements(MessageConsumerInterface::class, NullMessageConsumer::class);
+        $this->assertClassImplements(MessageConsumerInterface::class, NullConsumer::class);
     }
 
     public function testCouldBeConstructedWithQueueAsArgument()
     {
-        new NullMessageConsumer(new NullQueue('aName'));
+        new NullConsumer(new NullQueue('aName'));
     }
 
     public function testShouldAlwaysReturnNullOnReceive()
     {
-        $consumer = new NullMessageConsumer(new NullQueue('theQueueName'));
+        $consumer = new NullConsumer(new NullQueue('theQueueName'));
 
         $this->assertNull($consumer->receive());
         $this->assertNull($consumer->receive());
@@ -32,7 +32,7 @@ class NullMessageConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAlwaysReturnNullOnReceiveNoWait()
     {
-        $consumer = new NullMessageConsumer(new NullQueue('theQueueName'));
+        $consumer = new NullConsumer(new NullQueue('theQueueName'));
 
         $this->assertNull($consumer->receiveNoWait());
         $this->assertNull($consumer->receiveNoWait());
@@ -41,14 +41,14 @@ class NullMessageConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldDoNothingOnAcknowledge()
     {
-        $consumer = new NullMessageConsumer(new NullQueue('theQueueName'));
+        $consumer = new NullConsumer(new NullQueue('theQueueName'));
 
         $consumer->acknowledge(new NullMessage());
     }
 
     public function testShouldDoNothingOnReject()
     {
-        $consumer = new NullMessageConsumer(new NullQueue('theQueueName'));
+        $consumer = new NullConsumer(new NullQueue('theQueueName'));
 
         $consumer->reject(new NullMessage());
     }

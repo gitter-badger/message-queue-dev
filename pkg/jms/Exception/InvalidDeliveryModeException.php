@@ -3,7 +3,7 @@ namespace Formapro\Jms\Exception;
 
 use Formapro\Jms\DeliveryMode;
 
-class InvalidDeliveryModeException
+class InvalidDeliveryModeException extends Exception
 {
     /**
      * @param int $deliveryMode

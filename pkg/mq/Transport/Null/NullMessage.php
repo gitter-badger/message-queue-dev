@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\Jms\Message;
 
-class NullMessage implements MessageInterface
+class NullMessage implements Message
 {
     /**
      * @var string
@@ -68,6 +68,14 @@ class NullMessage implements MessageInterface
     /**
      * {@inheritdoc}
      */
+    public function setProperty($name, $value)
+    {
+        $this->properties[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getProperty($name, $default = null)
     {
         return array_key_exists($name, $this->properties) ? $this->properties[$name] : $default;
@@ -87,6 +95,14 @@ class NullMessage implements MessageInterface
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
     }
 
     /**

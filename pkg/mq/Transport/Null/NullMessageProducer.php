@@ -1,16 +1,16 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\MessageQueue\Transport\Destination;
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\MessageProducerInterface;
+use Formapro\Jms\Destination;
+use Formapro\Jms\JMSProducer;
+use Formapro\Jms\Message;
 
-class NullMessageProducer implements MessageProducerInterface
+class NullMessageProducer implements JMSProducer
 {
     /**
      * {@inheritdoc}
      */
-    public function send(Destination $destination, MessageInterface $message)
+    public function send(Destination $destination, Message $message)
     {
     }
 }

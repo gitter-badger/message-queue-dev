@@ -2,7 +2,7 @@
 namespace Formapro\MessageQueue\Tests\Unit\Transport\Null;
 
 use Formapro\MessageQueue\Transport\Null\NullMessage;
-use Formapro\MessageQueue\Transport\Null\NullMessageConsumer;
+use Formapro\MessageQueue\Transport\Null\NullConsumer;
 use Formapro\MessageQueue\Transport\Null\NullMessageProducer;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\Null\NullSession;
@@ -76,7 +76,7 @@ class NullSessionTest extends \PHPUnit_Framework_TestCase
 
         $consumer = $session->createConsumer($queue);
 
-        $this->assertInstanceOf(NullMessageConsumer::class, $consumer);
+        $this->assertInstanceOf(NullConsumer::class, $consumer);
     }
 
     public function testShouldAllowCreateProducer()
