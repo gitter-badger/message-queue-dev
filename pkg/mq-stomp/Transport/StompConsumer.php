@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueStompTransport\Transport;
 
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\Jms\Message;
 use Stomp\Client;
 use Stomp\Transport\Frame;
 
@@ -140,7 +140,7 @@ class StompConsumer implements JMSConsumer
      *
      * @param StompMessage $message
      */
-    public function acknowledge(MessageInterface $message)
+    public function acknowledge(Message $message)
     {
         InvalidMessageException::assertMessageInstanceOf($message, StompMessage::class);
 
@@ -154,7 +154,7 @@ class StompConsumer implements JMSConsumer
      *
      * @param StompMessage $message
      */
-    public function reject(MessageInterface $message, $requeue = false)
+    public function reject(Message $message, $requeue = false)
     {
         InvalidMessageException::assertMessageInstanceOf($message, StompMessage::class);
 

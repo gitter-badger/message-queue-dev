@@ -3,23 +3,23 @@ namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\MessageQueue\Transport\MessageProducerInterface;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\Jms\Message as JmsMessage;
+use Formapro\Jms\JMSProducer;
+use Formapro\Jms\Queue;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
 use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompMessageProducer;
+use Formapro\MessageQueueStompTransport\Transport\StompProducer;
 use Stomp\Client;
 use Stomp\Transport\Message;
 
-class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
+class StompProducerTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
     public function testShouldImplementMessageProducerInterface()
     {
-        $this->assertClassImplements(MessageProducerInterface::class, StompMessageProducer::class);
+        $this->assertClassImplements(JMSProducer::class, StompProducer::class);
     }
 
     public function testShouldThrowInvalidDestinationExceptionWhenDestinationIsWrongType()
@@ -27,9 +27,9 @@ class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidDestinationException::class);
         $this->expectExceptionMessage('The destination must be an instance of');
 
-        $producer = new StompMessageProducer($this->createStompClientMock());
+        $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send(new NullQueue(''), new StompMessage());
+        $producer->send($this->createMock(Queue::class), new StompMessage());
     }
 
     public function testShouldThrowInvalidMessageExceptionWhenMessageIsWrongType()
@@ -37,9 +37,9 @@ class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidMessageException::class);
         $this->expectExceptionMessage('The message must be an instance of');
 
-        $producer = new StompMessageProducer($this->createStompClientMock());
+        $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send(new StompDestination(''), new NullMessage());
+        $producer->send(new StompDestination(''), $this->createMock(JmsMessage::class));
     }
 
     public function testShouldSendMessage()
@@ -51,7 +51,7 @@ class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
             ->with('/queue/name', $this->isInstanceOf(Message::class))
         ;
 
-        $producer = new StompMessageProducer($client);
+        $producer = new StompProducer($client);
 
         $producer->send(new StompDestination('name'), new StompMessage('body'));
     }
@@ -68,7 +68,7 @@ class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
             })
         ;
 
-        $producer = new StompMessageProducer($client);
+        $producer = new StompProducer($client);
 
         $message = new StompMessage('', ['key' => 'value'], ['hkey' => false]);
 
@@ -76,10 +76,15 @@ class StompMessageProducerTest extends \PHPUnit_Framework_TestCase
 
         $expectedHeaders = [
             'hkey' => 'false',
-            '__property_key' => 's:value',
             'durable' => 'false',
             'auto-delete' => 'true',
             'exclusive' => 'false',
+            '_type_hkey' => 'b',
+            '_type_durable' => 'b',
+            '_type_auto-delete' => 'b',
+            '_type_exclusive' => 'b',
+            '_property_key' => 'value',
+            '_property__type_key' => 's',
         ];
 
         $this->assertEquals($expectedHeaders, $stompMessage->getHeaders());

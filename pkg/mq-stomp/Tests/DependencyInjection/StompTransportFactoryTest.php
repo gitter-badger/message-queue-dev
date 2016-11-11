@@ -70,10 +70,10 @@ class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
             'buffer_size' => 1000,
         ]);
 
-        $this->assertEquals('formapro_message_queue.transport.stomp.connection', $serviceId);
+        $this->assertEquals('formapro_message_queue.transport.stomp.context', $serviceId);
         $this->assertTrue($container->hasDefinition($serviceId));
 
-        $connection = $container->getDefinition('formapro_message_queue.transport.stomp.connection');
+        $connection = $container->getDefinition('formapro_message_queue.transport.stomp.context');
         $this->assertInstanceOf(Reference::class, $connection->getArgument(0));
         $this->assertEquals('formapro_message_queue.transport.stomp.client', (string) $connection->getArgument(0));
 

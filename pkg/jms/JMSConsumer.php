@@ -1,34 +1,56 @@
 <?php
 namespace Formapro\Jms;
 
+/**
+ * A client uses a MessageConsumer object to receive messages from a destination.
+ * A MessageConsumer object is created by passing a Destination object
+ * to a message-consumer creation method supplied by a session.
+ *
+ * @link https://docs.oracle.com/javaee/7/api/javax/jms/MessageConsumer.html
+ */
 interface JMSConsumer
 {
     /**
-     * @param int|float $timeout
+     * Gets the Queue associated with this queue receiver.
      *
-     * @return Message
+     * @return Queue
      */
-    public function receive($timeout);
+    public function getQueue();
 
     /**
-     * @return Message
+     * Receives the next message that arrives within the specified timeout interval.
+     * This call blocks until a message arrives, the timeout expires, or this message consumer is closed.
+     * A timeout of zero never expires, and the call blocks indefinitely.
+     *
+     * @param int $timeout the timeout value (in milliseconds)
+     *
+     * @return Message|null
+     */
+    public function receive($timeout = 0);
+
+    /**
+     * Receives the next message if one is immediately available.
+     *
+     * @return Message|null
      */
     public function receiveNoWait();
 
     /**
-     * @return void
-     */
-    public function close();
-
-    /**
-     * @param MessageListener $listener
+     * Tell the MQ broker that the message was processed successfully
+     *
+     * @param Message $message
      *
      * @return void
      */
-    public function setMessageListener(MessageListener $listener);
+    public function acknowledge(Message $message);
 
     /**
-     * @return MessageListener
+     * Tell the MQ broker that the message was rejected
+     *
+     * @param Message $message
+     * @param bool $requeue
+     *
+     * @return void
      */
-    public function getMessageListener();
+    public function reject(Message $message, $requeue = false);
 }

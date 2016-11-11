@@ -2,7 +2,7 @@
 require_once(__DIR__.'/../vendor/autoload.php');
 
 use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompConnection;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Stomp\Exception\ErrorFrameException;
 
 $url = 'tcp://localhost:61613';
@@ -15,35 +15,22 @@ try {
     $stomp->setLogin($login, $password);
     $stomp->setVhostname($vhost);
 
-    $connection = new StompConnection($stomp);
+    $context = new StompContext($stomp);
 
-    $context = $connection->createSession();
+    $destination = $context->createQueue('destination');
+    $destination->setDurable(true);
+    $destination->setAutoDelete(false);
 
-    $consumers = [];
-    $count = 100;
-
-    for ($i = 1; $i <= $count; $i++) {
-        $destination = $context->createQueue('destination' . $i);
-        $destination->setDurable(true);
-        $destination->setAutoDelete(false);
-
-        $consumer = $context->createConsumer($destination);
-        $consumer->setPrefetchCount(100);
-
-        $consumers[$i] = $consumer;
-    }
+    $consumer = $context->createConsumer($destination);
 
     while (true) {
-        for ($i = 1; $i <= $count; $i++) {
-            $consumer = $consumers[$i];
+        if ($message = $consumer->receive()) {
+            $consumer->acknowledge($message);
 
-            if ($message = $consumer->receive(0.001)) {
-                $consumer->acknowledge($message);
-                echo $i . ':' . $message->getBody() . PHP_EOL;
-                if ($i != $message->getBody()) {
-                    break;
-                }
-            }
+            var_dump($message->getBody());
+            var_dump($message->getProperties());
+            var_dump($message->getHeaders());
+            echo '-------------------------------------'.PHP_EOL;
         }
     }
 } catch (ErrorFrameException $e) {

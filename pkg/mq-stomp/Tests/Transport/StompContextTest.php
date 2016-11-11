@@ -2,35 +2,35 @@
 namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\Jms\JMSContext;
+use Formapro\Jms\Queue;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
 use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
 use Formapro\MessageQueueStompTransport\Transport\StompMessage;
 use Formapro\MessageQueueStompTransport\Transport\StompConsumer;
-use Formapro\MessageQueueStompTransport\Transport\StompMessageProducer;
-use Formapro\MessageQueueStompTransport\Transport\StompSession;
+use Formapro\MessageQueueStompTransport\Transport\StompProducer;
 
-class StompSessionTest extends \PHPUnit_Framework_TestCase
+class StompContextTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
     public function testShouldImplementSessionInterface()
     {
-        $this->assertClassImplements(SessionInterface::class, StompSession::class);
+        $this->assertClassImplements(JMSContext::class, StompContext::class);
     }
 
     public function testCouldBeCreatedWithRequiredArguments()
     {
-        new StompSession($this->createStompClientMock());
+        new StompContext($this->createStompClientMock());
     }
 
     public function testShouldCreateMessageInstance()
     {
-        $session = new StompSession($this->createStompClientMock());
+        $context = new StompContext($this->createStompClientMock());
 
-        $message = $session->createMessage('the body', ['key' => 'value'], ['hkey' => 'hvalue']);
+        $message = $context->createMessage('the body', ['key' => 'value'], ['hkey' => 'hvalue']);
 
         $this->assertInstanceOf(StompMessage::class, $message);
         $this->assertSame('the body', $message->getBody());
@@ -40,9 +40,9 @@ class StompSessionTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldCreateQueueInstance()
     {
-        $session = new StompSession($this->createStompClientMock());
+        $context = new StompContext($this->createStompClientMock());
 
-        $queue = $session->createQueue('the name');
+        $queue = $context->createQueue('the name');
 
         $this->assertInstanceOf(StompDestination::class, $queue);
         $this->assertSame('the name', $queue->getQueueName());
@@ -52,9 +52,9 @@ class StompSessionTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldCreateTopicInstance()
     {
-        $session = new StompSession($this->createStompClientMock());
+        $context = new StompContext($this->createStompClientMock());
 
-        $topic = $session->createTopic('the name');
+        $topic = $context->createTopic('the name');
 
         $this->assertInstanceOf(StompDestination::class, $topic);
         $this->assertSame('the name', $topic->getQueueName());
@@ -67,22 +67,22 @@ class StompSessionTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidDestinationException::class);
         $this->expectExceptionMessage('The destination must be an instance of');
 
-        $session = new StompSession($this->createStompClientMock());
-        $session->createConsumer(new NullQueue(''));
+        $session = new StompContext($this->createStompClientMock());
+        $session->createConsumer($this->createMock(Queue::class));
     }
 
     public function testShouldCreateMessageConsumerInstance()
     {
-        $session = new StompSession($this->createStompClientMock());
+        $context = new StompContext($this->createStompClientMock());
 
-        $this->assertInstanceOf(StompConsumer::class, $session->createConsumer(new StompDestination('')));
+        $this->assertInstanceOf(StompConsumer::class, $context->createConsumer(new StompDestination('')));
     }
 
     public function testShouldCreateMessageProducerInstance()
     {
-        $session = new StompSession($this->createStompClientMock());
+        $context = new StompContext($this->createStompClientMock());
 
-        $this->assertInstanceOf(StompMessageProducer::class, $session->createProducer());
+        $this->assertInstanceOf(StompProducer::class, $context->createProducer());
     }
 
     public function testShouldCloseConnections()
@@ -93,12 +93,12 @@ class StompSessionTest extends \PHPUnit_Framework_TestCase
             ->method('disconnect')
         ;
 
-        $session = new StompSession($client);
+        $context = new StompContext($client);
 
-        $session->createProducer();
-        $session->createConsumer(new StompDestination(''));
+        $context->createProducer();
+        $context->createConsumer(new StompDestination(''));
 
-        $session->close();
+        $context->close();
     }
 
     /**

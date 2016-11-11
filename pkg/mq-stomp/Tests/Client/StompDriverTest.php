@@ -1,18 +1,18 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Tests\Client;
 
+use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueueStompTransport\Client\StompDriver;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
 use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompMessageProducer;
-use Formapro\MessageQueueStompTransport\Transport\StompSession;
+use Formapro\MessageQueueStompTransport\Transport\StompProducer;
 
 class StompDriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,14 +25,14 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testCouldBeConstructedWithRequiredArguments()
     {
-        new StompDriver($this->createSessionMock(), new Config('', '', '', ''));
+        new StompDriver($this->createContextMock(), new Config('', '', '', ''));
     }
 
     public function testShouldReturnConfigObject()
     {
         $config = new Config('', '', '', '');
 
-        $driver = new StompDriver($this->createSessionMock(), $config);
+        $driver = new StompDriver($this->createContextMock(), $config);
 
         $this->assertSame($config, $driver->getConfig());
     }
@@ -41,7 +41,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
     {
         $expectedQueue = new StompDestination('');
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createQueue')
@@ -71,7 +71,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
     {
         $message = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createMessage')
@@ -85,12 +85,12 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowInvalidDestinationExceptionIfInvalidDestinationInstance()
     {
-        $driver = new StompDriver($this->createSessionMock(), new Config('', '', '', ''));
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
 
         $this->expectException(InvalidDestinationException::class);
         $this->expectExceptionMessage('The destination must be an instance of');
 
-        $driver->send(new NullQueue(''), new Message());
+        $driver->send($this->createMock(Queue::class), new Message());
     }
 
     public function testShouldSetContentTypeHeader()
@@ -99,7 +99,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -127,7 +127,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -155,7 +155,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -179,7 +179,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldThrowExceptionIfCantConvertClientPriorityToTransportPriority()
     {
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
 
         $queue = new StompDestination('');
         $message = new Message();
@@ -201,7 +201,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $delayTopic = new StompDestination('');
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -235,7 +235,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -263,7 +263,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -282,7 +282,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
         $driver = new StompDriver($session, new Config('', '', '', ''));
         $driver->send($queue, $message);
 
-        $this->assertSame('123', $transportMessage->getHeader('timestamp'));
+        $this->assertSame(123, $transportMessage->getHeader('timestamp'));
     }
 
     public function testShouldSetProperties()
@@ -291,7 +291,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -319,7 +319,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -347,7 +347,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -380,7 +380,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($queue), $this->identicalTo($transportMessage))
         ;
 
-        $session = $this->createSessionMock();
+        $session = $this->createContextMock();
         $session
             ->expects($this->once())
             ->method('createProducer')
@@ -399,18 +399,18 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|StompSession
+     * @return \PHPUnit_Framework_MockObject_MockObject|StompContext
      */
-    private function createSessionMock()
+    private function createContextMock()
     {
-        return $this->createMock(StompSession::class);
+        return $this->createMock(StompContext::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|StompMessageProducer
+     * @return \PHPUnit_Framework_MockObject_MockObject|StompProducer
      */
     private function createProducerMock()
     {
-        return $this->createMock(StompMessageProducer::class);
+        return $this->createMock(StompProducer::class);
     }
 }

@@ -1,21 +1,21 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Client;
 
+use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueue\Transport\QueueInterface;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompSession;
 
 class StompDriver implements DriverInterface
 {
     /**
-     * @var StompSession
+     * @var StompContext
      */
-    private $session;
+    private $context;
 
     /**
      * @var Config
@@ -28,12 +28,12 @@ class StompDriver implements DriverInterface
     private $priorityMap;
 
     /**
-     * @param StompSession $session
+     * @param StompContext $context
      * @param Config $config
      */
-    public function __construct(StompSession $session, Config $config)
+    public function __construct(StompContext $context, Config $config)
     {
-        $this->session = $session;
+        $this->context = $context;
         $this->config = $config;
 
         $this->priorityMap = [
@@ -50,7 +50,7 @@ class StompDriver implements DriverInterface
      */
     public function createTransportMessage()
     {
-        return $this->session->createMessage();
+        return $this->context->createMessage();
     }
 
     /**
@@ -58,7 +58,7 @@ class StompDriver implements DriverInterface
      *
      * @param StompDestination $queue
      */
-    public function send(QueueInterface $queue, Message $message)
+    public function send(Queue $queue, Message $message)
     {
         InvalidDestinationException::assertDestinationInstanceOf($queue, StompDestination::class);
 
@@ -82,7 +82,7 @@ class StompDriver implements DriverInterface
         if ($message->getDelay()) {
             $headers['x-delay'] = (string) ($message->getDelay() * 1000);
 
-            $destination = $this->session->createTopic($queue->getTopicName().'.delayed');
+            $destination = $this->context->createTopic($queue->getTopicName().'.delayed');
             $destination->setType(StompDestination::TYPE_EXCHANGE);
             $destination->setDurable(true);
             $destination->setAutoDelete(false);
@@ -102,7 +102,7 @@ class StompDriver implements DriverInterface
             $transportMessage->setTimestamp($message->getTimestamp());
         }
 
-        $this->session->createProducer()->send($destination, $transportMessage);
+        $this->context->createProducer()->send($destination, $transportMessage);
     }
 
     /**
@@ -110,7 +110,7 @@ class StompDriver implements DriverInterface
      */
     public function createQueue($queueName)
     {
-        $queue = $this->session->createQueue($queueName);
+        $queue = $this->context->createQueue($queueName);
         $queue->setDurable(true);
         $queue->setAutoDelete(false);
         $queue->setExclusive(false);

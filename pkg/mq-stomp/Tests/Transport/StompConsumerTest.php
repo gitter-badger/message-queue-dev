@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\Message;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
 use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
 use Formapro\MessageQueueStompTransport\Transport\StompDestination;
@@ -12,13 +12,13 @@ use Formapro\MessageQueueStompTransport\Transport\StompConsumer;
 use Stomp\Protocol\Protocol;
 use Stomp\Transport\Frame;
 
-class StompMessageConsumerTest extends \PHPUnit_Framework_TestCase
+class StompConsumerTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
     public function testShouldImplementMessageConsumerInterface()
     {
-        $this->assertClassImplements(MessageConsumerInterface::class, StompConsumer::class);
+        $this->assertClassImplements(JMSConsumer::class, StompConsumer::class);
     }
 
     public function testCouldBeConstructedWithRequiredAttributes()
@@ -78,7 +78,7 @@ class StompMessageConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage('The message must be an instance of');
 
         $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
-        $consumer->acknowledge(new NullMessage());
+        $consumer->acknowledge($this->createMock(Message::class));
     }
 
     public function testShouldAcknowledgeMessage()
@@ -115,7 +115,7 @@ class StompMessageConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage('The message must be an instance of');
 
         $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
-        $consumer->reject(new NullMessage());
+        $consumer->reject($this->createMock(Message::class));
     }
 
     public function testShouldRejectMessage()
@@ -283,9 +283,13 @@ class StompMessageConsumerTest extends \PHPUnit_Framework_TestCase
 
         $expectedExtraHeaders = [
             'durable' => 'true',
+            '_type_durable' => 'b',
             'auto-delete' => 'true',
+            '_type_auto-delete' => 'b',
             'exclusive' => 'true',
+            '_type_exclusive' => 'b',
             'prefetch-count' => '123',
+            '_type_prefetch-count' => 'i',
         ];
 
         $this->assertSame($expectedExtraHeaders, $subscribeFrame->getHeaders());
@@ -295,7 +299,8 @@ class StompMessageConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $headers = [
             'hkey' => 'hvalue',
-            '__property_key' => 's:value',
+            '_property_key' => 'value',
+            '_property__type_key' => 's',
             'redelivered' => 'true',
         ];
 

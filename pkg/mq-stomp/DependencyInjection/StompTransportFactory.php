@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueStompTransport\DependencyInjection;
 
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompConnection;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -59,13 +59,13 @@ class StompTransportFactory implements TransportFactoryInterface
         $clientId = sprintf('formapro_message_queue.transport.%s.client', $this->getName());
         $container->setDefinition($clientId, $client);
 
-        $connection = new Definition(StompConnection::class);
-        $connection->setArguments([new Reference($clientId)]);
+        $context = new Definition(StompContext::class);
+        $context->setArguments([new Reference($clientId)]);
 
-        $connectionId = sprintf('formapro_message_queue.transport.%s.connection', $this->getName());
-        $container->setDefinition($connectionId, $connection);
+        $contextId = sprintf('formapro_message_queue.transport.%s.context', $this->getName());
+        $container->setDefinition($contextId, $context);
 
-        return $connectionId;
+        return $contextId;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueueStompTransport\Tests\Transport;
 
-use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\Jms\Message;
 use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
 use Formapro\MessageQueueStompTransport\Transport\StompMessage;
 use Stomp\Transport\Frame;
@@ -12,7 +12,7 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageInterface()
     {
-        $this->assertClassImplements(MessageInterface::class, StompMessage::class);
+        $this->assertClassImplements(Message::class, StompMessage::class);
     }
 
     public function testCouldConstructMessageWithBody()
@@ -76,7 +76,7 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
 
         $message->setPersistent(true);
-        $this->assertSame(['persistent' => 'true'], $message->getHeaders());
+        $this->assertSame(['persistent' => true], $message->getHeaders());
     }
 
     public function testCouldSetGetRedelivered()
@@ -135,7 +135,7 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setTimestamp(12345);
 
-        $this->assertSame(['timestamp' => '12345'], $message->getHeaders());
+        $this->assertSame(['timestamp' => 12345], $message->getHeaders());
     }
 
     public function testCouldSetGetFrame()
