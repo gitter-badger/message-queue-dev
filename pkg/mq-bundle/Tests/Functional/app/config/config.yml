@@ -22,12 +22,12 @@ monolog:
 
 doctrine:
     dbal:
-        driver:   "pdo_mysql"
-        host:     "localhost"
-        port:     ~
-        dbname:   test
-        user:     root
-        password: ~
+        driver:   "%db.driver%"
+        host:     "%db.host%"
+        port:     "%db.port%"
+        dbname:   "%db.name%"
+        user:     "%db.user%"
+        password: "%db.password%"
         charset:  UTF8
 
 formapro_message_queue:
