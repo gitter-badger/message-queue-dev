@@ -2,11 +2,11 @@
 namespace Formapro\MessageQueueBundle\Tests\Unit\Consumption\Extension;
 
 use Doctrine\DBAL\Connection;
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\JMSContext;
 use Formapro\MessageQueueBundle\Consumption\Extension\DoctrinePingConnectionExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -96,9 +96,9 @@ class DoctrinePingConnectionExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected function createContext()
     {
-        $context = new Context($this->createMock(SessionInterface::class));
+        $context = new Context($this->createMock(JMSContext::class));
         $context->setLogger($this->createMock(LoggerInterface::class));
-        $context->setConsumer($this->createMock(MessageConsumerInterface::class));
+        $context->setConsumer($this->createMock(JMSConsumer::class));
         $context->setMessageProcessor($this->createMock(MessageProcessorInterface::class));
 
         return $context;

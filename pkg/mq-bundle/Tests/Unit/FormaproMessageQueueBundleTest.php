@@ -98,6 +98,8 @@ class FormaproMessageQueueBundleTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldRegisterDbalTransportFactory()
     {
+        $this->markTestSkipped('Dbal transport is not ready');
+
         $extensionMock = $this->createMock(FormaproMessageQueueExtension::class);
 
         $extensionMock

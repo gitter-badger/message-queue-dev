@@ -130,6 +130,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowConfigureDBALTransport()
     {
+        $this->markTestSkipped('Dbal transport is not ready');
+
         $configuration = new Configuration([
             new DefaultTransportFactory(),
             new DbalTransportFactory()
@@ -175,7 +177,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'default' => ['alias' => 'foo'],
             ],
             'client' => [
-                'prefix' => 'fp',
+                'prefix' => 'formapro',
                 'router_processor' => 'formapro_message_queue.client.route_message_processor',
                 'router_destination' => 'default',
                 'default_destination' => 'default',

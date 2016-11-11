@@ -5,13 +5,13 @@ namespace Formapro\MessageQueueBundle\DependencyInjection;
 use Formapro\MessageQueue\Client\NullDriver;
 use Formapro\MessageQueue\Client\TraceableMessageProducer;
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use Formapro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Formapro\MessageQueueDbalTransport\Transport\DbalLazyConnection;
 use Formapro\MessageQueueJob\Job\Job;
 use Formapro\MessageQueueStompTransport\Client\StompDriver;
-use Formapro\MessageQueueStompTransport\Transport\StompConnection;
+use Formapro\MessageQueueStompTransport\Transport\StompContext;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -66,7 +66,7 @@ class FormaproMessageQueueExtension extends Extension
             $loader->load('client.yml');
 
             $drivers = [
-                NullConnection::class => NullDriver::class,
+                NullContext::class => NullDriver::class,
             ];
 
             if (class_exists(DbalConnection::class)) {
@@ -74,8 +74,8 @@ class FormaproMessageQueueExtension extends Extension
                 $drivers[DbalLazyConnection::class] = DbalDriver::class;
             }
 
-            if (class_exists(StompConnection::class)) {
-                $drivers[StompConnection::class] = StompDriver::class;
+            if (class_exists(StompContext::class)) {
+                $drivers[StompContext::class] = StompDriver::class;
             }
 
             $driverFactory = $container->getDefinition('formapro_message_queue.client.driver_factory');

@@ -14,7 +14,7 @@ services:
     formapro_message_queue.consumption.queue_consumer:
         class: 'Formapro\MessageQueue\Consumption\QueueConsumer'
         arguments:
-            - '@formapro_message_queue.transport.connection'
+            - '@formapro_message_queue.transport.context'
             - '@formapro_message_queue.consumption.extensions'
 
     formapro_message_queue.command.consume_messages:
