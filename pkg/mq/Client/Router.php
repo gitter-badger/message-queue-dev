@@ -1,10 +1,10 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
+use Formapro\Jms\Message as JMSMessage;
 use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Formapro\MessageQueue\Router\Recipient;
 use Formapro\MessageQueue\Router\RecipientListRouterInterface;
-use Formapro\MessageQueue\Transport\MessageInterface;
 
 class Router implements RecipientListRouterInterface
 {
@@ -78,7 +78,7 @@ class Router implements RecipientListRouterInterface
     /**
      * {@inheritdoc}
      */
-    public function route(MessageInterface $message)
+    public function route(JMSMessage $message)
     {
         $topicName = $message->getProperty(Config::PARAMETER_TOPIC_NAME);
         if (false == $topicName) {
@@ -102,13 +102,13 @@ class Router implements RecipientListRouterInterface
     }
 
     /**
-     * @param MessageInterface $message
+     * @param JMSMessage $message
      * @param string $processorName
      * @param string $queueName
      *
      * @return Recipient
      */
-    protected function createRecipient(MessageInterface $message, $processorName, $queueName)
+    protected function createRecipient(JMSMessage $message, $processorName, $queueName)
     {
         $properties = $message->getProperties();
         $properties[Config::PARAMETER_PROCESSOR_NAME] = $processorName;

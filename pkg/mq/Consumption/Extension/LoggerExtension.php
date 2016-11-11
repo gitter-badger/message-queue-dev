@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueue\Consumption\Extension;
 
+use Formapro\Jms\Message;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Formapro\MessageQueue\Consumption\Result;
-use Formapro\MessageQueue\Transport\MessageInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggerExtension implements ExtensionInterface
@@ -66,11 +66,11 @@ class LoggerExtension implements ExtensionInterface
     }
 
     /**
-     * @param MessageInterface $message
+     * @param Message $message
      *
      * @return array
      */
-    private function messageToLogContext(MessageInterface $message)
+    private function messageToLogContext(Message $message)
     {
         return [
             'body' => $message->getBody(),

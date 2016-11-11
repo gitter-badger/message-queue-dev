@@ -1,22 +1,19 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\JMSContext;
+use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
-use Formapro\MessageQueue\Transport\ConnectionInterface;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\Queue;
 use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
-/**
- * @SuppressWarnings(PHPMD.NPathComplexity)
- */
 class QueueConsumer
 {
     /**
-     * @var ConnectionInterface
+     * @var JMSContext
      */
-    private $connection;
+    private $context;
 
     /**
      * @var ExtensionInterface|ChainExtension|null
@@ -38,16 +35,16 @@ class QueueConsumer
     private $idleMicroseconds;
 
     /**
-     * @param ConnectionInterface $connection
+     * @param JMSContext $context
      * @param ExtensionInterface|ChainExtension|null $extension
      * @param int $idleMicroseconds 100ms by default
      */
     public function __construct(
-        ConnectionInterface $connection,
+        JMSContext $context,
         ExtensionInterface $extension = null,
         $idleMicroseconds = 100000
     ) {
-        $this->connection = $connection;
+        $this->context = $context;
         $this->extension = $extension;
         $this->idleMicroseconds = $idleMicroseconds;
 
@@ -55,11 +52,11 @@ class QueueConsumer
     }
 
     /**
-     * @return ConnectionInterface
+     * @return JMSContext
      */
-    public function getConnection()
+    public function getContext()
     {
-        return $this->connection;
+        return $this->context;
     }
 
     /**
@@ -92,13 +89,11 @@ class QueueConsumer
      */
     public function consume(ExtensionInterface $runtimeExtension = null)
     {
-        $session = $this->connection->createSession();
-
-        /** @var MessageConsumerInterface[] $messageConsumers */
+        /** @var JMSConsumer[] $messageConsumers */
         $messageConsumers = [];
         /** @var Queue $queue */
         foreach ($this->boundMessageProcessors as list($queue, $messageProcessor)) {
-            $messageConsumers[$queue->getQueueName()] = $session->createConsumer($queue);
+            $messageConsumers[$queue->getQueueName()] = $this->context->createConsumer($queue);
         }
 
         $extension = $this->extension ?: new ChainExtension([]);
@@ -106,7 +101,7 @@ class QueueConsumer
             $extension = new ChainExtension([$extension, $runtimeExtension]);
         }
 
-        $context = new Context($session);
+        $context = new Context($this->context);
         $extension->onStart($context);
 
         $logger = $context->getLogger() ?: new NullLogger();
@@ -120,10 +115,10 @@ class QueueConsumer
 
                     $messageConsumer = $messageConsumers[$queue->getQueueName()];
 
-                    $context = new Context($session);
+                    $context = new Context($this->context);
                     $context->setLogger($logger);
                     $context->setQueue($queue);
-                    $context->setMessageConsumer($messageConsumer);
+                    $context->setConsumer($messageConsumer);
                     $context->setMessageProcessor($messageProcessor);
 
                     $this->doConsume($extension, $context);
@@ -134,7 +129,7 @@ class QueueConsumer
                 $context->setExecutionInterrupted(true);
 
                 $extension->onInterrupted($context);
-                $session->close();
+                $this->context->close();
 
                 return;
             } catch (\Exception $exception) {
@@ -143,10 +138,10 @@ class QueueConsumer
 
                 try {
                     $this->onInterruptionByException($extension, $context);
-                    $session->close();
+                    $this->context->close();
                 } catch (\Exception $e) {
                     // for some reason finally does not work here on php5.5
-                    $session->close();
+                    $this->context->close();
 
                     throw $e;
                 }
@@ -164,9 +159,8 @@ class QueueConsumer
      */
     protected function doConsume(ExtensionInterface $extension, Context $context)
     {
-        $session = $context->getSession();
         $messageProcessor = $context->getMessageProcessor();
-        $messageConsumer = $context->getMessageConsumer();
+        $messageConsumer = $context->getConsumer();
         $logger = $context->getLogger();
 
         $extension->onBeforeReceive($context);
@@ -185,7 +179,7 @@ class QueueConsumer
 
             $extension->onPreReceived($context);
             if (!$context->getResult()) {
-                $status = $messageProcessor->process($message, $session);
+                $status = $messageProcessor->process($message, $this->context);
                 $context->setResult($status);
             }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
+use Formapro\Jms\JMSContext;
 use Formapro\MessageQueue\Transport\ConnectionInterface;
 
 class DriverFactory
@@ -8,35 +9,35 @@ class DriverFactory
     /**
      * @var string[]
      */
-    private $connectionToDriverMap;
+    private $contextToDriverMap;
 
     /**
-     * @param array $connectionToDriverMap The array must have next structure ['connectionClass' => 'driverClass']
+     * @param array $contextToDriverMap The array must have next structure ['contextClass' => 'driverClass']
      */
-    public function __construct(array $connectionToDriverMap)
+    public function __construct(array $contextToDriverMap)
     {
-        $this->connectionToDriverMap = $connectionToDriverMap;
+        $this->contextToDriverMap = $contextToDriverMap;
     }
 
     /**
-     * @param ConnectionInterface $connection
+     * @param JMSContext $context
      * @param Config     $config
      *
      * @return DriverInterface
      */
-    public function create(ConnectionInterface $connection, Config $config)
+    public function create(JMSContext $context, Config $config)
     {
-        $connectionClass = get_class($connection);
+        $contextClass = get_class($context);
 
-        if (array_key_exists($connectionClass, $this->connectionToDriverMap)) {
-            $driverClass = $this->connectionToDriverMap[$connectionClass];
+        if (array_key_exists($contextClass, $this->contextToDriverMap)) {
+            $driverClass = $this->contextToDriverMap[$contextClass];
 
-            return new $driverClass($connection->createSession(), $config);
+            return new $driverClass($context, $config);
         } else {
             throw new \LogicException(sprintf(
-                'Unexpected connection instance: "%s", supported "%s"',
-                get_class($connection),
-                implode('", "', array_keys($this->connectionToDriverMap))
+                'Unexpected context instance: "%s", supported "%s"',
+                get_class($context),
+                implode('", "', array_keys($this->contextToDriverMap))
             ));
         }
     }

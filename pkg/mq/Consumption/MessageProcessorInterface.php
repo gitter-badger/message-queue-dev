@@ -1,16 +1,16 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\SessionInterface;
+use Formapro\Jms\JMSContext;
+use Formapro\Jms\Message;
 
 interface MessageProcessorInterface
 {
     /**
-     * @param MessageInterface $message
-     * @param SessionInterface $session
+     * @param Message $message
+     * @param JMSContext $context
      *
      * @return string
      */
-    public function process(MessageInterface $message, SessionInterface $session);
+    public function process(Message $message, JMSContext $context);
 }

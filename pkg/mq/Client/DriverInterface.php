@@ -1,12 +1,13 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
+use Formapro\Jms\Message as JMSMessage;
 use Formapro\Jms\Queue;
 
 interface DriverInterface
 {
     /**
-     * @return Message
+     * @return JMSMessage
      */
     public function createTransportMessage();
 

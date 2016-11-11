@@ -1,24 +1,24 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
+use Formapro\Jms\JMSConsumer;
+use Formapro\Jms\JMSContext;
+use Formapro\Jms\Message;
+use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\MessageConsumerInterface;
-use Formapro\MessageQueue\Transport\Queue;
-use Formapro\MessageQueue\Transport\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 class Context
 {
     /**
-     * @var SessionInterface
+     * @var JMSContext
      */
-    private $session;
+    private $context;
 
     /**
-     * @var MessageConsumerInterface
+     * @var JMSConsumer
      */
-    private $messageConsumer;
+    private $consumer;
 
     /**
      * @var MessageProcessorInterface
@@ -31,7 +31,7 @@ class Context
     private $logger;
 
     /**
-     * @var MessageInterface
+     * @var Message
      */
     private $message;
 
@@ -56,17 +56,17 @@ class Context
     private $executionInterrupted;
 
     /**
-     * @param SessionInterface $session
+     * @param JMSContext $context
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(JMSContext $context)
     {
-        $this->session = $session;
+        $this->context = $context;
         
         $this->executionInterrupted = false;
     }
 
     /**
-     * @return MessageInterface
+     * @return Message
      */
     public function getMessage()
     {
@@ -74,9 +74,9 @@ class Context
     }
 
     /**
-     * @param MessageInterface $message
+     * @param Message $message
      */
-    public function setMessage(MessageInterface $message)
+    public function setMessage(Message $message)
     {
         if ($this->message) {
             throw new IllegalContextModificationException('The message could be set once');
@@ -86,31 +86,31 @@ class Context
     }
 
     /**
-     * @return SessionInterface
+     * @return JMSContext
      */
-    public function getSession()
+    public function getContext()
     {
-        return $this->session;
+        return $this->context;
     }
 
     /**
-     * @return MessageConsumerInterface
+     * @return JMSConsumer
      */
-    public function getMessageConsumer()
+    public function getConsumer()
     {
-        return $this->messageConsumer;
+        return $this->consumer;
     }
 
     /**
-     * @param MessageConsumerInterface $messageConsumer
+     * @param JMSConsumer $consumer
      */
-    public function setMessageConsumer(MessageConsumerInterface $messageConsumer)
+    public function setConsumer(JMSConsumer $consumer)
     {
-        if ($this->messageConsumer) {
+        if ($this->consumer) {
             throw new IllegalContextModificationException('The message consumer could be set once');
         }
 
-        $this->messageConsumer = $messageConsumer;
+        $this->consumer = $consumer;
     }
 
     /**

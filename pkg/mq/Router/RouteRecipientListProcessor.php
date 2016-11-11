@@ -1,10 +1,10 @@
 <?php
 namespace Formapro\MessageQueue\Router;
 
+use Formapro\Jms\JMSContext;
+use Formapro\Jms\Message;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\Result;
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\SessionInterface as TransportSession;
 
 class RouteRecipientListProcessor implements MessageProcessorInterface
 {
@@ -24,9 +24,9 @@ class RouteRecipientListProcessor implements MessageProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(MessageInterface $message, TransportSession $session)
+    public function process(Message $message, JMSContext $context)
     {
-        $producer = $session->createProducer();
+        $producer = $context->createProducer();
         foreach ($this->router->route($message) as $recipient) {
             $producer->send($recipient->getDestination(), $recipient->getMessage());
         }

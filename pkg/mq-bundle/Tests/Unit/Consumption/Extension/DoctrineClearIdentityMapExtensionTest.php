@@ -50,7 +50,7 @@ class DoctrineClearIdentityMapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $context = new Context($this->createMock(SessionInterface::class));
         $context->setLogger($this->createMock(LoggerInterface::class));
-        $context->setMessageConsumer($this->createMock(MessageConsumerInterface::class));
+        $context->setConsumer($this->createMock(MessageConsumerInterface::class));
         $context->setMessageProcessor($this->createMock(MessageProcessorInterface::class));
 
         return $context;

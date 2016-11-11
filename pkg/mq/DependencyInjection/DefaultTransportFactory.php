@@ -41,13 +41,13 @@ class DefaultTransportFactory implements TransportFactoryInterface
      */
     public function createService(ContainerBuilder $container, array $config)
     {
-        $connectionId = sprintf('formapro_message_queue.transport.%s.connection', $this->getName());
-        $aliasId = sprintf('formapro_message_queue.transport.%s.connection', $config['alias']);
+        $contextId = sprintf('formapro_message_queue.transport.%s.context', $this->getName());
+        $aliasId = sprintf('formapro_message_queue.transport.%s.context', $config['alias']);
         
-        $container->setAlias($connectionId, $aliasId);
-        $container->setAlias('formapro_message_queue.transport.connection', $connectionId);
+        $container->setAlias($contextId, $aliasId);
+        $container->setAlias('formapro_message_queue.transport.context', $contextId);
 
-        return $connectionId;
+        return $contextId;
     }
 
     /**

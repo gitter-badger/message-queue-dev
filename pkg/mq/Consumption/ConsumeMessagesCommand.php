@@ -71,13 +71,13 @@ class ConsumeMessagesCommand extends Command implements ContainerAwareInterface
         $runtimeExtensions = new ChainExtension($extensions);
 
         try {
-            $queue = $this->consumer->getConnection()->createSession()->createQueue($queueName);
+            $queue = $this->consumer->getContext()->createQueue($queueName);
             // @todo set additional queue options
 
             $this->consumer->bind($queue, $messageProcessor);
             $this->consumer->consume($runtimeExtensions);
         } finally {
-            $this->consumer->getConnection()->close();
+            $this->consumer->getContext()->close();
         }
     }
 }

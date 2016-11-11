@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
+use Formapro\Jms\Message as JMSMessage;
+use Formapro\Jms\JMSContext;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
-use Formapro\MessageQueue\Transport\MessageInterface;
-use Formapro\MessageQueue\Transport\SessionInterface as TransportSession;
 
 class DelegateMessageProcessor implements MessageProcessorInterface
 {
@@ -23,7 +23,7 @@ class DelegateMessageProcessor implements MessageProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(MessageInterface $message, TransportSession $session)
+    public function process(JMSMessage $message, JMSContext $context)
     {
         $processorName = $message->getProperty(Config::PARAMETER_PROCESSOR_NAME);
         if (false == $processorName) {
@@ -33,6 +33,6 @@ class DelegateMessageProcessor implements MessageProcessorInterface
             ));
         }
 
-        return $this->registry->get($processorName)->process($message, $session);
+        return $this->registry->get($processorName)->process($message, $context);
     }
 }

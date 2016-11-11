@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\DependencyInjection;
 
-use Formapro\MessageQueue\Transport\Null\NullConnection;
+use Formapro\MessageQueue\Transport\Null\NullContext;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -33,12 +33,12 @@ class NullTransportFactory implements TransportFactoryInterface
      */
     public function createService(ContainerBuilder $container, array $config)
     {
-        $connectionId = sprintf('formapro_message_queue.transport.%s.connection', $this->getName());
-        $connection = new Definition(NullConnection::class);
+        $contextId = sprintf('formapro_message_queue.transport.%s.context', $this->getName());
+        $context = new Definition(NullContext::class);
         
-        $container->setDefinition($connectionId, $connection);
+        $container->setDefinition($contextId, $context);
         
-        return $connectionId;
+        return $contextId;
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 namespace Formapro\MessageQueue\Router;
 
-use Formapro\MessageQueue\Transport\MessageInterface;
+use Formapro\Jms\Message;
 
 interface RecipientListRouterInterface
 {
     /**
-     * @param MessageInterface $message
+     * @param Message $message
      *
      * @return \Traversable|Recipient[]
      */
-    public function route(MessageInterface $message);
+    public function route(Message $message);
 }

@@ -2,15 +2,15 @@
 namespace Formapro\MessageQueue\Client;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\Null\NullSession;
-use Formapro\MessageQueue\Transport\Queue;
+use Formapro\MessageQueue\Transport\Null\NullContext;
 
 class NullDriver implements DriverInterface
 {
     /**
-     * @var NullSession
+     * @var NullContext
      */
     protected $session;
 
@@ -20,10 +20,10 @@ class NullDriver implements DriverInterface
     protected $config;
 
     /**
-     * @param NullSession $session
+     * @param NullContext $session
      * @param Config               $config
      */
-    public function __construct(NullSession $session, Config $config)
+    public function __construct(NullContext $session, Config $config)
     {
         $this->session = $session;
         $this->config = $config;
