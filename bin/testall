@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -x
-set -e
-
-(cd pkg/jms && ../../bin/phpunit -c phpunit.xml.dist --bootstrap ../../vendor/autoload.php)
-(cd pkg/mq && ../../bin/phpunit -c phpunit.xml.dist --bootstrap ../../vendor/autoload.php)
-(cd pkg/mq-stomp && ../../bin/phpunit -c phpunit.xml.dist --bootstrap ../../vendor/autoload.php)
-(cd pkg/mq-bundle && ../../bin/phpunit -c phpunit.xml.dist --bootstrap ../../vendor/autoload.php)
