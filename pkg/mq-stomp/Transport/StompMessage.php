@@ -225,4 +225,20 @@ class StompMessage implements Message
     {
         $this->frame = $frame;
     }
+
+    /**
+     * @param string|null $replyTo
+     */
+    public function setReplyTo($replyTo)
+    {
+        $this->setHeader('reply_to', $replyTo);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReplyTo()
+    {
+        return $this->getHeader('reply_to');
+    }
 }

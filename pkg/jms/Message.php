@@ -168,4 +168,26 @@ interface Message
      * @return void
      */
     public function setTimestamp($timestamp);
+
+    /**
+     * Sets the destination to which a reply to this message should be sent.
+     * The ReplyTo header field contains the destination where a reply to the current message should be sent. If it is null, no reply is expected.
+     * The destination may be a Queue only. A topic is not supported at the moment.
+     * Messages sent with a null ReplyTo value may be a notification of some event, or they may just be some data the sender thinks is of interest.
+     * Messages with a ReplyTo value typically expect a response.
+     * A response is optional; it is up to the client to decide. These messages are called requests.
+     * A message sent in response to a request is called a reply.
+     * In some cases a client may wish to match a request it sent earlier with a reply it has just received.
+     * The client can use the JMSCorrelationID header field for this purpose.
+     *
+     * @param string|null $replyTo
+     */
+    public function setReplyTo($replyTo);
+
+    /**
+     * Gets the destination to which a reply to this message should be sent.
+     *
+     * @return string|null
+     */
+    public function getReplyTo();
 }

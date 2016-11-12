@@ -27,6 +27,15 @@ interface JMSContext
     public function createQueue($queueName);
 
     /**
+     * Create temporary queue.
+     * The queue is visible by this connection only.
+     * It will be deleted once the connection is closed.
+     *
+     * @return Queue
+     */
+    public function createTemporaryQueue();
+
+    /**
      * @return JMSProducer
      */
     public function createProducer();

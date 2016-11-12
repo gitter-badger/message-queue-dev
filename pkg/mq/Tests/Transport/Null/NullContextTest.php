@@ -26,9 +26,9 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowCreateMessageWithoutAnyArguments()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
-        $message = $session->createMessage();
+        $message = $context->createMessage();
 
         $this->assertInstanceOf(NullMessage::class, $message);
 
@@ -39,9 +39,9 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowCreateCustomMessage()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
-        $message = $session->createMessage('theBody', ['theProperty'], ['theHeader']);
+        $message = $context->createMessage('theBody', ['theProperty'], ['theHeader']);
 
         $this->assertInstanceOf(NullMessage::class, $message);
 
@@ -52,38 +52,38 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowCreateQueue()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
-        $queue = $session->createQueue('aName');
+        $queue = $context->createQueue('aName');
         
         $this->assertInstanceOf(NullQueue::class, $queue);
     }
 
     public function testShouldAllowCreateTopic()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
-        $topic = $session->createTopic('aName');
+        $topic = $context->createTopic('aName');
 
         $this->assertInstanceOf(NullTopic::class, $topic);
     }
 
     public function testShouldAllowCreateConsumerForGivenQueue()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
         $queue = new NullQueue('aName');
 
-        $consumer = $session->createConsumer($queue);
+        $consumer = $context->createConsumer($queue);
 
         $this->assertInstanceOf(NullConsumer::class, $consumer);
     }
 
     public function testShouldAllowCreateProducer()
     {
-        $session = new NullContext();
+        $context = new NullContext();
 
-        $producer = $session->createProducer();
+        $producer = $context->createProducer();
 
         $this->assertInstanceOf(NullProducer::class, $producer);
     }
@@ -92,16 +92,16 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
     {
         $queue = new NullQueue('theQueueName');
 
-        $session = new NullContext();
-        $session->declareQueue($queue);
+        $context = new NullContext();
+        $context->declareQueue($queue);
     }
 
     public function testShouldDoNothingOnDeclareTopic()
     {
         $topic = new NullTopic('theTopicName');
 
-        $session = new NullContext();
-        $session->declareTopic($topic);
+        $context = new NullContext();
+        $context->declareTopic($topic);
     }
 
     public function testShouldDoNothingOnDeclareBind()
@@ -109,7 +109,20 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
         $topic = new NullTopic('theTopicName');
         $queue = new NullQueue('theQueueName');
 
-        $session = new NullContext();
-        $session->declareBind($topic, $queue);
+        $context = new NullContext();
+        $context->declareBind($topic, $queue);
+    }
+    
+    public function testShouldCreateTempraryQueueWithUnqiueName()
+    {
+        $context = new NullContext();
+
+        $firstTmpQueue = $context->createTemporaryQueue();
+        $secondTmpQueue = $context->createTemporaryQueue();
+
+        $this->assertInstanceOf(NullQueue::class, $firstTmpQueue);
+        $this->assertInstanceOf(NullQueue::class, $secondTmpQueue);
+
+        $this->assertNotEquals($firstTmpQueue->getQueueName(), $secondTmpQueue->getQueueName());
     }
 }

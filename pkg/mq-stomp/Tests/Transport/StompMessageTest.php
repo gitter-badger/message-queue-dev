@@ -145,4 +145,17 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($frame, $message->getFrame());
     }
+
+    public function testShouldReturnNullAsDefaultReplyTo()
+    {
+        $message = new StompMessage();
+        self::assertSame(null, $message->getReplyTo());
+    }
+
+    public function testShouldAllowGetPreviouslySetReplyTo()
+    {
+        $message = new StompMessage();
+        $message->setReplyTo('theQueueName');
+        self::assertSame('theQueueName', $message->getReplyTo());
+    }
 }

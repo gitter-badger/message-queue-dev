@@ -3,6 +3,7 @@ namespace Formapro\MessageQueue\Transport\Null;
 
 use Formapro\Jms\Destination;
 use Formapro\Jms\JMSContext;
+use Formapro\MessageQueue\Util\UUID;
 
 class NullContext implements JMSContext
 {
@@ -29,6 +30,14 @@ class NullContext implements JMSContext
     public function createQueue($name)
     {
         return new NullQueue($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createTemporaryQueue()
+    {
+        return $this->createQueue(UUID::generate());
     }
 
     /**

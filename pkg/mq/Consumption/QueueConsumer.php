@@ -179,8 +179,8 @@ class QueueConsumer
 
             $extension->onPreReceived($context);
             if (!$context->getResult()) {
-                $status = $messageProcessor->process($message, $this->context);
-                $context->setResult($status);
+                $result = $messageProcessor->process($message, $this->context);
+                $context->setResult($result);
             }
 
             switch ($context->getResult()) {
