@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Test;
+namespace Formapro\Stomp\Test;
 
 trait WriteAttributeTrait
 {

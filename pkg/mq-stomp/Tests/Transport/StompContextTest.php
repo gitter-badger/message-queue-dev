@@ -1,16 +1,16 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Transport;
+namespace Formapro\Stomp\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\JMSContext;
 use Formapro\Jms\Queue;
-use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
-use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompConsumer;
-use Formapro\MessageQueueStompTransport\Transport\StompProducer;
+use Formapro\Stomp\Test\ClassExtensionTrait;
+use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\Transport\StompConsumer;
+use Formapro\Stomp\Transport\StompProducer;
 
 class StompContextTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 require_once(__DIR__.'/../vendor/autoload.php');
 
-use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
+use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompContext;
 use Stomp\Exception\ErrorFrameException;
 
 $url = 'tcp://localhost:61613';

@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Client;
+namespace Formapro\Stomp\Tests\Client;
 
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
@@ -7,12 +7,12 @@ use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueueStompTransport\Client\StompDriver;
-use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompProducer;
+use Formapro\Stomp\Client\StompDriver;
+use Formapro\Stomp\Test\ClassExtensionTrait;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\Transport\StompProducer;
 
 class StompDriverTest extends \PHPUnit_Framework_TestCase
 {

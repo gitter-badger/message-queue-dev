@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Transport;
+namespace Formapro\Stomp\Transport;
 
 use Formapro\Jms\Message;
 use Stomp\Transport\Frame;

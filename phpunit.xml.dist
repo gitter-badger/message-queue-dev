@@ -13,19 +13,19 @@
         >
 
     <testsuites>
-        <testsuite name="JMS Test Suite">
+        <testsuite name="jms">
             <directory>pkg/jms/Tests</directory>
         </testsuite>
 
-        <testsuite name="Message Queue Test Suite">
+        <testsuite name="mq">
             <directory>pkg/mq/Tests</directory>
         </testsuite>
 
-        <testsuite name="Message Queue Stomp Transport Test Suite">
+        <testsuite name="stomp">
             <directory>pkg/mq-stomp/Tests</directory>
         </testsuite>
 
-        <testsuite name="Message Queue Bundle Test Suite">
+        <testsuite name="bundle">
             <directory>pkg/mq-bundle/Tests</directory>
         </testsuite>
     </testsuites>
