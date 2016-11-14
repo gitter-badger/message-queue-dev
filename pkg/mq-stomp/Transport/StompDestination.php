@@ -36,13 +36,8 @@ class StompDestination implements Topic, Queue
      */
     private $headers;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->type = self::TYPE_QUEUE;
         $this->headers = [
             self::HEADER_DURABLE => false,
             self::HEADER_AUTO_DELETE => true,
@@ -55,7 +50,27 @@ class StompDestination implements Topic, Queue
      */
     public function getStompName()
     {
-        $name = '/' . $this->getType() . '/' . $this->getQueueName();
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setStompName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQueueName()
+    {
+        if (empty($this->getType()) || empty($this->getStompName())) {
+            throw new \LogicException('Destination type or name is not set');
+        }
+
+        $name = '/' . $this->getType() . '/' . $this->getStompName();
 
         if ($this->getRoutingKey()) {
             $name .= '/'.$this->getRoutingKey();
@@ -65,11 +80,60 @@ class StompDestination implements Topic, Queue
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $destination
      */
-    public function getQueueName()
+    public function setQueueName($destination)
     {
-        return $this->name;
+        $types = [
+            self::TYPE_TOPIC,
+            self::TYPE_EXCHANGE,
+            self::TYPE_QUEUE,
+            self::TYPE_AMQ_QUEUE,
+            self::TYPE_TEMP_QUEUE,
+        ];
+
+        $dest = $destination;
+        $type = null;
+        $name = null;
+        $routingKey = null;
+
+        foreach ($types as $_type) {
+            $typePrefix = '/'.$_type.'/';
+            if (0 === strpos($dest, $typePrefix)) {
+                $type = $_type;
+                $dest = substr($dest, strlen($typePrefix));
+
+                break;
+            }
+        }
+
+        if (null === $type) {
+            throw new \LogicException(sprintf('Destination name is invalid, cant find type: "%s"', $destination));
+        }
+
+        $pieces = explode('/', $dest);
+
+        if (count($pieces) > 2) {
+            throw new \LogicException(sprintf('Destination name is invalid, found extra / char: "%s"', $destination));
+        }
+
+        if (empty($pieces[0])) {
+            throw new \LogicException(sprintf('Destination name is invalid, name is empty: "%s"', $destination));
+        }
+
+        $name = $pieces[0];
+
+        if (isset($pieces[1])) {
+            if (empty($pieces[1])) {
+                throw new \LogicException(sprintf('Destination name is invalid, routing key is empty: "%s"', $destination));
+            }
+
+            $routingKey = $pieces[1];
+        }
+
+        $this->setType($type);
+        $this->setStompName($name);
+        $this->setRoutingKey($routingKey);
     }
 
     /**
@@ -77,7 +141,7 @@ class StompDestination implements Topic, Queue
      */
     public function getTopicName()
     {
-        return $this->name;
+        return $this->getQueueName();
     }
 
     /**
@@ -93,6 +157,18 @@ class StompDestination implements Topic, Queue
      */
     public function setType($type)
     {
+        $types = [
+            self::TYPE_TOPIC,
+            self::TYPE_EXCHANGE,
+            self::TYPE_QUEUE,
+            self::TYPE_AMQ_QUEUE,
+            self::TYPE_TEMP_QUEUE,
+        ];
+
+        if (false == in_array($type, $types)) {
+            throw new \LogicException(sprintf('Invalid destination type: "%s"', $type));
+        }
+
         $this->type = $type;
     }
 

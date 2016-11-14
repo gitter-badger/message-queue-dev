@@ -23,26 +23,26 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testCouldBeConstructedWithRequiredAttributes()
     {
-        new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        new StompConsumer($this->createStompClientMock(), new StompDestination());
     }
 
     public function testCouldGetQueue()
     {
-        $consumer = new StompConsumer($this->createStompClientMock(), $dest = new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), $dest = new StompDestination());
 
         $this->assertSame($dest, $consumer->getQueue());
     }
 
     public function testShouldReturnDefaultAckMode()
     {
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
 
         $this->assertSame(StompConsumer::ACK_CLIENT_INDIVIDUAL, $consumer->getAckMode());
     }
 
     public function testCouldSetGetAckMethod()
     {
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
         $consumer->setAckMode(StompConsumer::ACK_CLIENT);
 
         $this->assertSame(StompConsumer::ACK_CLIENT, $consumer->getAckMode());
@@ -53,20 +53,20 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Ack mode is not valid: "invalid-ack-mode"');
 
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
         $consumer->setAckMode('invalid-ack-mode');
     }
 
     public function testShouldReturnDefaultPrefetchCount()
     {
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
 
         $this->assertSame(1, $consumer->getPrefetchCount());
     }
 
     public function testCouldSetGetPrefetchCount()
     {
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
         $consumer->setPrefetchCount(123);
 
         $this->assertSame(123, $consumer->getPrefetchCount());
@@ -77,7 +77,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidMessageException::class);
         $this->expectExceptionMessage('The message must be an instance of');
 
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
         $consumer->acknowledge($this->createMock(Message::class));
     }
 
@@ -105,7 +105,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
         $consumer->acknowledge($message);
     }
 
@@ -114,7 +114,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidMessageException::class);
         $this->expectExceptionMessage('The message must be an instance of');
 
-        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination(''));
+        $consumer = new StompConsumer($this->createStompClientMock(), new StompDestination());
         $consumer->reject($this->createMock(Message::class));
     }
 
@@ -142,7 +142,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
         $consumer->reject($message);
 
         $this->assertSame(['requeue' => 'false'], $frame->getHeaders());
@@ -172,7 +172,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
         $consumer->reject($message, true);
 
         $this->assertSame(['requeue' => 'true'], $frame->getHeaders());
@@ -209,7 +209,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
         $message = $consumer->receiveNoWait();
 
         $this->assertInstanceOf(StompMessage::class, $message);
@@ -242,7 +242,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
         $consumer->receiveNoWait();
         $consumer->receiveNoWait();
     }
@@ -271,7 +271,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->method('readMessageFrame')
         ;
 
-        $destination = new StompDestination('');
+        $destination = new StompDestination();
         $destination->setDurable(true);
         $destination->setAutoDelete(true);
         $destination->setExclusive(true);
@@ -329,7 +329,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($stompMessageFrame)
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
 
         $message = $consumer->receiveNoWait();
 
@@ -366,7 +366,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($stompMessageFrame)
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Frame is not MESSAGE frame but: "NOT-MESSAGE-FRAME"');
@@ -399,7 +399,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new Frame('MESSAGE'))
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
 
         $message = $consumer->receive(0);
 
@@ -431,7 +431,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new Frame('MESSAGE'))
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination(''));
+        $consumer = new StompConsumer($client, new StompDestination());
 
         $message = $consumer->receive(5);
 

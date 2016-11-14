@@ -174,7 +174,7 @@ class StompConsumer implements JMSConsumer
             $this->isSubscribed = true;
 
             $frame = $this->stomp->getProtocol()
-                ->getSubscribeFrame($this->queue->getStompName(), $this->subscriptionId, $this->ackMode);
+                ->getSubscribeFrame($this->queue->getQueueName(), $this->subscriptionId, $this->ackMode);
 
             // rabbitmq STOMP protocol extension
             $headers = $this->queue->getHeaders();

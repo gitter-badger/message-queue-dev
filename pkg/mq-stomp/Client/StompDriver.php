@@ -82,7 +82,7 @@ class StompDriver implements DriverInterface
         if ($message->getDelay()) {
             $headers['x-delay'] = (string) ($message->getDelay() * 1000);
 
-            $destination = $this->context->createTopic($queue->getTopicName().'.delayed');
+            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
             $destination->setType(StompDestination::TYPE_EXCHANGE);
             $destination->setDurable(true);
             $destination->setAutoDelete(false);

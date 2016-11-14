@@ -45,8 +45,8 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $queue = $context->createQueue('the name');
 
         $this->assertInstanceOf(StompDestination::class, $queue);
-        $this->assertSame('the name', $queue->getQueueName());
-        $this->assertSame('the name', $queue->getTopicName());
+        $this->assertSame('/queue/the name', $queue->getQueueName());
+        $this->assertSame('/queue/the name', $queue->getTopicName());
         $this->assertSame(StompDestination::TYPE_QUEUE, $queue->getType());
     }
 
@@ -57,8 +57,8 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $topic = $context->createTopic('the name');
 
         $this->assertInstanceOf(StompDestination::class, $topic);
-        $this->assertSame('the name', $topic->getQueueName());
-        $this->assertSame('the name', $topic->getTopicName());
+        $this->assertSame('/exchange/the name', $topic->getQueueName());
+        $this->assertSame('/exchange/the name', $topic->getTopicName());
         $this->assertSame(StompDestination::TYPE_EXCHANGE, $topic->getType());
     }
 
@@ -75,7 +75,7 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new StompContext($this->createStompClientMock());
 
-        $this->assertInstanceOf(StompConsumer::class, $context->createConsumer(new StompDestination('')));
+        $this->assertInstanceOf(StompConsumer::class, $context->createConsumer(new StompDestination()));
     }
 
     public function testShouldCreateMessageProducerInstance()
@@ -96,7 +96,7 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $context = new StompContext($client);
 
         $context->createProducer();
-        $context->createConsumer(new StompDestination(''));
+        $context->createConsumer(new StompDestination());
 
         $context->close();
     }
