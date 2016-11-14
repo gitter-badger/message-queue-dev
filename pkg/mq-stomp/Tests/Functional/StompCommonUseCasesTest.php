@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\DependencyInjection;
+namespace Formapro\Stomp\Tests\DependencyInjection;
 
-use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
+use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompMessage;
 
 class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,18 +27,24 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $stomp = new BufferedStompClient("tcp://$rabbitmqHost:$rabbitmqPort");
         $stomp->setLogin($rabbitmqUser, $rabbitmqPassword);
         $stomp->setVhostname($rabbitmqVhost);
-        $stomp->setSync(false);
 
         $this->stompContext = new StompContext($stomp);
 
+        $url = sprintf('http://%s:15672/api/queues/%s/stomp.test', $rabbitmqHost, urlencode($rabbitmqVhost));
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://$rabbitmqUser:$rabbitmqPassword@{$rabbitmqHost}:15672/api/queues/{$rabbitmqVhost}/stomp.test/contents");
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, $rabbitmqUser.':'.$rabbitmqPassword);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type' => 'application/json',
+        ]);
         curl_exec($ch);
 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $this->assertEquals(204, $httpCode);
+        $this->assertContains($httpCode, [204, 404]);
 
         curl_close($ch);
     }
@@ -125,6 +131,8 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $queue->setAutoDelete(false);
 
         $message = $this->stompContext->createMessage(__METHOD__);
+        $message->setProperties(['FooProperty' => 'FooVal']);
+        $message->setHeaders(['BarHeader' => 'BarVal']);
 
         $producer = $this->stompContext->createProducer();
         $producer->send($queue, $message);
