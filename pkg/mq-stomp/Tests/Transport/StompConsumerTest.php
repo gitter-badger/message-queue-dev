@@ -209,7 +209,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_QUEUE);
+        $destination->setStompName('name');
+
+        $consumer = new StompConsumer($client, $destination);
         $message = $consumer->receiveNoWait();
 
         $this->assertInstanceOf(StompMessage::class, $message);
@@ -242,7 +246,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $message = new StompMessage();
         $message->setFrame(new Frame());
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_QUEUE);
+        $destination->setStompName('name');
+
+        $consumer = new StompConsumer($client, $destination);
         $consumer->receiveNoWait();
         $consumer->receiveNoWait();
     }
@@ -272,6 +280,8 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         ;
 
         $destination = new StompDestination();
+        $destination->setStompName('name');
+        $destination->setType(StompDestination::TYPE_QUEUE);
         $destination->setDurable(true);
         $destination->setAutoDelete(true);
         $destination->setExclusive(true);
@@ -329,7 +339,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($stompMessageFrame)
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setStompName('name');
+        $destination->setType(StompDestination::TYPE_QUEUE);
+
+        $consumer = new StompConsumer($client, $destination);
 
         $message = $consumer->receiveNoWait();
 
@@ -366,7 +380,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($stompMessageFrame)
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setStompName('name');
+        $destination->setType(StompDestination::TYPE_QUEUE);
+
+        $consumer = new StompConsumer($client, $destination);
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Frame is not MESSAGE frame but: "NOT-MESSAGE-FRAME"');
@@ -399,7 +417,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new Frame('MESSAGE'))
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setStompName('name');
+        $destination->setType(StompDestination::TYPE_QUEUE);
+
+        $consumer = new StompConsumer($client, $destination);
 
         $message = $consumer->receive(0);
 
@@ -431,7 +453,11 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
             ->willReturn(new Frame('MESSAGE'))
         ;
 
-        $consumer = new StompConsumer($client, new StompDestination());
+        $destination = new StompDestination();
+        $destination->setStompName('name');
+        $destination->setType(StompDestination::TYPE_QUEUE);
+
+        $consumer = new StompConsumer($client, $destination);
 
         $message = $consumer->receive(5);
 
