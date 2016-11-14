@@ -131,8 +131,6 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $queue->setAutoDelete(false);
 
         $message = $this->stompContext->createMessage(__METHOD__);
-        $message->setProperties(['FooProperty' => 'FooVal']);
-        $message->setHeaders(['BarHeader' => 'BarVal']);
 
         $producer = $this->stompContext->createProducer();
         $producer->send($queue, $message);
