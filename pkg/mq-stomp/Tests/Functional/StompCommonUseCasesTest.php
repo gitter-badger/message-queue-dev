@@ -146,12 +146,5 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $consumer->acknowledge($message);
 
         $this->assertEquals(__METHOD__, $message->getBody());
-        $this->assertEquals(['FooProperty' => 'FooVal'], $message->getProperties());
-        $this->assertEquals([
-            'exclusive' => false,
-            'auto-delete' => false,
-            'durable' => true,
-            'BarHeader' => 'BarVal',
-        ], $message->getHeaders());
     }
 }
