@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~5.5",
-        "formapro/message-queue-stomp-transport": "dev-master",
+        "formapro/stomp": "dev-master",
         "formapro/message-queue-dbal-transport": "dev-master",
         "formapro/message-queue-job": "dev-master",
         "doctrine/doctrine-bundle": "~1.2",
@@ -38,7 +38,7 @@
         "symfony/expression-language": "^2.8|^3"
     },
     "suggest": {
-        "formapro/message-queue-stomp-transport": "Message queue STOMP transport",
+        "formapro/stomp": "Message queue STOMP transport",
         "formapro/message-queue-dbal-transport": "Message queue dbal transport"
     },
     "autoload": {

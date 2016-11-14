@@ -1,5 +1,5 @@
 {
-    "name": "formapro/message-queue-stomp-transport",
+    "name": "formapro/stomp",
     "type": "library",
     "description": "Message Queue Stomp Transport",
     "keywords": ["messaging", "queue", "stomp"],
