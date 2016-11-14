@@ -71,6 +71,7 @@ class StompRpcUseCasesTest extends \PHPUnit_Framework_TestCase
         $rpcClient = new RpcClient($this->stompContext);
 
         $message = $this->stompContext->createMessage();
+        $message->setReplyTo($replyQueue->getQueueName());
 
         $promise = $rpcClient->callAsync($queue, $message, 10);
         $this->assertInstanceOf(Promise::class, $promise);
@@ -82,7 +83,36 @@ class StompRpcUseCasesTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($message->getCorrelationId());
         $consumer->acknowledge($message);
 
-        var_dump($message->getReplyTo());
+        $replyQueue = $this->stompContext->createQueue($message->getReplyTo());
+        $replyMessage = $this->stompContext->createMessage('This a reply!');
+        $replyMessage->setCorrelationId($message->getCorrelationId());
+
+        $this->stompContext->createProducer()->send($replyQueue, $replyMessage);
+
+        $actualReplyMessage = $promise->getMessage();
+        $this->assertInstanceOf(StompMessage::class, $actualReplyMessage);
+    }
+
+    public function testDoAsyncRecCallWithCastInternallyCreatedTemporaryReplyQueue()
+    {
+        $queue = $this->stompContext->createQueue('stomp.rpc.test');
+        $queue->setDurable(true);
+        $queue->setAutoDelete(false);
+
+        $rpcClient = new RpcClient($this->stompContext);
+
+        $message = $this->stompContext->createMessage();
+
+        $promise = $rpcClient->callAsync($queue, $message, 10);
+        $this->assertInstanceOf(Promise::class, $promise);
+
+        $consumer = $this->stompContext->createConsumer($queue);
+        $message = $consumer->receive(1);
+        $this->assertInstanceOf(StompMessage::class, $message);
+        $this->assertNotNull($message->getReplyTo());
+        $this->assertNotNull($message->getCorrelationId());
+        $consumer->acknowledge($message);
+
         $replyQueue = $this->stompContext->createQueue($message->getReplyTo());
         $replyMessage = $this->stompContext->createMessage('This a reply!');
         $replyMessage->setCorrelationId($message->getCorrelationId());

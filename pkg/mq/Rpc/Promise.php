@@ -39,15 +39,15 @@ class Promise
             if ($message = $this->consumer->receive($this->timeout)) {
                 if ($message->getCorrelationId() === $this->correlationId) {
                     $this->consumer->acknowledge($message);
+
+                    return $message;
                 } else {
                     $this->consumer->reject($message, true);
                 }
-
-                return $message;
             }
         }
 
-        throw new \LogicException('Time outed without receiving reply message');
+        throw new \LogicException(sprintf('Time outed without receiving reply message. Timeout: %s, CorrelationId: %s', $this->timeout, $this->correlationId));
     }
 
     /**
