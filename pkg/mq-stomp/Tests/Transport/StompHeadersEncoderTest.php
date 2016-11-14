@@ -1,7 +1,7 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Transport;
+namespace Formapro\Stomp\Tests\Transport;
 
-use Formapro\MessageQueueStompTransport\Transport\StompHeadersEncoder;
+use Formapro\Stomp\Transport\StompHeadersEncoder;
 
 class StompHeadersEncoderTest extends \PHPUnit_Framework_TestCase
 {

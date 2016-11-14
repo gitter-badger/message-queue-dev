@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\DependencyInjection;
+namespace Formapro\Stomp\DependencyInjection;
 
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
+use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompContext;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

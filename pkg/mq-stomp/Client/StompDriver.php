@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Client;
+namespace Formapro\Stomp\Client;
 
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
@@ -7,8 +7,8 @@ use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompDestination;
 
 class StompDriver implements DriverInterface
 {
@@ -82,7 +82,7 @@ class StompDriver implements DriverInterface
         if ($message->getDelay()) {
             $headers['x-delay'] = (string) ($message->getDelay() * 1000);
 
-            $destination = $this->context->createTopic($queue->getTopicName().'.delayed');
+            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
             $destination->setType(StompDestination::TYPE_EXCHANGE);
             $destination->setDurable(true);
             $destination->setAutoDelete(false);

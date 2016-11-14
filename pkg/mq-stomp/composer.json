@@ -1,5 +1,5 @@
 {
-    "name": "formapro/message-queue-stomp-transport",
+    "name": "formapro/stomp",
     "type": "library",
     "description": "Message Queue Stomp Transport",
     "keywords": ["messaging", "queue", "stomp"],
@@ -21,7 +21,7 @@
         "symfony/browser-kit": "~2.8"
     },
     "autoload": {
-        "psr-4": { "Formapro\\MessageQueueStompTransport\\": "" },
+        "psr-4": { "Formapro\\Stomp\\": "" },
         "exclude-from-classmap": [
             "/Tests/"
         ]

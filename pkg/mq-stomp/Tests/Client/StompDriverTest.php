@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Client;
+namespace Formapro\Stomp\Tests\Client;
 
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
@@ -7,12 +7,12 @@ use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\MessageQueueStompTransport\Client\StompDriver;
-use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompProducer;
+use Formapro\Stomp\Client\StompDriver;
+use Formapro\Stomp\Test\ClassExtensionTrait;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\Transport\StompProducer;
 
 class StompDriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,7 +39,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldCreateAndReturnQueueInstance()
     {
-        $expectedQueue = new StompDestination('');
+        $expectedQueue = new StompDestination();
 
         $session = $this->createContextMock();
         $session
@@ -111,7 +111,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setContentType('the-content-type');
 
@@ -139,7 +139,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setExpire(123);
 
@@ -167,7 +167,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setPriority(MessagePriority::VERY_HIGH);
 
@@ -181,7 +181,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
     {
         $session = $this->createContextMock();
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setPriority('unknown-priority');
 
@@ -199,7 +199,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new StompMessage();
 
-        $delayTopic = new StompDestination('');
+        $delayTopic = new StompDestination();
 
         $session = $this->createContextMock();
         $session
@@ -219,7 +219,9 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($delayTopic)
         ;
 
-        $queue = new StompDestination('destination');
+        $queue = new StompDestination();
+        $queue->setType('queue');
+        $queue->setStompName('destination');
         $message = new Message();
         $message->setDelay(123);
 
@@ -247,7 +249,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setMessageId('message-id');
 
@@ -275,7 +277,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setTimestamp(123);
 
@@ -303,7 +305,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setProperties(['key' => 'value']);
 
@@ -331,7 +333,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
         $message->setBody('body');
 
@@ -359,7 +361,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
             ->willReturn($transportMessage)
         ;
 
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $message = new Message();
 
         $driver = new StompDriver($session, new Config('', '', '', ''));
@@ -370,7 +372,7 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldSendTransportMessage()
     {
-        $queue = new StompDestination('');
+        $queue = new StompDestination();
         $transportMessage = new StompMessage();
 
         $producer = $this->createProducerMock();

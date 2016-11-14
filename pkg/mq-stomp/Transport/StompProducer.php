@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Transport;
+namespace Formapro\Stomp\Transport;
 
 use Formapro\Jms\Destination;
 use Formapro\Jms\Exception\InvalidDestinationException;
@@ -41,6 +41,6 @@ class StompProducer implements JMSProducer
 
         $stompMessage = new StompLibMessage($message->getBody(), $headers);
 
-        $this->stomp->send($destination->getStompName(), $stompMessage);
+        $this->stomp->send($destination->getQueueName(), $stompMessage);
     }
 }

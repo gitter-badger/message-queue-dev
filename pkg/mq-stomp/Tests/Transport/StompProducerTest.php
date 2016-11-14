@@ -1,15 +1,15 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Transport;
+namespace Formapro\Stomp\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\Message as JmsMessage;
 use Formapro\Jms\JMSProducer;
 use Formapro\Jms\Queue;
-use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompProducer;
+use Formapro\Stomp\Test\ClassExtensionTrait;
+use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\Transport\StompProducer;
 use Stomp\Client;
 use Stomp\Transport\Message;
 
@@ -39,7 +39,7 @@ class StompProducerTest extends \PHPUnit_Framework_TestCase
 
         $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send(new StompDestination(''), $this->createMock(JmsMessage::class));
+        $producer->send(new StompDestination(), $this->createMock(JmsMessage::class));
     }
 
     public function testShouldSendMessage()
@@ -53,7 +53,11 @@ class StompProducerTest extends \PHPUnit_Framework_TestCase
 
         $producer = new StompProducer($client);
 
-        $producer->send(new StompDestination('name'), new StompMessage('body'));
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_QUEUE);
+        $destination->setStompName('name');
+
+        $producer->send($destination, new StompMessage('body'));
     }
 
     public function testShouldEncodeMessageHeadersAndProperties()
@@ -72,7 +76,11 @@ class StompProducerTest extends \PHPUnit_Framework_TestCase
 
         $message = new StompMessage('', ['key' => 'value'], ['hkey' => false]);
 
-        $producer->send(new StompDestination('name'), $message);
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_QUEUE);
+        $destination->setStompName('name');
+
+        $producer->send($destination, $message);
 
         $expectedHeaders = [
             'hkey' => 'false',

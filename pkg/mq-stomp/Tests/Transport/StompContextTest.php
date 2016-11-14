@@ -1,16 +1,16 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Transport;
+namespace Formapro\Stomp\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\JMSContext;
 use Formapro\Jms\Queue;
-use Formapro\MessageQueueStompTransport\Test\ClassExtensionTrait;
-use Formapro\MessageQueueStompTransport\Transport\BufferedStompClient;
-use Formapro\MessageQueueStompTransport\Transport\StompContext;
-use Formapro\MessageQueueStompTransport\Transport\StompDestination;
-use Formapro\MessageQueueStompTransport\Transport\StompMessage;
-use Formapro\MessageQueueStompTransport\Transport\StompConsumer;
-use Formapro\MessageQueueStompTransport\Transport\StompProducer;
+use Formapro\Stomp\Test\ClassExtensionTrait;
+use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\Transport\StompConsumer;
+use Formapro\Stomp\Transport\StompProducer;
 
 class StompContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,8 +45,8 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $queue = $context->createQueue('the name');
 
         $this->assertInstanceOf(StompDestination::class, $queue);
-        $this->assertSame('the name', $queue->getQueueName());
-        $this->assertSame('the name', $queue->getTopicName());
+        $this->assertSame('/queue/the name', $queue->getQueueName());
+        $this->assertSame('/queue/the name', $queue->getTopicName());
         $this->assertSame(StompDestination::TYPE_QUEUE, $queue->getType());
     }
 
@@ -57,8 +57,8 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $topic = $context->createTopic('the name');
 
         $this->assertInstanceOf(StompDestination::class, $topic);
-        $this->assertSame('the name', $topic->getQueueName());
-        $this->assertSame('the name', $topic->getTopicName());
+        $this->assertSame('/exchange/the name', $topic->getQueueName());
+        $this->assertSame('/exchange/the name', $topic->getTopicName());
         $this->assertSame(StompDestination::TYPE_EXCHANGE, $topic->getType());
     }
 
@@ -75,7 +75,7 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new StompContext($this->createStompClientMock());
 
-        $this->assertInstanceOf(StompConsumer::class, $context->createConsumer(new StompDestination('')));
+        $this->assertInstanceOf(StompConsumer::class, $context->createConsumer(new StompDestination()));
     }
 
     public function testShouldCreateMessageProducerInstance()
@@ -96,7 +96,7 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $context = new StompContext($client);
 
         $context->createProducer();
-        $context->createConsumer(new StompDestination(''));
+        $context->createConsumer(new StompDestination());
 
         $context->close();
     }
