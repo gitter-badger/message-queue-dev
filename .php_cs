@@ -13,7 +13,7 @@ return Symfony\CS\Config::create()
         'short_array_syntax',
         'unused_use',
         'phpdoc_order',
-        
+
 
     ])
     ->finder($finder)
