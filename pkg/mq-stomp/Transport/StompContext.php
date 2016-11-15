@@ -37,11 +37,10 @@ class StompContext implements JMSContext
      */
     public function createQueue($name)
     {
-        $queue = new StompDestination();
-        $queue->setType(StompDestination::TYPE_QUEUE);
-        $queue->setStompName($name);
+        $destination = new StompDestination();
+        $destination->setQueueName($name);
 
-        return $queue;
+        return $destination;
     }
 
     /**
@@ -51,11 +50,10 @@ class StompContext implements JMSContext
      */
     public function createTopic($name)
     {
-        $topic = new StompDestination();
-        $topic->setType(StompDestination::TYPE_EXCHANGE);
-        $topic->setStompName($name);
+        $destination = new StompDestination();
+        $destination->setQueueName($name);
 
-        return $topic;
+        return $destination;
     }
 
     /**
