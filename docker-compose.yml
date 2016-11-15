@@ -13,6 +13,13 @@ services:
       - RABBITMQ_VHOST=mqs
       - RABBITMQ_AMQP_PORT=5672
       - RABBITMQ_STOMP_PORT=61613
+      - SYMFONY__DB__DRIVER=pdo_mysql
+      - SYMFONY__DB__HOST=mysql
+      - SYMFONY__DB__PORT=3306
+      - SYMFONY__DB__NAME=mqs
+      - SYMFONY__DB__USER=root
+      - SYMFONY__DB__PASSWORD=rootpass
+
   rabbitmq:
     build: { context: ., dockerfile: Dockerfile.rabbitmq }
     ports:
@@ -21,3 +28,15 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
       - RABBITMQ_DEFAULT_VHOST=mqs
+  mysql:
+    image: mariadb:10
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+
+volumes:
+  mysql-data:
+    driver: local
