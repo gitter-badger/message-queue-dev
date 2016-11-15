@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueStompTransport\Tests\Functional;
+namespace Formapro\Stomp\Tests\Functional;
 
 use Formapro\MessageQueue\Rpc\Promise;
 use Formapro\MessageQueue\Rpc\RpcClient;

@@ -174,6 +174,29 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/amq/queue/name/routing-key', $destination->getQueueName());
     }
 
+    public function testCreateTemporaryQueue()
+    {
+        $context = new StompContext($this->createStompClientMock());
+        $tempQueue = $context->createTemporaryQueue();
+
+        $this->assertEquals('temp-queue', $tempQueue->getType());
+        $this->assertNotEmpty($tempQueue->getStompName());
+        $this->assertEquals('', $tempQueue->getRoutingKey());
+        $this->assertEquals('/temp-queue/'.$tempQueue->getStompName(), $tempQueue->getQueueName());
+    }
+
+    public function testCreateTemporaryQueuesWithUniqueNames()
+    {
+        $context = new StompContext($this->createStompClientMock());
+        $fooTempQueue = $context->createTemporaryQueue();
+        $barTempQueue = $context->createTemporaryQueue();
+
+        $this->assertNotEmpty($fooTempQueue->getStompName());
+        $this->assertNotEmpty($barTempQueue->getStompName());
+
+        $this->assertNotEquals($fooTempQueue->getStompName(), $barTempQueue->getStompName());
+    }
+
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|BufferedStompClient
      */

@@ -464,6 +464,80 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(StompMessage::class, $message);
     }
 
+    public function testShouldReceiveWithoutSubscribeIfTempQueue()
+    {
+        $client = $this->createStompClientMock();
+        $client
+            ->expects($this->never())
+            ->method('getProtocol')
+        ;
+        $client
+            ->expects($this->once())
+            ->method('readMessageFrame')
+        ;
+
+        $message = new StompMessage();
+        $message->setFrame(new Frame());
+
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_TEMP_QUEUE);
+        $destination->setStompName('name');
+
+        $consumer = new StompConsumer($client, $destination);
+        $consumer->receive(1);
+    }
+
+    public function testShouldReceiveNoWaitWithoutSubscribeIfTempQueue()
+    {
+        $client = $this->createStompClientMock();
+        $client
+            ->expects($this->never())
+            ->method('getProtocol')
+        ;
+        $client
+            ->expects($this->once())
+            ->method('readMessageFrame')
+        ;
+
+        $message = new StompMessage();
+        $message->setFrame(new Frame());
+
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_TEMP_QUEUE);
+        $destination->setStompName('name');
+
+        $consumer = new StompConsumer($client, $destination);
+        $consumer->receiveNoWait();
+    }
+
+    public function testShouldGenerateUniqueSubscriptionIdPerConsumer()
+    {
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_QUEUE);
+        $destination->setStompName('name');
+
+        $fooConsumer = new StompConsumer($this->createStompClientMock(), $destination);
+        $barConsumer = new StompConsumer($this->createStompClientMock(), $destination);
+
+        $this->assertAttributeNotEmpty('subscriptionId', $fooConsumer);
+        $this->assertAttributeNotEmpty('subscriptionId', $barConsumer);
+
+        $fooSubscriptionId = $this->readAttribute($fooConsumer, 'subscriptionId');
+        $barSubscriptionId = $this->readAttribute($barConsumer, 'subscriptionId');
+        $this->assertNotEquals($fooSubscriptionId, $barSubscriptionId);
+    }
+
+    public function testShouldUseTempQueueNameAsSubscriptionId()
+    {
+        $destination = new StompDestination();
+        $destination->setType(StompDestination::TYPE_TEMP_QUEUE);
+        $destination->setStompName('foo');
+
+        $consumer = new StompConsumer($this->createStompClientMock(), $destination);
+
+        $this->assertAttributeEquals('/temp-queue/foo', 'subscriptionId', $consumer);
+    }
+
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|Protocol
      */

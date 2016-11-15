@@ -149,6 +149,7 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
     public function testShouldReturnNullAsDefaultReplyTo()
     {
         $message = new StompMessage();
+
         self::assertSame(null, $message->getReplyTo());
     }
 
@@ -156,6 +157,15 @@ class StompMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new StompMessage();
         $message->setReplyTo('theQueueName');
+
         self::assertSame('theQueueName', $message->getReplyTo());
+    }
+
+    public function testShouldAllowGetPreviouslySetReplyToAsHeader()
+    {
+        $message = new StompMessage();
+        $message->setReplyTo('theQueueName');
+
+        self::assertSame(['reply-to' => 'theQueueName'], $message->getHeaders());
     }
 }

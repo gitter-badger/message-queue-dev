@@ -112,9 +112,7 @@ class StompConsumer implements JMSConsumer
      */
     public function receive($timeout = 0)
     {
-        if (StompDestination::TYPE_TEMP_QUEUE != $this->queue->getType()) {
-            $this->subscribe();
-        }
+        $this->subscribe();
 
         if ($timeout === 0) {
             while (true) {
@@ -176,6 +174,12 @@ class StompConsumer implements JMSConsumer
 
     private function subscribe()
     {
+        if (StompDestination::TYPE_TEMP_QUEUE == $this->queue->getType()) {
+            $this->isSubscribed = true;
+
+            return;
+        }
+
         if (false == $this->isSubscribed) {
             $this->isSubscribed = true;
 
