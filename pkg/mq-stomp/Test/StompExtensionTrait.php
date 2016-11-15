@@ -3,6 +3,8 @@ namespace Formapro\Stomp\Test;
 
 use Formapro\Stomp\Transport\BufferedStompClient;
 use Formapro\Stomp\Transport\StompContext;
+use Stomp\Client;
+use Stomp\Exception\ConnectionException;
 
 trait StompExtensionTrait
 {
@@ -25,7 +27,24 @@ trait StompExtensionTrait
         $stomp->setLogin($rabbitmqUser, $rabbitmqPassword);
         $stomp->setVhostname($rabbitmqVhost);
 
+        $this->tryConnect($stomp, 1);
+
         return new StompContext($stomp);
+    }
+
+    private function tryConnect(Client $stomp, $attempt)
+    {
+        try {
+            $stomp->connect();
+        } catch (ConnectionException $e) {
+            if ($attempt > 5) {
+                throw $e;
+            }
+            sleep(1);
+
+            ++$attempt;
+            $this->tryConnect($stomp, $attempt);
+        }
     }
 
     /**
@@ -47,7 +66,7 @@ trait StompExtensionTrait
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, $rabbitmqUser.':'.$rabbitmqPassword);
