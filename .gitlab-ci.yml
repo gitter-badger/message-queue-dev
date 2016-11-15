@@ -1,0 +1,2 @@
+before_script:
+    - bin/sandbox -b
