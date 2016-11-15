@@ -26,7 +26,7 @@ class StompRpcUseCasesTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-       $this->stompContext->close();
+        $this->stompContext->close();
     }
 
     public function testDoAsyncRpcCallWithCustomReplyQueue()
@@ -75,15 +75,16 @@ class StompRpcUseCasesTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Promise::class, $promise);
 
         $consumer = $this->stompContext->createConsumer($queue);
-        $message = $consumer->receive(1);
-        $this->assertInstanceOf(StompMessage::class, $message);
-        $this->assertNotNull($message->getReplyTo());
-        $this->assertNotNull($message->getCorrelationId());
-        $consumer->acknowledge($message);
+        $receivedMessage = $consumer->receive(1);
 
-        $replyQueue = $this->stompContext->createQueue($message->getReplyTo());
+        $this->assertInstanceOf(StompMessage::class, $receivedMessage);
+        $this->assertNotNull($receivedMessage->getReplyTo());
+        $this->assertNotNull($receivedMessage->getCorrelationId());
+        $consumer->acknowledge($receivedMessage);
+
+        $replyQueue = $this->stompContext->createQueue($receivedMessage->getReplyTo());
         $replyMessage = $this->stompContext->createMessage('This a reply!');
-        $replyMessage->setCorrelationId($message->getCorrelationId());
+        $replyMessage->setCorrelationId($receivedMessage->getCorrelationId());
 
         $this->stompContext->createProducer()->send($replyQueue, $replyMessage);
 

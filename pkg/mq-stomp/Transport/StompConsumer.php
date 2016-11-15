@@ -4,6 +4,7 @@ namespace Formapro\Stomp\Transport;
 use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Message;
+use Formapro\MessageQueue\Util\UUID;
 use Stomp\Client;
 use Stomp\Transport\Frame;
 
@@ -54,7 +55,10 @@ class StompConsumer implements JMSConsumer
         $this->isSubscribed = false;
         $this->ackMode = self::ACK_CLIENT_INDIVIDUAL;
         $this->prefetchCount = 1;
-        $this->subscriptionId = uniqid('', true);
+        $this->subscriptionId = $queue->getType() == StompDestination::TYPE_TEMP_QUEUE ?
+            $queue->getQueueName() :
+            UUID::generate()
+        ;
     }
 
     /**
@@ -108,7 +112,9 @@ class StompConsumer implements JMSConsumer
      */
     public function receive($timeout = 0)
     {
-        $this->subscribe();
+        if (StompDestination::TYPE_TEMP_QUEUE != $this->queue->getType()) {
+            $this->subscribe();
+        }
 
         if ($timeout === 0) {
             while (true) {
