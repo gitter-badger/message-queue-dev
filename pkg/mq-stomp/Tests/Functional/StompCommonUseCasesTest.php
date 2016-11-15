@@ -109,7 +109,9 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
         usleep(200);
 
-        $consumer = $this->stompContext->createConsumer($queue);
+        $stompContext = $this->buildStompContext();
+
+        $consumer = $stompContext->createConsumer($queue);
         $message = $consumer->receiveNoWait();
 
         $this->assertInstanceOf(StompMessage::class, $message);
