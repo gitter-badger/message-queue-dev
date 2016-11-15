@@ -1,2 +1,6 @@
 before_script:
-    - bin/sandbox -b
+  - bin/sandbox -b
+
+test:
+  script:
+    - bin/sandbox -t
