@@ -84,7 +84,7 @@ class StompDestination implements Topic, Queue
      */
     public function setQueueName($destination)
     {
-        if (0 === strpos($destination, '/')) {
+        if (false === strpos($destination, '/')) {
             $this->setStompName($destination);
             $this->setType(self::TYPE_QUEUE);
 
