@@ -5,7 +5,7 @@
     "php": ">=5.6",
     "formapro/jms": "dev-master",
     "formapro/message-queue": "dev-master",
-    "formapro/message-queue-stomp-transport": "dev-master",
+    "formapro/stomp": "dev-master",
     "formapro/message-queue-bundle": "dev-master"
   },
   "require-dev": {
