@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\MessageQueueBundle\Entity;
+namespace Formapro\JobQueue\Tests\Functional\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -7,7 +7,7 @@ use Formapro\JobQueue\Job as BaseJob;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="formapro_message_queue_job")
+ * @ORM\Table(name="formapro_job_queue")
  */
 class Job extends BaseJob
 {

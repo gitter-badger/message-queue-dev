@@ -20,9 +20,19 @@ monolog:
             type: 'null'
             level: 'error'
 
+doctrine:
+    dbal:
+        driver:   "%db.driver%"
+        host:     "%db.host%"
+        port:     "%db.port%"
+        dbname:   "%db.name%"
+        user:     "%db.user%"
+        password: "%db.password%"
+        charset:  UTF8
+
 formapro_message_queue:
     transport:
         default: 'null'
         'null': ~
     client: ~
-    job: false
+    job: true

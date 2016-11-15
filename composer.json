@@ -6,7 +6,8 @@
     "formapro/jms": "dev-master",
     "formapro/message-queue": "dev-master",
     "formapro/stomp": "dev-master",
-    "formapro/message-queue-bundle": "dev-master"
+    "formapro/message-queue-bundle": "dev-master",
+    "formapro/job-queue": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^5",
@@ -34,6 +35,10 @@
     {
       "type": "path",
       "url": "pkg/mq-bundle"
+    },
+    {
+      "type": "path",
+      "url": "pkg/job-queue"
     }
   ]
 }
