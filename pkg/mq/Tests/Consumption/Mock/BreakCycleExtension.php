@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueue\Tests\Consumption\Mock;
 
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 
 class BreakCycleExtension implements ExtensionInterface
 {
@@ -28,7 +28,7 @@ class BreakCycleExtension implements ExtensionInterface
         if ($this->cycles >= $this->limit) {
             $context->setExecutionInterrupted(true);
         } else {
-            $this->cycles++;
+            ++$this->cycles;
         }
     }
 }

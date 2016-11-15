@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection;
 
-use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
-use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
+use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
+use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
 use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -46,9 +46,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor->processConfiguration($configuration, [[
             'transport' => [
                 'foo' => [
-                    'foo_param' => 'aParam'
+                    'foo_param' => 'aParam',
                 ],
-            ]
+            ],
         ]]);
     }
 
@@ -66,9 +66,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor->processConfiguration($configuration, [[
             'transport' => [
                 'foo' => [
-                    'foo_param' => null
+                    'foo_param' => null,
                 ],
-            ]
+            ],
         ]]);
     }
 
@@ -80,7 +80,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $processor->processConfiguration($configuration, [[
             'transport' => [
                 'default' => ['alias' => 'foo'],
-            ]
+            ],
         ]]);
     }
 
@@ -92,7 +92,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $config = $processor->processConfiguration($configuration, [[
             'transport' => [
                 'null' => true,
-            ]
+            ],
         ]]);
 
         $this->assertArraySubset([
@@ -116,7 +116,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'default' => 'foo',
                 'null' => true,
                 'foo' => ['foo_param' => 'aParam'],
-            ]
+            ],
         ]]);
 
         $this->assertArraySubset([
@@ -134,7 +134,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $configuration = new Configuration([
             new DefaultTransportFactory(),
-            new DbalTransportFactory()
+            new DbalTransportFactory(),
         ]);
 
         $processor = new Processor();
@@ -142,7 +142,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'transport' => [
                 'default' => 'dbal',
                 'dbal' => true,
-            ]
+            ],
         ]]);
 
         $this->assertArraySubset([
@@ -182,7 +182,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'router_destination' => 'default',
                 'default_destination' => 'default',
                 'traceable_producer' => false,
-                'redelivered_delay_time' => 10
+                'redelivered_delay_time' => 10,
             ],
         ], $config);
     }
@@ -233,7 +233,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $processor = new Processor();
         $config = $processor->processConfiguration($configuration, [[
-            'transport' => []
+            'transport' => [],
         ]]);
 
         $this->assertArraySubset([

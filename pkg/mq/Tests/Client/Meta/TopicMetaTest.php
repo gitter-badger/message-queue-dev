@@ -8,12 +8,12 @@ class TopicMetaTest extends \PHPUnit_Framework_TestCase
     public function testCouldBeConstructedWithNameOnly()
     {
         $topic = new TopicMeta('aName');
-        
+
         $this->assertAttributeEquals('aName', 'name', $topic);
         $this->assertAttributeEquals('', 'description', $topic);
         $this->assertAttributeEquals([], 'subscribers', $topic);
     }
-    
+
     public function testCouldBeConstructedWithNameAndDescriptionOnly()
     {
         $topic = new TopicMeta('aName', 'aDescription');
@@ -31,14 +31,14 @@ class TopicMetaTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals('aDescription', 'description', $topic);
         $this->assertAttributeEquals(['aSubscriber'], 'subscribers', $topic);
     }
-    
+
     public function testShouldAllowGetNameSetInConstructor()
     {
         $topic = new TopicMeta('theName', 'aDescription');
-        
+
         $this->assertSame('theName', $topic->getName());
     }
-    
+
     public function testShouldAllowGetDescriptionSetInConstructor()
     {
         $topic = new TopicMeta('aName', 'theDescription');

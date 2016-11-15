@@ -8,7 +8,7 @@ class BufferedStompClient extends Client
     /**
      * [
      *   'subscriptionId' => Frame[],
-     * ]
+     * ].
      *
      * @var array
      */
@@ -26,7 +26,7 @@ class BufferedStompClient extends Client
 
     /**
      * @param \Stomp\Network\Connection|string $broker
-     * @param int $bufferSize
+     * @param int                              $bufferSize
      */
     public function __construct($broker, $bufferSize = 1000)
     {
@@ -46,7 +46,7 @@ class BufferedStompClient extends Client
     }
 
     /**
-     * @param string $subscriptionId
+     * @param string    $subscriptionId
      * @param int|float $timeout
      *
      * @return \Stomp\Transport\Frame
@@ -55,7 +55,7 @@ class BufferedStompClient extends Client
     {
         // pop up frame from the buffer
         if (isset($this->buffer[$subscriptionId]) && ($frame = array_shift($this->buffer[$subscriptionId]))) {
-            $this->currentBufferSize--;
+            --$this->currentBufferSize;
 
             return $frame;
         }
@@ -89,7 +89,7 @@ class BufferedStompClient extends Client
             // frame belongs to another subscription
             if ($headers['subscription'] !== $subscriptionId) {
                 $this->buffer[$headers['subscription']][] = $frame;
-                $this->currentBufferSize++;
+                ++$this->currentBufferSize;
 
                 $remainingTimeout -= (microtime(true) - $startTime) * 1000000;
 

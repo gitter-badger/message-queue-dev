@@ -16,9 +16,9 @@ class ConsumeMessagesCommand extends Command
 {
     use LimitsExtensionsCommandTrait;
 
-   /**
-    * @var QueueConsumer
-    */
+    /**
+     * @var QueueConsumer
+     */
     private $consumer;
 
     /**
@@ -37,10 +37,10 @@ class ConsumeMessagesCommand extends Command
     private $driver;
 
     /**
-     * @param QueueConsumer $consumer
+     * @param QueueConsumer            $consumer
      * @param DelegateMessageProcessor $processor
-     * @param DestinationMetaRegistry $destinationMetaRegistry
-     * @param DriverInterface $driver
+     * @param DestinationMetaRegistry  $destinationMetaRegistry
+     * @param DriverInterface          $driver
      */
     public function __construct(
         QueueConsumer $consumer,

@@ -37,7 +37,7 @@ class BufferedStompClientTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('buffer', $client);
         $this->assertObjectHasAttribute('currentBufferSize', $client);
 
-        $this->writeAttribute($client, 'buffer', [1,2,3]);
+        $this->writeAttribute($client, 'buffer', [1, 2, 3]);
         $this->writeAttribute($client, 'currentBufferSize', 12345);
 
         $client->disconnect();

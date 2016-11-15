@@ -23,9 +23,9 @@ class Router implements RecipientListRouterInterface
     private $destinationMetaRegistry;
 
     /**
-     * @param DriverInterface $driver
+     * @param DriverInterface         $driver
      * @param DestinationMetaRegistry $destinationMetaRegistry
-     * @param array $routes
+     * @param array                   $routes
      */
     public function __construct(
         DriverInterface $driver,
@@ -87,7 +87,7 @@ class Router implements RecipientListRouterInterface
                 Config::PARAMETER_TOPIC_NAME
             ));
         }
-        
+
         if (array_key_exists($topicName, $this->routes)) {
             foreach ($this->routes[$topicName] as $route) {
                 $recipient = $this->createRecipient(
@@ -103,8 +103,8 @@ class Router implements RecipientListRouterInterface
 
     /**
      * @param JMSMessage $message
-     * @param string $processorName
-     * @param string $queueName
+     * @param string     $processorName
+     * @param string     $queueName
      *
      * @return Recipient
      */

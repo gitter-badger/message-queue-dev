@@ -10,7 +10,7 @@ class TopicMetaRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $topics = [
             'aTopicName' => [],
-            'anotherTopicName' => []
+            'anotherTopicName' => [],
         ];
 
         $registry = new TopicMetaRegistry($topics);
@@ -72,7 +72,7 @@ class TopicMetaRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Generator::class, $topics);
 
         $topics = iterator_to_array($topics);
-        /** @var TopicMeta[] $topics */
+        /* @var TopicMeta[] $topics */
 
         $this->assertContainsOnly(TopicMeta::class, $topics);
         $this->assertCount(2, $topics);

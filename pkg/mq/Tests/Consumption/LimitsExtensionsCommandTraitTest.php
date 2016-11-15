@@ -5,10 +5,7 @@ use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
 use Formapro\MessageQueue\Tests\Consumption\Mock\LimitsExtensionsCommand;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Console\Tests\Output\TestOutput;
 
 class LimitsExtensionsCommandTraitTest extends \PHPUnit_Framework_TestCase
 {

@@ -3,8 +3,8 @@ namespace Formapro\MessageQueue\Tests\Consumption;
 
 use Formapro\Jms\JMSContext;
 use Formapro\Jms\Queue;
-use Formapro\MessageQueue\Consumption\ConsumeMessagesCommand;
 use Formapro\MessageQueue\Consumption\ChainExtension;
+use Formapro\MessageQueue\Consumption\ConsumeMessagesCommand;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\QueueConsumer;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -61,7 +61,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $tester = new CommandTester($command);
         $tester->execute([
             'queue' => 'queue-name',
-            'processor-service' => 'processor-service'
+            'processor-service' => 'processor-service',
         ]);
     }
 
@@ -108,7 +108,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $tester = new CommandTester($command);
         $tester->execute([
             'queue' => 'queue-name',
-            'processor-service' => 'processor-service'
+            'processor-service' => 'processor-service',
         ]);
     }
 

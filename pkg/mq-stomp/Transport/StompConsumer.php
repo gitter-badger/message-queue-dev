@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\Stomp\Transport;
 
-use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Exception\InvalidMessageException;
+use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Message;
 use Stomp\Client;
 use Stomp\Transport\Frame;
@@ -45,7 +45,7 @@ class StompConsumer implements JMSConsumer
 
     /**
      * @param BufferedStompClient $stomp
-     * @param StompDestination $queue
+     * @param StompDestination    $queue
      */
     public function __construct(BufferedStompClient $stomp, StompDestination $queue)
     {

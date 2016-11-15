@@ -2,12 +2,12 @@
 namespace Formapro\MessageQueue\Tests\Client\ConsumptionExtension;
 
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension;
 use Formapro\MessageQueue\Client\DriverInterface;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
+use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Psr\Log\LoggerInterface;
 
 class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase

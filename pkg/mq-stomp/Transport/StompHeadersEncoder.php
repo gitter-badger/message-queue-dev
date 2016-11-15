@@ -41,27 +41,27 @@ class StompHeadersEncoder
             switch ($type = gettype($value)) {
                 case 'string':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_STRING;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_STRING;
 
                     break;
                 case 'integer':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_INT;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_INT;
 
                     break;
                 case 'double':
                     $encoded[$key] = (string) $value;
-                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_FLOAT;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_FLOAT;
 
                     break;
                 case 'NULL':
                     $encoded[$key] = '';
-                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_NULL;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_NULL;
 
                     break;
                 case 'boolean':
                     $encoded[$key] = $value ? 'true' : 'false';
-                    $encoded[self::TYPE_PREFIX . $key] = self::TYPE_BOOL;
+                    $encoded[self::TYPE_PREFIX.$key] = self::TYPE_BOOL;
 
                     break;
                 default:

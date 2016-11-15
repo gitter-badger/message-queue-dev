@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption;
 
+use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
-use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class ExtensionsTest extends \PHPUnit_Framework_TestCase

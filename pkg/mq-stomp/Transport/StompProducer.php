@@ -28,7 +28,7 @@ class StompProducer implements JMSProducer
      * {@inheritdoc}
      *
      * @param StompDestination $destination
-     * @param StompMessage $message
+     * @param StompMessage     $message
      */
     public function send(Destination $destination, Message $message)
     {

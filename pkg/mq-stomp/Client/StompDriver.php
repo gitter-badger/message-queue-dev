@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\Stomp\Client;
 
+use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
-use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Stomp\Transport\StompContext;
 use Formapro\Stomp\Transport\StompDestination;
 
@@ -29,7 +29,7 @@ class StompDriver implements DriverInterface
 
     /**
      * @param StompContext $context
-     * @param Config $config
+     * @param Config       $config
      */
     public function __construct(StompContext $context, Config $config)
     {

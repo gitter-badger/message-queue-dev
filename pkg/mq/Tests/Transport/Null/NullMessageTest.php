@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
 use Formapro\Jms\Message;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
 
 class NullMessageTest extends \PHPUnit_Framework_TestCase
 {

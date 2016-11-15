@@ -38,9 +38,9 @@ class FooTransportFactory implements TransportFactoryInterface
     public function createService(ContainerBuilder $container, array $config)
     {
         $connectionId = 'foo.context';
-        
+
         $container->setDefinition($connectionId, new Definition(\stdClass::class, [$config]));
-        
+
         return $connectionId;
     }
 

@@ -9,13 +9,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         new Message();
     }
-    
+
     public function testShouldAllowGetPreviouslySetBody()
     {
         $message = new Message();
-        
+
         $message->setBody('theBody');
-        
+
         self::assertSame('theBody', $message->getBody());
     }
 

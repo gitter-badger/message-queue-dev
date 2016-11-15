@@ -3,7 +3,7 @@ namespace Formapro\MessageQueueBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Formapro\MessageQueueJob\Job\Job as BaseJob;
+use Formapro\JobQueue\Job as BaseJob;
 
 /**
  * @ORM\Entity

@@ -2,11 +2,11 @@
 namespace Formapro\MessageQueue\Tests\Client;
 
 use Formapro\Jms\JMSContext;
+use Formapro\MessageQueue\Client\Config;
+use Formapro\MessageQueue\Client\DelegateMessageProcessor;
+use Formapro\MessageQueue\Client\MessageProcessorRegistryInterface;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
-use Formapro\MessageQueue\Client\Config;
-use Formapro\MessageQueue\Client\MessageProcessorRegistryInterface;
-use Formapro\MessageQueue\Client\DelegateMessageProcessor;
 
 class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
 {

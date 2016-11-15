@@ -5,10 +5,10 @@ use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\MessageQueue\Client\NullDriver;
+use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullProducer;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\Null\NullContext;
 
 class NullDriverTest extends \PHPUnit_Framework_TestCase
 {

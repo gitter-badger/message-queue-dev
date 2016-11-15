@@ -7,7 +7,7 @@ class InvalidMessageException extends Exception
 {
     /**
      * @param Message $message
-     * @param string $class
+     * @param string  $class
      *
      * @throws static
      */

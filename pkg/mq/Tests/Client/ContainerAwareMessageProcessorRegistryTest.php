@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client;
 
-use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Client\ContainerAwareMessageProcessorRegistry;
+use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 class ContainerAwareMessageProcessorRegistryTest extends \PHPUnit_Framework_TestCase

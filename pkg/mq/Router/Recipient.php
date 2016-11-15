@@ -10,7 +10,7 @@ class Recipient
      * @var Destination
      */
     private $destination;
-    
+
     /**
      * @var Message
      */
@@ -18,7 +18,7 @@ class Recipient
 
     /**
      * @param Destination $destination
-     * @param Message $message
+     * @param Message     $message
      */
     public function __construct(Destination $destination, Message $message)
     {

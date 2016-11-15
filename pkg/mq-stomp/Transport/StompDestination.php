@@ -70,77 +70,13 @@ class StompDestination implements Topic, Queue
             throw new \LogicException('Destination type or name is not set');
         }
 
-        $name = '/' . $this->getType() . '/' . $this->getStompName();
+        $name = '/'.$this->getType().'/'.$this->getStompName();
 
         if ($this->getRoutingKey()) {
             $name .= '/'.$this->getRoutingKey();
         }
 
         return $name;
-    }
-
-    /**
-     * @param string $destination
-     */
-    public function setQueueName($destination)
-    {
-        if (false === strpos($destination, '/')) {
-            $this->setStompName($destination);
-            $this->setType(self::TYPE_QUEUE);
-
-            return;
-        }
-
-        $types = [
-            self::TYPE_TOPIC,
-            self::TYPE_EXCHANGE,
-            self::TYPE_QUEUE,
-            self::TYPE_AMQ_QUEUE,
-            self::TYPE_TEMP_QUEUE,
-        ];
-
-        $dest = $destination;
-        $type = null;
-        $name = null;
-        $routingKey = null;
-
-        foreach ($types as $_type) {
-            $typePrefix = '/'.$_type.'/';
-            if (0 === strpos($dest, $typePrefix)) {
-                $type = $_type;
-                $dest = substr($dest, strlen($typePrefix));
-
-                break;
-            }
-        }
-
-        if (null === $type) {
-            throw new \LogicException(sprintf('Destination name is invalid, cant find type: "%s"', $destination));
-        }
-
-        $pieces = explode('/', $dest);
-
-        if (count($pieces) > 2) {
-            throw new \LogicException(sprintf('Destination name is invalid, found extra / char: "%s"', $destination));
-        }
-
-        if (empty($pieces[0])) {
-            throw new \LogicException(sprintf('Destination name is invalid, name is empty: "%s"', $destination));
-        }
-
-        $name = $pieces[0];
-
-        if (isset($pieces[1])) {
-            if (empty($pieces[1])) {
-                throw new \LogicException(sprintf('Destination name is invalid, routing key is empty: "%s"', $destination));
-            }
-
-            $routingKey = $pieces[1];
-        }
-
-        $this->setType($type);
-        $this->setStompName($name);
-        $this->setRoutingKey($routingKey);
     }
 
     /**
@@ -269,7 +205,7 @@ class StompDestination implements Topic, Queue
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setHeader($name, $value)
     {

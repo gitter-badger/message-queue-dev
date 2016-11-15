@@ -23,7 +23,7 @@ class QueueConsumer
     /**
      * [
      *   [Queue, MessageProcessorInterface],
-     * ]
+     * ].
      *
      * @var array
      */
@@ -35,9 +35,9 @@ class QueueConsumer
     private $idleMicroseconds;
 
     /**
-     * @param JMSContext $context
+     * @param JMSContext                             $context
      * @param ExtensionInterface|ChainExtension|null $extension
-     * @param int $idleMicroseconds 100ms by default
+     * @param int                                    $idleMicroseconds 100ms by default
      */
     public function __construct(
         JMSContext $context,
@@ -60,7 +60,7 @@ class QueueConsumer
     }
 
     /**
-     * @param Queue $queue
+     * @param Queue                     $queue
      * @param MessageProcessorInterface $messageProcessor
      *
      * @return self
@@ -81,7 +81,7 @@ class QueueConsumer
 
     /**
      * Runtime extension - is an extension or a collection of extensions which could be set on runtime.
-     * Here's a good example: @see LimitsExtensionsCommandTrait
+     * Here's a good example: @see LimitsExtensionsCommandTrait.
      *
      * @param ExtensionInterface|ChainExtension|null $runtimeExtension
      *
@@ -151,7 +151,7 @@ class QueueConsumer
 
     /**
      * @param ExtensionInterface $extension
-     * @param Context $context
+     * @param Context            $context
      *
      * @throws ConsumptionInterruptedException
      *
@@ -214,7 +214,7 @@ class QueueConsumer
 
     /**
      * @param ExtensionInterface $extension
-     * @param Context $context
+     * @param Context            $context
      *
      * @throws \Exception
      */

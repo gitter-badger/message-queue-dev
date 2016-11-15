@@ -31,7 +31,7 @@ class MessageQueueCollector extends DataCollector
         $this->data = [
             'sent_messages' => [],
         ];
-        
+
         if ($this->messageProducer instanceof TraceableMessageProducer) {
             $this->data['sent_messages'] = $this->messageProducer->getTraces();
         }

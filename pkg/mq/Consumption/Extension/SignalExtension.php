@@ -2,9 +2,9 @@
 namespace Formapro\MessageQueue\Consumption\Extension;
 
 use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Formapro\MessageQueue\Consumption\Exception\LogicException;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
-use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Psr\Log\LoggerInterface;
 
 class SignalExtension implements ExtensionInterface
@@ -98,7 +98,7 @@ class SignalExtension implements ExtensionInterface
         if ($this->logger) {
             $this->logger->debug(sprintf('[SignalExtension] Caught signal: %s', $signal));
         }
-        
+
         switch ($signal) {
             case SIGTERM:  // 15 : supervisor default stop
             case SIGQUIT:  // 3  : kill -s QUIT

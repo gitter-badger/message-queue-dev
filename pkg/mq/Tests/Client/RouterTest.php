@@ -7,9 +7,9 @@ use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Formapro\MessageQueue\Client\Router;
 use Formapro\MessageQueue\Router\Recipient;
 use Formapro\MessageQueue\Router\RecipientListRouterInterface;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $routes = [
             'aTopicName' => [['aProcessorName', 'aQueueName']],
-            'anotherTopicName' => [['aProcessorName', 'aQueueName']]
+            'anotherTopicName' => [['aProcessorName', 'aQueueName']],
         ];
 
         $router = new Router($this->createDriverStub(), $this->createDestinationMetaRegistry(), $routes);
@@ -116,7 +116,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $driver = $this->createDriverStub();
 
         $destinationsMeta = [
-            'default' => []
+            'default' => [],
         ];
 
         $router = new Router($driver, $this->createDestinationMetaRegistry($destinationsMeta));
@@ -146,7 +146,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $message->setProperties(['aProp' => 'aPropVal', Config::PARAMETER_TOPIC_NAME => 'theTopicName']);
 
         $destinationsMeta = [
-            'aFooQueue' => []
+            'aFooQueue' => [],
         ];
 
         $router = new Router($this->createDriverStub(), $this->createDestinationMetaRegistry($destinationsMeta));
@@ -185,13 +185,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $destinationsMeta = [
             'aFooQueue' => [],
-            'aBarQueue' => []
+            'aBarQueue' => [],
         ];
 
         $router = new Router($this->createDriverStub(), $this->createDestinationMetaRegistry($destinationsMeta));
         $router->addRoute('theTopicName', 'aFooProcessor', 'aFooQueue');
         $router->addRoute('theTopicName', 'aBarProcessor', 'aBarQueue');
-
 
         $result = $router->route($message);
         $result = iterator_to_array($result);
@@ -254,7 +253,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 return new NullQueue($queueName);
             })
         ;
-        
+
         return $driverMock;
     }
 }

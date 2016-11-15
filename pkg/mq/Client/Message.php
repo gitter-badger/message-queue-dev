@@ -29,14 +29,14 @@ class Message
     private $priority;
 
     /**
-     * The number of seconds the message should be removed from the queue without processing
+     * The number of seconds the message should be removed from the queue without processing.
      *
      * @var int|null
      */
     private $expire;
 
     /**
-     * The number of seconds the message should be delayed before it will be send to a queue
+     * The number of seconds the message should be delayed before it will be send to a queue.
      *
      * @var int|null
      */
@@ -139,7 +139,7 @@ class Message
     }
 
     /**
-     * Gets the number of seconds the message should be removed from the queue without processing
+     * Gets the number of seconds the message should be removed from the queue without processing.
      *
      * @return int|null
      */
@@ -157,7 +157,7 @@ class Message
     }
 
     /**
-     * Gets the number of seconds the message should be delayed before it will be send to a queue
+     * Gets the number of seconds the message should be delayed before it will be send to a queue.
      *
      * @return int|null
      */
@@ -167,7 +167,7 @@ class Message
     }
 
     /**
-     * Set delay in seconds
+     * Set delay in seconds.
      *
      * @param int|null $delay
      */
@@ -186,7 +186,7 @@ class Message
 
     /**
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -197,7 +197,7 @@ class Message
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setHeader($name, $value)
     {
@@ -230,7 +230,7 @@ class Message
 
     /**
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -241,7 +241,7 @@ class Message
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setProperty($name, $value)
     {

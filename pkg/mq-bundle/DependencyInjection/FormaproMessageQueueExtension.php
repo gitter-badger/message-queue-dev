@@ -1,7 +1,7 @@
 <?php
-
 namespace Formapro\MessageQueueBundle\DependencyInjection;
 
+use Formapro\JobQueue\Job;
 use Formapro\MessageQueue\Client\NullDriver;
 use Formapro\MessageQueue\Client\TraceableMessageProducer;
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
@@ -9,7 +9,6 @@ use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Formapro\MessageQueueDbalTransport\Transport\DbalLazyConnection;
-use Formapro\MessageQueueJob\Job\Job;
 use Formapro\Stomp\Client\StompDriver;
 use Formapro\Stomp\Transport\StompContext;
 use Symfony\Component\Config\FileLocator;

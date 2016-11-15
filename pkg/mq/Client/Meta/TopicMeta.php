@@ -12,15 +12,15 @@ class TopicMeta
      * @var string
      */
     private $description;
-    
+
     /**
      * @var string[]
      */
     private $subscribers;
 
     /**
-     * @param string $name
-     * @param string $description
+     * @param string   $name
+     * @param string   $description
      * @param string[] $subscribers
      */
     public function __construct($name, $description = '', array $subscribers = [])

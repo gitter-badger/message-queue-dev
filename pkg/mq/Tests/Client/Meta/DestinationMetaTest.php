@@ -8,7 +8,7 @@ class DestinationMetaTest extends \PHPUnit_Framework_TestCase
     public function testCouldBeConstructedWithExpectedArguments()
     {
         $destination = new DestinationMeta('aClientName', 'aTransportName');
-        
+
         $this->assertAttributeEquals('aClientName', 'clientName', $destination);
         $this->assertAttributeEquals('aTransportName', 'transportName', $destination);
         $this->assertAttributeEquals([], 'subscribers', $destination);
@@ -17,7 +17,7 @@ class DestinationMetaTest extends \PHPUnit_Framework_TestCase
     public function testShouldAllowGetClientNameSetInConstructor()
     {
         $destination = new DestinationMeta('theClientName', 'aTransportName');
-        
+
         $this->assertSame('theClientName', $destination->getClientName());
     }
 

@@ -73,6 +73,6 @@ class Config
      */
     public function formatName($name)
     {
-        return trim(strtolower(trim($this->prefix) . '.' . trim($name)), '.');
+        return trim(strtolower(trim($this->prefix).'.'.trim($name)), '.');
     }
 }

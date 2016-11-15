@@ -23,7 +23,7 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-       $this->stompContext->close();
+        $this->stompContext->close();
     }
 
     public function testWaitsForTwoSecondsAndReturnNullOnReceive()

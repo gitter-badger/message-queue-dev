@@ -5,8 +5,8 @@ interface JMSContext
 {
     /**
      * @param string $body
-     * @param array $properties
-     * @param array $headers
+     * @param array  $properties
+     * @param array  $headers
      *
      * @return Message
      */
@@ -47,8 +47,5 @@ interface JMSContext
      */
     public function createConsumer(Destination $destination);
 
-    /**
-     * @return void
-     */
     public function close();
 }

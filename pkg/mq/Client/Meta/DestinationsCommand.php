@@ -52,10 +52,10 @@ class DestinationsCommand extends Command
             $table->addRow([
                 $destination->getClientName(),
                 $destination->getTransportName(),
-                implode(PHP_EOL, $destination->getSubscribers())
+                implode(PHP_EOL, $destination->getSubscribers()),
             ]);
 
-            $count++;
+            ++$count;
             $firstRow = false;
         }
 

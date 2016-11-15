@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueueBundle\Consumption\Extension;
 
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineClearIdentityMapExtension implements ExtensionInterface

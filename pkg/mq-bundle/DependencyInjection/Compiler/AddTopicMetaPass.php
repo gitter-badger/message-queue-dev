@@ -19,14 +19,14 @@ class AddTopicMetaPass implements CompilerPassInterface
     /**
      * @param string $topicName
      * @param string $topicDescription
-     * @param array $topicSubscribers
+     * @param array  $topicSubscribers
      *
      * @return $this
      */
     public function add($topicName, $topicDescription = '', array $topicSubscribers = [])
     {
         $this->topicsMeta[$topicName] = [];
-        
+
         if ($topicDescription) {
             $this->topicsMeta[$topicName]['description'] = $topicDescription;
         }
@@ -44,13 +44,13 @@ class AddTopicMetaPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $metaRegistryId = 'formapro_message_queue.client.meta.topic_meta_registry';
-        
+
         if (false == $container->hasDefinition($metaRegistryId)) {
             return;
         }
 
         $metaRegistry = $container->getDefinition($metaRegistryId);
-        
+
         $metaRegistry->replaceArgument(0, array_merge_recursive($metaRegistry->getArgument(0), $this->topicsMeta));
     }
 
@@ -59,6 +59,6 @@ class AddTopicMetaPass implements CompilerPassInterface
      */
     public static function create()
     {
-        return new static;
+        return new static();
     }
 }

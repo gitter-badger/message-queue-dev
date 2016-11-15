@@ -66,7 +66,6 @@ class MessageProducer implements MessageProducerInterface
             $body = $message->getBody();
             $contentType = $message->getContentType();
 
-
             if ($contentType && $contentType !== 'application/json') {
                 throw new \LogicException(sprintf('Content type "application/json" only allowed when body is array'));
             }

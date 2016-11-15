@@ -27,10 +27,10 @@ class Configuration implements ConfigurationInterface
     {
         $tb = new TreeBuilder();
         $rootNode = $tb->root('formapro_message_queue');
-        
+
         $transportChildren = $rootNode->children()
             ->arrayNode('transport')->isRequired()->children();
-            
+
         foreach ($this->factories as $factory) {
             $factory->addConfiguration(
                 $transportChildren->arrayNode($factory->getName())

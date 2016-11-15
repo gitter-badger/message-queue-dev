@@ -1,14 +1,14 @@
 <?php
 namespace Formapro\MessageQueueBundle;
 
+use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
+use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildDestinationMetaRegistryPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildExtensionsPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildMessageProcessorRegistryPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildRouteRegistryPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildTopicMetaSubscribersPass;
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
-use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
-use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
 use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Formapro\Stomp\DependencyInjection\StompTransportFactory;

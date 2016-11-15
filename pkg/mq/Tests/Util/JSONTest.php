@@ -24,13 +24,13 @@ class JSONTest extends \PHPUnit_Framework_TestCase
         fclose($resource);
 
         return [
-            [null,],
-            [true,],
-            [false,],
-            [new \stdClass(),],
-            [123,],
-            [123.45,],
-            [$resource,],
+            [null],
+            [true],
+            [false],
+            [new \stdClass()],
+            [123],
+            [123.45],
+            [$resource],
         ];
     }
 

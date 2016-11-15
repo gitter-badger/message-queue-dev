@@ -3,30 +3,30 @@ parameters:
 
 services:
     formapro_message_queue.job.storage:
-        class: 'Formapro\MessageQueueJob\Job\JobStorage'
+        class: 'Formapro\JobQueue\JobStorage'
         arguments:
             - '@doctrine'
             - 'Formapro\MessageQueueBundle\Entity\Job'
             - '%formapro_message_queue.job.unique_job_table_name%'
 
     formapro_message_queue.job.processor:
-        class: 'Formapro\MessageQueueJob\Job\JobProcessor'
+        class: 'Formapro\JobQueue\JobProcessor'
         arguments:
             - '@formapro_message_queue.job.storage'
             - '@formapro_message_queue.client.message_producer'
 
     formapro_message_queue.job.runner:
-        class: 'Formapro\MessageQueueJob\Job\JobRunner'
+        class: 'Formapro\JobQueue\JobRunner'
         arguments:
             - '@formapro_message_queue.job.processor'
 
     formapro_message_queue.job.calculate_root_job_status_service:
-        class: 'Formapro\MessageQueueJob\Job\CalculateRootJobStatusService'
+        class: 'Formapro\JobQueue\CalculateRootJobStatusService'
         arguments:
             - '@formapro_message_queue.job.storage'
 
     formapro_message_queue.job.calculate_root_job_status_processor:
-        class: 'Formapro\MessageQueueJob\Job\CalculateRootJobStatusProcessor'
+        class: 'Formapro\JobQueue\CalculateRootJobStatusProcessor'
         arguments:
             - '@formapro_message_queue.job.storage'
             - '@formapro_message_queue.job.calculate_root_job_status_service'
@@ -36,7 +36,7 @@ services:
             - { name: 'formapro_message_queue.client.message_processor' }
 
     formapro_message_queue.job.dependent_job_processor:
-        class: 'Formapro\MessageQueueJob\Job\DependentJobMessageProcessor'
+        class: 'Formapro\JobQueue\DependentJobMessageProcessor'
         arguments:
             - '@formapro_message_queue.job.storage'
             - '@formapro_message_queue.client.message_producer'
@@ -45,6 +45,6 @@ services:
             - { name: 'formapro_message_queue.client.message_processor' }
 
     formapro_message_queue.job.dependent_job_service:
-        class: 'Formapro\MessageQueueJob\Job\DependentJobService'
+        class: 'Formapro\JobQueue\DependentJobService'
         arguments:
             - '@formapro_message_queue.job.storage'

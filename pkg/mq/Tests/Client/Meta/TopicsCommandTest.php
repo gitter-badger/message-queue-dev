@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client\Meta;
 
-use Formapro\MessageQueue\Client\Meta\TopicsCommand;
 use Formapro\MessageQueue\Client\Meta\TopicMetaRegistry;
+use Formapro\MessageQueue\Client\Meta\TopicsCommand;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -10,12 +10,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 class TopicsCommandTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
-    
+
     public function testShouldBeSubClassOfCommand()
     {
         $this->assertClassExtends(Command::class, TopicsCommand::class);
     }
-    
+
     public function testCouldBeConstructedWithTopicMetaRegistryAsFirstArgument()
     {
         new TopicsCommand(new TopicMetaRegistry([]));
@@ -60,12 +60,12 @@ class TopicsCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Command $command
+     * @param Command  $command
      * @param string[] $arguments
      *
      * @return string
      */
-    protected function executeCommand(Command $command, array $arguments = array())
+    protected function executeCommand(Command $command, array $arguments = [])
     {
         $tester = new CommandTester($command);
         $tester->execute($arguments);

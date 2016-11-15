@@ -2,13 +2,13 @@
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullConsumer;
+use Formapro\MessageQueue\Transport\Null\NullContext;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullProducer;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueue\Transport\Null\NullTopic;
-use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,7 +55,7 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
         $context = new NullContext();
 
         $queue = $context->createQueue('aName');
-        
+
         $this->assertInstanceOf(NullQueue::class, $queue);
     }
 
@@ -112,7 +112,7 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
         $context = new NullContext();
         $context->declareBind($topic, $queue);
     }
-    
+
     public function testShouldCreateTempraryQueueWithUnqiueName()
     {
         $context = new NullContext();

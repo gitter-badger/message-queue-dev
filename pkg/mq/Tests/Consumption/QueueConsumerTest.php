@@ -5,9 +5,9 @@ use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\JMSContext;
 use Formapro\Jms\Message;
 use Formapro\Jms\Queue;
+use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
-use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\QueueConsumer;
 use Formapro\MessageQueue\Consumption\Result;
@@ -542,7 +542,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldCloseSessionWhenConsumptionInterruptedByException()
     {
-        $expectedException = new \Exception;
+        $expectedException = new \Exception();
 
         $messageConsumerStub = $this->createMessageConsumerStub($message = $this->createMessageMock());
 
@@ -576,8 +576,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldSetMainExceptionAsPreviousToExceptionThrownOnInterrupt()
     {
-        $mainException = new \Exception;
-        $expectedException = new \Exception;
+        $mainException = new \Exception();
+        $expectedException = new \Exception();
 
         $messageConsumerStub = $this->createMessageConsumerStub($message = $this->createMessageMock());
 
@@ -596,7 +596,6 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->method('onInterrupted')
             ->willThrowException($expectedException)
         ;
-
 
         $chainExtensions = new ChainExtension([$extension, new BreakCycleExtension(1)]);
         $queueConsumer = new QueueConsumer($contextStub, $chainExtensions, 0);

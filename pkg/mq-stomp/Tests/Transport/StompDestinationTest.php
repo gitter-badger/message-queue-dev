@@ -16,7 +16,7 @@ class StompDestinationTest extends \PHPUnit_Framework_TestCase
         $this->assertClassImplements(Queue::class, StompDestination::class);
     }
 
-    public function testShouldParseDestinationStringWithRoutingKey()
+    public function testShouldReturnDestinationStringWithRoutingKey()
     {
         $destination = new StompDestination();
         $destination->setType(StompDestination::TYPE_AMQ_QUEUE);
@@ -29,7 +29,7 @@ class StompDestinationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('/amq/queue/name/routing-key', $destination->getQueueName());
     }
 
-    public function testShouldParseDestinationStringWithoutRoutingKey()
+    public function testShouldReturnDestinationStringWithoutRoutingKey()
     {
         $destination = new StompDestination();
         $destination->setType(StompDestination::TYPE_TOPIC);
@@ -39,43 +39,6 @@ class StompDestinationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('name', $destination->getStompName());
         $this->assertNull($destination->getRoutingKey());
         $this->assertSame('/topic/name', $destination->getQueueName());
-    }
-
-    public function testShouldThrowLogicExceptionIfTypeIsInvalid()
-    {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Destination name is invalid, cant find type: "/invalid-type/name"');
-
-        $destination = new StompDestination();
-        $destination->setQueueName('/invalid-type/name');
-    }
-
-    public function testShouldThrowLogicExceptionIfExtraSlashFound()
-    {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Destination name is invalid, found extra / char: "/queue/name/routing-key/extra');
-
-        $destination = new StompDestination();
-        $destination->setQueueName('/queue/name/routing-key/extra');
-    }
-
-    public function testShouldThrowLogicExceptionIfNameIsEmpty()
-    {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Destination name is invalid, name is empty: "/queue/"');
-
-
-        $destination = new StompDestination();
-        $destination->setQueueName('/queue/');
-    }
-
-    public function testShouldThrowLogicExceptionIfRoutingKeyIsEmpty()
-    {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Destination name is invalid, routing key is empty: "/queue/name/"');
-
-        $destination = new StompDestination();
-        $destination->setQueueName('/queue/name/');
     }
 
     public function testShouldThrowLogicExceptionIfNameIsNotSet()

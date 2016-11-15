@@ -4,10 +4,8 @@ namespace Formapro\MessageQueue\Consumption;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
-use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 trait LimitsExtensionsCommandTrait
@@ -22,16 +20,15 @@ trait LimitsExtensionsCommandTrait
             ->addOption('time-limit', null, InputOption::VALUE_REQUIRED, 'Consume messages during this time')
             ->addOption('memory-limit', null, InputOption::VALUE_REQUIRED, 'Consume messages until process reaches'.
                 ' this memory limit in MB');
-        ;
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return ExtensionInterface[]
-     *
      * @throws \Exception
+     *
+     * @return ExtensionInterface[]
      */
     protected function getLimitsExtensions(InputInterface $input, OutputInterface $output)
     {

@@ -44,8 +44,8 @@ class TraceableMessageProducerTest extends \PHPUnit_Framework_TestCase
         $messageProducer->send('aFooTopic', 'aFooBody');
 
         $this->assertEquals([
-                ['topic'=> 'aFooTopic', 'message' => 'aFooBody'],
-                ['topic'=> 'aFooTopic', 'message' => 'aFooBody'],
+                ['topic' => 'aFooTopic', 'message' => 'aFooBody'],
+                ['topic' => 'aFooTopic', 'message' => 'aFooBody'],
         ], $messageProducer->getTraces());
     }
 
@@ -57,7 +57,7 @@ class TraceableMessageProducerTest extends \PHPUnit_Framework_TestCase
         $messageProducer->send('aBarTopic', 'aBarBody');
 
         $this->assertEquals([
-            ['topic'=> 'aFooTopic', 'message' => 'aFooBody'],
+            ['topic' => 'aFooTopic', 'message' => 'aFooBody'],
             ['topic' => 'aBarTopic', 'message' => 'aBarBody'],
         ], $messageProducer->getTraces());
     }
@@ -68,7 +68,7 @@ class TraceableMessageProducerTest extends \PHPUnit_Framework_TestCase
         $internalMessageProducer
             ->expects($this->once())
             ->method('send')
-            ->willThrowException(new \Exception)
+            ->willThrowException(new \Exception())
         ;
 
         $messageProducer = new TraceableMessageProducer($internalMessageProducer);
@@ -87,7 +87,6 @@ class TraceableMessageProducerTest extends \PHPUnit_Framework_TestCase
         $messageProducer = new TraceableMessageProducer($this->createMessageProducer());
 
         $messageProducer->send('aFooTopic', 'aFooBody');
-
 
         //guard
         $this->assertNotEmpty($messageProducer->getTraces());

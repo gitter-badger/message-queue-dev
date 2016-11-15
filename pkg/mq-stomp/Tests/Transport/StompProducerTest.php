@@ -3,8 +3,8 @@ namespace Formapro\Stomp\Tests\Transport;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\Message as JmsMessage;
 use Formapro\Jms\JMSProducer;
+use Formapro\Jms\Message as JmsMessage;
 use Formapro\Jms\Queue;
 use Formapro\Stomp\Test\ClassExtensionTrait;
 use Formapro\Stomp\Transport\StompDestination;
