@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -x
+set -e
+
+while getopts "bust" OPTION; do
+  case $OPTION in
+    b)
+      COMPOSE_PROJECT_NAME=mqs docker-compose build
+      ;;
+    u)
+      COMPOSE_PROJECT_NAME=mqs docker-compose up
+      ;;
+    s)
+      COMPOSE_PROJECT_NAME=mqs docker-compose stop
+      ;;
+    t)
+      COMPOSE_PROJECT_NAME=mqs docker-compose run --workdir="/mqs" --rm sandbox ./bin/phpunit
+      ;;
+
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
