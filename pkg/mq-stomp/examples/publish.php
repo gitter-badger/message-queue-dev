@@ -1,5 +1,12 @@
 <?php
-require_once(__DIR__.'/../vendor/autoload.php');
+
+foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../../../vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+
+        break;
+    }
+}
 
 use Formapro\Stomp\Transport\BufferedStompClient;
 use Formapro\Stomp\Transport\StompContext;
