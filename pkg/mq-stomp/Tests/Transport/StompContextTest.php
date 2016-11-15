@@ -50,6 +50,19 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(StompDestination::TYPE_QUEUE, $queue->getType());
     }
 
+    public function testCreateQueueShouldCreateDestinationIfNameIsFullDestinationString()
+    {
+        $context = new StompContext($this->createStompClientMock());
+
+        $destination = $context->createQueue('/amq/queue/name/routing-key');
+
+        $this->assertInstanceOf(StompDestination::class, $destination);
+        $this->assertEquals('amq/queue', $destination->getType());
+        $this->assertEquals('name', $destination->getStompName());
+        $this->assertEquals('routing-key', $destination->getRoutingKey());
+        $this->assertEquals('/amq/queue/name/routing-key', $destination->getQueueName());
+    }
+
     public function testShouldCreateTopicInstance()
     {
         $context = new StompContext($this->createStompClientMock());
@@ -60,6 +73,19 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('/exchange/the name', $topic->getQueueName());
         $this->assertSame('/exchange/the name', $topic->getTopicName());
         $this->assertSame(StompDestination::TYPE_EXCHANGE, $topic->getType());
+    }
+
+    public function testCreateTopicShouldCreateDestinationIfNameIsFullDestinationString()
+    {
+        $context = new StompContext($this->createStompClientMock());
+
+        $destination = $context->createTopic('/amq/queue/name/routing-key');
+
+        $this->assertInstanceOf(StompDestination::class, $destination);
+        $this->assertEquals('amq/queue', $destination->getType());
+        $this->assertEquals('name', $destination->getStompName());
+        $this->assertEquals('routing-key', $destination->getRoutingKey());
+        $this->assertEquals('/amq/queue/name/routing-key', $destination->getQueueName());
     }
 
     public function testThrowInvalidDestinationException()
@@ -99,6 +125,53 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
         $context->createConsumer(new StompDestination());
 
         $context->close();
+    }
+
+    public function testCreateDestinationShouldThrowLogicExceptionIfTypeIsInvalid()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Destination name is invalid, cant find type: "/invalid-type/name"');
+
+        $context = new StompContext($this->createStompClientMock());
+        $context->createDestination('/invalid-type/name');
+    }
+
+    public function testCreateDestinationShouldThrowLogicExceptionIfExtraSlashFound()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Destination name is invalid, found extra / char: "/queue/name/routing-key/extra');
+
+        $context = new StompContext($this->createStompClientMock());
+        $context->createDestination('/queue/name/routing-key/extra');
+    }
+
+    public function testCreateDestinationShouldThrowLogicExceptionIfNameIsEmpty()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Destination name is invalid, name is empty: "/queue/"');
+
+        $context = new StompContext($this->createStompClientMock());
+        $context->createDestination('/queue/');
+    }
+
+    public function testCreateDestinationShouldThrowLogicExceptionIfRoutingKeyIsEmpty()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Destination name is invalid, routing key is empty: "/queue/name/"');
+
+        $context = new StompContext($this->createStompClientMock());
+        $context->createDestination('/queue/name/');
+    }
+
+    public function testCreateDestinationShouldParseStringAndCreateDestination()
+    {
+        $context = new StompContext($this->createStompClientMock());
+        $destination = $context->createDestination('/amq/queue/name/routing-key');
+
+        $this->assertEquals('amq/queue', $destination->getType());
+        $this->assertEquals('name', $destination->getStompName());
+        $this->assertEquals('routing-key', $destination->getRoutingKey());
+        $this->assertEquals('/amq/queue/name/routing-key', $destination->getQueueName());
     }
 
     /**
