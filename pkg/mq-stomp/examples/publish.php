@@ -1,11 +1,18 @@
 <?php
 
-foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../../../vendor/autoload.php'] as $autoload) {
-    if (file_exists($autoload)) {
-        require_once $autoload;
+$autoload = null;
+foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../../../vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        $autoload = $file;
 
         break;
     }
+}
+
+if ($autoload) {
+    require_once $autoload;
+} else {
+    throw new \LogicException('Composer autoload was not found');
 }
 
 use Formapro\Stomp\Transport\BufferedStompClient;
