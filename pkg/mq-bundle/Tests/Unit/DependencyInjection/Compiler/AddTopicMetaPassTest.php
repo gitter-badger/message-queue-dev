@@ -52,7 +52,7 @@ class AddTopicMetaPassTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
 
         $registry = new Definition(null, [[
-            'bazTopic' => []
+            'bazTopic' => [],
         ]]);
         $container->setDefinition('formapro_message_queue.client.meta.topic_meta_registry', $registry);
 

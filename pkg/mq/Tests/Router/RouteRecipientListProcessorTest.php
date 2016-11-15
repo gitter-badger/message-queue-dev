@@ -8,9 +8,9 @@ use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Router\Recipient;
 use Formapro\MessageQueue\Router\RecipientListRouterInterface;
 use Formapro\MessageQueue\Router\RouteRecipientListProcessor;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
-use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
 {

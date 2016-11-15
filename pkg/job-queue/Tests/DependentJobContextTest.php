@@ -37,7 +37,7 @@ class DependentJobContextTest extends \PHPUnit_Framework_TestCase
                 'topic' => 'topic2',
                 'message' => 'message2',
                 'priority' => 12345,
-            ]
+            ],
         ];
 
         $this->assertEquals($expectedDependentJobs, $context->getDependentJobs());

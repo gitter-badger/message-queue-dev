@@ -1,11 +1,10 @@
 <?php
-
 namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 
-use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Client\DriverInterface;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
+use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 
 class CreateQueueExtension implements ExtensionInterface
 {

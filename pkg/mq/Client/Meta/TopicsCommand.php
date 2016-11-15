@@ -51,7 +51,7 @@ class TopicsCommand extends Command
 
             $table->addRow([$topic->getName(), $topic->getDescription(), implode(PHP_EOL, $topic->getSubscribers())]);
 
-            $count++;
+            ++$count;
             $firstRow = false;
         }
 

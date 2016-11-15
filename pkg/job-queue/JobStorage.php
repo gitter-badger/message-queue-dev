@@ -37,8 +37,8 @@ class JobStorage
 
     /**
      * @param ManagerRegistry $doctrine
-     * @param string $entityClass
-     * @param string $uniqueTableName
+     * @param string          $entityClass
+     * @param string          $uniqueTableName
      */
     public function __construct(ManagerRegistry $doctrine, $entityClass, $uniqueTableName)
     {
@@ -86,8 +86,8 @@ class JobStorage
     }
 
     /**
-     * @param string  $name
-     * @param Job     $rootJob
+     * @param string $name
+     * @param Job    $rootJob
      *
      * @return Job
      */
@@ -112,7 +112,7 @@ class JobStorage
     {
         $class = $this->getEntityRepository()->getClassName();
 
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -124,7 +124,7 @@ class JobStorage
     public function saveJob(Job $job, \Closure $lockCallback = null)
     {
         $class = $this->getEntityRepository()->getClassName();
-        if (! $job instanceof $class) {
+        if (!$job instanceof $class) {
             throw new \LogicException(sprintf(
                 'Got unexpected job instance: expected: "%s", actual" "%s"',
                 $class,
@@ -133,7 +133,7 @@ class JobStorage
         }
 
         if ($lockCallback) {
-            if (! $job->getId()) {
+            if (!$job->getId()) {
                 throw new \LogicException('Is not possible to create new job with lock, only update is allowed');
             }
 
@@ -156,14 +156,14 @@ class JobStorage
                 }
             });
         } else {
-            if (! $job->getId() && $job->isRoot()) {
+            if (!$job->getId() && $job->isRoot()) {
                 // Dbal transaction is used here because Doctrine closes EntityManger any time
                 // exception occurs but UniqueConstraintViolationException here is expected here
                 // and we should keep EntityManager in open state.
                 $this->getEntityManager()->getConnection()->transactional(function (Connection $connection) use ($job) {
                     try {
                         $connection->insert($this->uniqueTableName, [
-                            'name' => $job->getOwnerId()
+                            'name' => $job->getOwnerId(),
                         ]);
 
                         if ($job->isUnique()) {
@@ -194,7 +194,7 @@ class JobStorage
      */
     private function getEntityRepository()
     {
-        if (! $this->repository) {
+        if (!$this->repository) {
             $this->repository = $this->getEntityManager()->getRepository($this->entityClass);
         }
 
@@ -206,7 +206,7 @@ class JobStorage
      */
     private function getEntityManager()
     {
-        if (! $this->em) {
+        if (!$this->em) {
             $this->em = $this->doctrine->getManagerForClass($this->entityClass);
         }
 

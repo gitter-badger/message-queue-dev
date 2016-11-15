@@ -11,7 +11,7 @@ class DestinationMetaRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $destinations = [
             'aDestinationName' => [],
-            'anotherDestinationName' => []
+            'anotherDestinationName' => [],
         ];
 
         $registry = new DestinationMetaRegistry(
@@ -93,7 +93,7 @@ class DestinationMetaRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(\Generator::class, $destinations);
 
         $destinations = iterator_to_array($destinations);
-        /** @var DestinationMeta[] $destinations */
+        /* @var DestinationMeta[] $destinations */
 
         $this->assertContainsOnly(DestinationMeta::class, $destinations);
         $this->assertCount(2, $destinations);

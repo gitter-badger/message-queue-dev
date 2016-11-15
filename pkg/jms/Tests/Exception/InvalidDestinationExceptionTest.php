@@ -9,7 +9,7 @@ use Formapro\Jms\Test\ClassExtensionTrait;
 class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
-    
+
     public function testShouldBeSubClassOfException()
     {
         $this->assertClassExtends(ExceptionInterface::class, InvalidDestinationException::class);

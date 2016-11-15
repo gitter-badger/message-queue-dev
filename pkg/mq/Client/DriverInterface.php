@@ -12,7 +12,7 @@ interface DriverInterface
     public function createTransportMessage();
 
     /**
-     * @param Queue $queue
+     * @param Queue   $queue
      * @param Message $message
      */
     public function send(Queue $queue, Message $message);

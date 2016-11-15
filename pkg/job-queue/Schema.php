@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\JobQueue;
 
-use Doctrine\DBAL\Schema\Schema as BaseSchema;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Schema as BaseSchema;
 
 class Schema extends BaseSchema
 {
@@ -45,7 +45,7 @@ class Schema extends BaseSchema
     private function addUniqueJobTable()
     {
         $table = $this->createTable($this->uniqueTableName);
-        $table->addColumn('name', 'string', array('length' => 255));
-        $table->addUniqueIndex(array('name'));
+        $table->addColumn('name', 'string', ['length' => 255]);
+        $table->addUniqueIndex(['name']);
     }
 }

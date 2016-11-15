@@ -19,8 +19,8 @@ class DestinationMeta
     private $subscribers;
 
     /**
-     * @param string $clientName
-     * @param string $transportName
+     * @param string   $clientName
+     * @param string   $transportName
      * @param string[] $subscribers
      */
     public function __construct($clientName, $transportName, array $subscribers = [])

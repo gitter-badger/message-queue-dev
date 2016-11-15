@@ -2,12 +2,12 @@
 namespace Formapro\JobQueue\Tests;
 
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Client\Message;
-use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\JobQueue\DependentJobMessageProcessor;
 use Formapro\JobQueue\Job;
 use Formapro\JobQueue\JobStorage;
 use Formapro\JobQueue\Topics;
+use Formapro\MessageQueue\Client\Message;
+use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Psr\Log\LoggerInterface;
@@ -142,7 +142,7 @@ class DependentJobMessageProcessorTest extends \PHPUnit_Framework_TestCase
         $job->setData([
             'dependentJobs' => [
                 [],
-            ]
+            ],
         ]);
 
         $jobStorage = $this->createJobStorageMock();
@@ -185,7 +185,7 @@ class DependentJobMessageProcessorTest extends \PHPUnit_Framework_TestCase
                 [
                     'topic' => 'topic-name',
                 ],
-            ]
+            ],
         ]);
 
         $jobStorage = $this->createJobStorageMock();
@@ -230,7 +230,7 @@ class DependentJobMessageProcessorTest extends \PHPUnit_Framework_TestCase
                     'topic' => 'topic-name',
                     'message' => 'message',
                 ],
-            ]
+            ],
         ]);
 
         $jobStorage = $this->createJobStorageMock();
@@ -278,7 +278,7 @@ class DependentJobMessageProcessorTest extends \PHPUnit_Framework_TestCase
                     'message' => 'message',
                     'priority' => 'priority',
                 ],
-            ]
+            ],
         ]);
 
         $jobStorage = $this->createJobStorageMock();

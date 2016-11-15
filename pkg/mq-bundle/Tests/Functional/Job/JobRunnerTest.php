@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 
-use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 use Formapro\JobQueue\JobRunner;
+use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
 class JobRunnerTest extends WebTestCase
 {

@@ -22,7 +22,7 @@ class StompMessage implements Message
     private $headers;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $redelivered;
 
@@ -33,8 +33,8 @@ class StompMessage implements Message
 
     /**
      * @param string $body
-     * @param array $properties
-     * @param array $headers
+     * @param array  $properties
+     * @param array  $headers
      */
     public function __construct($body = '', array $properties = [], array $headers = [])
     {
@@ -125,7 +125,7 @@ class StompMessage implements Message
     }
 
     /**
-     * note: rabbitmq STOMP protocol extension
+     * note: rabbitmq STOMP protocol extension.
      *
      * @return bool
      */
@@ -135,7 +135,7 @@ class StompMessage implements Message
     }
 
     /**
-     * note: rabbitmq STOMP protocol extension
+     * note: rabbitmq STOMP protocol extension.
      *
      * @param bool $persistent
      */
@@ -145,7 +145,7 @@ class StompMessage implements Message
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRedelivered()
     {
@@ -153,7 +153,7 @@ class StompMessage implements Message
     }
 
     /**
-     * @param boolean $redelivered
+     * @param bool $redelivered
      */
     public function setRedelivered($redelivered)
     {

@@ -30,8 +30,6 @@ class NullConsumer implements JMSConsumer
 
     /**
      * {@inheritdoc}
-     *
-     * @return null
      */
     public function receive($timeout = 0)
     {
@@ -40,8 +38,6 @@ class NullConsumer implements JMSConsumer
 
     /**
      * {@inheritdoc}
-     *
-     * @return null
      */
     public function receiveNoWait()
     {

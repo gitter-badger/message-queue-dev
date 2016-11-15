@@ -56,7 +56,7 @@ class JobRunner extends BaseJobRunner
     {
         $this->runDelayedJobs[] = ['jobId' => $jobId, 'runCallback' => $runCallback];
 
-        return call_user_func($runCallback, $this, new Job);
+        return call_user_func($runCallback, $this, new Job());
     }
 
     /**

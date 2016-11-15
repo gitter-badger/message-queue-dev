@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildRouteRegistryPass;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\DestinationNameTopicSubscriber;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\InvalidTopicSubscriber;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\OnlyTopicNameTopicSubscriber;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\ProcessorNameTopicSubscriber;
-use Formapro\MessageQueue\Client\Config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -37,9 +37,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic' =>  [
-                ['processor', 'destination']
-            ]
+            'topic' => [
+                ['processor', 'destination'],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));
@@ -107,9 +107,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic' =>  [
-                ['processor-service-id', 'destination']
-            ]
+            'topic' => [
+                ['processor-service-id', 'destination'],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));
@@ -133,9 +133,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic' =>  [
-                ['processor-service-id', Config::DEFAULT_QUEUE_NAME]
-            ]
+            'topic' => [
+                ['processor-service-id', Config::DEFAULT_QUEUE_NAME],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));
@@ -157,9 +157,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic-subscriber-name' =>  [
-                ['processor-service-id', Config::DEFAULT_QUEUE_NAME]
-            ]
+            'topic-subscriber-name' => [
+                ['processor-service-id', Config::DEFAULT_QUEUE_NAME],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));
@@ -181,9 +181,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic-subscriber-name' =>  [
-                ['subscriber-processor-name', Config::DEFAULT_QUEUE_NAME]
-            ]
+            'topic-subscriber-name' => [
+                ['subscriber-processor-name', Config::DEFAULT_QUEUE_NAME],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));
@@ -205,9 +205,9 @@ class BuildRouteRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedRoutes = [
-            'topic-subscriber-name' =>  [
-                ['processor-service-id', 'subscriber-destination-name']
-            ]
+            'topic-subscriber-name' => [
+                ['processor-service-id', 'subscriber-destination-name'],
+            ],
         ];
 
         $this->assertEquals($expectedRoutes, $router->getArgument(2));

@@ -44,11 +44,11 @@ class JobProcessor
      */
     public function findOrCreateRootJob($ownerId, $jobName, $unique = false)
     {
-        if (! $ownerId) {
+        if (!$ownerId) {
             throw new \LogicException('OwnerId must not be empty');
         }
 
-        if (! $jobName) {
+        if (!$jobName) {
             throw new \LogicException('Job name must not be empty');
         }
 
@@ -72,13 +72,13 @@ class JobProcessor
 
     /**
      * @param string $jobName
-     * @param Job $rootJob
+     * @param Job    $rootJob
      *
      * @return Job
      */
     public function findOrCreateChildJob($jobName, Job $rootJob)
     {
-        if (! $jobName) {
+        if (!$jobName) {
             throw new \LogicException('Job name must not be empty');
         }
 
@@ -88,7 +88,7 @@ class JobProcessor
         if ($job) {
             return $job;
         }
-        
+
         $job = $this->jobStorage->createJob();
         $job->setStatus(Job::STATUS_NEW);
         $job->setName($jobName);
@@ -98,7 +98,7 @@ class JobProcessor
         $this->jobStorage->saveJob($job);
 
         $this->producer->send(Topics::CALCULATE_ROOT_JOB_STATUS, [
-            'jobId' => $job->getId()
+            'jobId' => $job->getId(),
         ]);
 
         return $job;
@@ -129,7 +129,7 @@ class JobProcessor
         $this->jobStorage->saveJob($job);
 
         $this->producer->send(Topics::CALCULATE_ROOT_JOB_STATUS, [
-            'jobId' => $job->getId()
+            'jobId' => $job->getId(),
         ]);
     }
 
@@ -158,7 +158,7 @@ class JobProcessor
         $this->jobStorage->saveJob($job);
 
         $this->producer->send(Topics::CALCULATE_ROOT_JOB_STATUS, [
-            'jobId' => $job->getId()
+            'jobId' => $job->getId(),
         ]);
     }
 
@@ -187,7 +187,7 @@ class JobProcessor
         $this->jobStorage->saveJob($job);
 
         $this->producer->send(Topics::CALCULATE_ROOT_JOB_STATUS, [
-            'jobId' => $job->getId()
+            'jobId' => $job->getId(),
         ]);
     }
 
@@ -202,7 +202,7 @@ class JobProcessor
 
         $job = $this->jobStorage->findJobById($job->getId());
 
-        if (! in_array($job->getStatus(), [Job::STATUS_NEW, Job::STATUS_RUNNING])) {
+        if (!in_array($job->getStatus(), [Job::STATUS_NEW, Job::STATUS_RUNNING])) {
             throw new \LogicException(sprintf(
                 'Can cancel only new or running jobs. id: "%s", status: "%s"',
                 $job->getId(),
@@ -213,14 +213,14 @@ class JobProcessor
         $job->setStatus(Job::STATUS_CANCELLED);
         $job->setStoppedAt($stoppedAt = new \DateTime());
 
-        if (! $job->getStartedAt()) {
+        if (!$job->getStartedAt()) {
             $job->setStartedAt($stoppedAt);
         }
 
         $this->jobStorage->saveJob($job);
 
         $this->producer->send(Topics::CALCULATE_ROOT_JOB_STATUS, [
-            'jobId' => $job->getId()
+            'jobId' => $job->getId(),
         ]);
     }
 
@@ -230,7 +230,7 @@ class JobProcessor
      */
     public function interruptRootJob(Job $job, $force = false)
     {
-        if (! $job->isRoot()) {
+        if (!$job->isRoot()) {
             throw new \LogicException(sprintf('Can interrupt only root jobs. id: "%s"', $job->getId()));
         }
 

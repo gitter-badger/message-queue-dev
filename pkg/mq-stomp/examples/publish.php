@@ -33,7 +33,7 @@ try {
 
     $i = 1;
     while (true) {
-        $message = $context->createMessage('payload: ' . $i++);
+        $message = $context->createMessage('payload: '.$i++);
         $producer->send($destination, $message);
         usleep(1000);
     }

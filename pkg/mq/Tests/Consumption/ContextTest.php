@@ -7,8 +7,8 @@ use Formapro\Jms\Message;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Psr\Log\NullLogger;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
@@ -32,7 +32,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function testShouldAllowGetMessageConsumerPreviouslySet()
     {
         $messageConsumer = $this->createConsumer();
-        
+
         $context = new Context($this->createContext());
         $context->setConsumer($messageConsumer);
 

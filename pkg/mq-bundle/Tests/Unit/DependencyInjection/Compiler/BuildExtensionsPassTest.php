@@ -38,7 +38,6 @@ class BuildExtensionsPassTest extends \PHPUnit_Framework_TestCase
         $extension->addTag('formapro_message_queue.consumption.extension');
         $container->setDefinition('bar_extension', $extension);
 
-
         $pass = new BuildExtensionsPass();
         $pass->process($container);
 

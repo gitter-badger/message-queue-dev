@@ -33,25 +33,24 @@ class JobRunner
     public function runUnique($ownerId, $name, \Closure $runCallback)
     {
         $rootJob = $this->jobProcessor->findOrCreateRootJob($ownerId, $name, true);
-        if (! $rootJob) {
+        if (!$rootJob) {
             return;
         }
 
         $childJob = $this->jobProcessor->findOrCreateChildJob($name, $rootJob);
 
-        if (! $childJob->getStartedAt()) {
+        if (!$childJob->getStartedAt()) {
             $this->jobProcessor->startChildJob($childJob);
         }
 
-        $jobRunner = new JobRunner($this->jobProcessor, $rootJob);
+        $jobRunner = new self($this->jobProcessor, $rootJob);
 
         $result = call_user_func($runCallback, $jobRunner, $childJob);
 
-        if (! $childJob->getStoppedAt()) {
+        if (!$childJob->getStoppedAt()) {
             $result
                 ? $this->jobProcessor->successChildJob($childJob)
                 : $this->jobProcessor->failChildJob($childJob);
-            ;
         }
 
         return $result;
@@ -67,7 +66,7 @@ class JobRunner
     {
         $childJob = $this->jobProcessor->findOrCreateChildJob($name, $this->rootJob);
 
-        $jobRunner = new JobRunner($this->jobProcessor, $this->rootJob);
+        $jobRunner = new self($this->jobProcessor, $this->rootJob);
 
         return call_user_func($startCallback, $jobRunner, $childJob);
     }
@@ -81,30 +80,29 @@ class JobRunner
     public function runDelayed($jobId, \Closure $runCallback)
     {
         $job = $this->jobProcessor->findJobById($jobId);
-        if (! $job) {
+        if (!$job) {
             throw new \LogicException(sprintf('Job was not found. id: "%s"', $jobId));
         }
 
         if ($job->getRootJob()->isInterrupted()) {
-            if (! $job->getStoppedAt()) {
+            if (!$job->getStoppedAt()) {
                 $this->jobProcessor->cancelChildJob($job);
             }
 
             return;
         }
 
-        if (! $job->getStartedAt()) {
+        if (!$job->getStartedAt()) {
             $this->jobProcessor->startChildJob($job);
         }
 
-        $jobRunner = new JobRunner($this->jobProcessor, $job->getRootJob());
+        $jobRunner = new self($this->jobProcessor, $job->getRootJob());
         $result = call_user_func($runCallback, $jobRunner, $job);
 
-        if (! $job->getStoppedAt()) {
+        if (!$job->getStoppedAt()) {
             $result
                 ? $this->jobProcessor->successChildJob($job)
                 : $this->jobProcessor->failChildJob($job);
-            ;
         }
 
         return $result;

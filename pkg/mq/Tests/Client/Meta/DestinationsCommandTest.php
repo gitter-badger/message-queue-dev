@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueue\Tests\Client\Meta;
 
 use Formapro\MessageQueue\Client\Meta\DestinationMeta;
-use Formapro\MessageQueue\Client\Meta\DestinationsCommand;
 use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
+use Formapro\MessageQueue\Client\Meta\DestinationsCommand;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -11,12 +11,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 class DestinationsCommandTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
-    
+
     public function testShouldBeSubClassOfCommand()
     {
         $this->assertClassExtends(Command::class, DestinationsCommand::class);
     }
-    
+
     public function testCouldBeConstructedWithDestinationMetaRegistryAsFirstArgument()
     {
         new DestinationsCommand($this->createDestinationMetaRegistryStub());
@@ -35,7 +35,7 @@ class DestinationsCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command = new DestinationsCommand($this->createDestinationMetaRegistryStub([
             new DestinationMeta('aClientName', 'aDestinationName'),
-            new DestinationMeta('anotherClientName', 'anotherDestinationName')
+            new DestinationMeta('anotherClientName', 'anotherDestinationName'),
         ]));
 
         $output = $this->executeCommand($command);
@@ -61,12 +61,12 @@ class DestinationsCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Command $command
+     * @param Command  $command
      * @param string[] $arguments
      *
      * @return string
      */
-    protected function executeCommand(Command $command, array $arguments = array())
+    protected function executeCommand(Command $command, array $arguments = [])
     {
         $tester = new CommandTester($command);
         $tester->execute($arguments);

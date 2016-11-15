@@ -36,21 +36,17 @@ interface JMSConsumer
     public function receiveNoWait();
 
     /**
-     * Tell the MQ broker that the message was processed successfully
+     * Tell the MQ broker that the message was processed successfully.
      *
      * @param Message $message
-     *
-     * @return void
      */
     public function acknowledge(Message $message);
 
     /**
-     * Tell the MQ broker that the message was rejected
+     * Tell the MQ broker that the message was rejected.
      *
      * @param Message $message
-     * @param bool $requeue
-     *
-     * @return void
+     * @param bool    $requeue
      */
     public function reject(Message $message, $requeue = false);
 }

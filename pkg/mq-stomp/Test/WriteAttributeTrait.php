@@ -6,7 +6,7 @@ trait WriteAttributeTrait
     /**
      * @param object $object
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function writeAttribute($object, $attribute, $value)
     {

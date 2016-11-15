@@ -142,7 +142,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         ;
 
         $destinationMetaRegistry = $this->createDestinationMetaRegistry([
-            'non-default-queue' => []
+            'non-default-queue' => [],
         ]);
 
         $driver = $this->createDriverMock();
@@ -156,7 +156,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
 
         $tester = new CommandTester($command);
         $tester->execute([
-            'clientDestinationName' => 'non-default-queue'
+            'clientDestinationName' => 'non-default-queue',
         ]);
     }
 
@@ -190,7 +190,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
 
         $destinationMetaRegistry = $this->createDestinationMetaRegistry([
             'default' => [],
-            'non-default-queue' => ['transportName' => 'non-default-transport-queue']
+            'non-default-queue' => ['transportName' => 'non-default-transport-queue'],
         ]);
 
         $driver = $this->createDriverMock();
@@ -204,7 +204,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
 
         $tester = new CommandTester($command);
         $tester->execute([
-            'clientDestinationName' => 'non-default-queue'
+            'clientDestinationName' => 'non-default-queue',
         ]);
     }
 

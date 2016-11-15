@@ -1,16 +1,16 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection;
 
-use Formapro\MessageQueue\Transport\Null\NullContext;
-use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
-use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
-use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
 use Formapro\MessageQueue\Client\MessageProducer;
 use Formapro\MessageQueue\Client\NullDriver;
 use Formapro\MessageQueue\Client\TraceableMessageProducer;
 use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
+use Formapro\MessageQueue\Transport\Null\NullContext;
+use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
+use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
+use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
 use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -58,8 +58,8 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->load([[
             'transport' => [
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('formapro_message_queue.transport.null.context'));
@@ -78,8 +78,8 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->load([[
             'transport' => [
                 'default' => 'null',
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]], $container);
 
         self::assertEquals(
@@ -102,7 +102,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->load([[
             'transport' => [
                 'foo' => ['foo_param' => 'aParam'],
-            ]
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('foo.context'));
@@ -123,7 +123,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'transport' => [
                 'default' => 'foo',
                 'foo' => ['foo_param' => 'aParam'],
-            ]
+            ],
         ]], $container);
 
         self::assertEquals(
@@ -147,7 +147,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'client' => null,
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('formapro_message_queue.client.config'));
@@ -166,7 +166,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'client' => null,
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         $messageProducer = $container->getDefinition('formapro_message_queue.client.message_producer');
@@ -183,11 +183,11 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->load([[
             'client' => [
-                'traceable_producer' => false
+                'traceable_producer' => false,
             ],
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         $messageProducer = $container->getDefinition('formapro_message_queue.client.message_producer');
@@ -204,11 +204,11 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->load([[
             'client' => [
-                'traceable_producer' => true
+                'traceable_producer' => true,
             ],
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         $messageProducer = $container->getDefinition('formapro_message_queue.client.traceable_message_producer');
@@ -239,7 +239,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             ],
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         $extension = $container->getDefinition('formapro_message_queue.client.delay_redelivered_message_extension');
@@ -258,7 +258,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'client' => true,
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('formapro_message_queue.client.driver_factory'));
@@ -283,7 +283,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'client' => true,
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('formapro_message_queue.client.driver_factory'));
@@ -308,7 +308,7 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
             'client' => true,
             'transport' => [
                 'default' => 'foo',
-            ]
+            ],
         ]], $container);
 
         self::assertTrue($container->hasDefinition('formapro_message_queue.client.driver_factory'));

@@ -22,12 +22,13 @@ class ConsumeMessagesCommand extends Command implements ContainerAwareInterface
 
     /**
      * ConsumeMessagesCommand constructor.
+     *
      * @param QueueConsumer $consumer
      */
     public function __construct(QueueConsumer $consumer)
     {
         parent::__construct('formapro:message-queue:transport:consume');
-        
+
         $this->consumer = $consumer;
     }
 

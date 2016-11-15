@@ -9,12 +9,12 @@ class DestinationMetaRegistry
      * @var array
      */
     private $destinationsMeta;
-    
+
     /**
      * @var Config
      */
     private $config;
-    
+
     /**
      * @var string
      */
@@ -22,7 +22,7 @@ class DestinationMetaRegistry
 
     /**
      * @param Config $config
-     * @param array $destinationsMeta
+     * @param array  $destinationsMeta
      * @param string $defaultQueueClientName
      */
     public function __construct(Config $config, array $destinationsMeta, $defaultQueueClientName)

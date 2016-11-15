@@ -5,7 +5,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Connection as DriverConnection;
 
 /**
- * Connection wrapper sharing the same db handle across multiple requests
+ * Connection wrapper sharing the same db handle across multiple requests.
  *
  * Allows multiple Connection instances to run in the same transaction
  */
@@ -22,7 +22,7 @@ class DbalPersistedConnection extends Connection
     protected static $persistedTransactionNestingLevels;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function connect()
     {
@@ -42,7 +42,7 @@ class DbalPersistedConnection extends Connection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function beginTransaction()
     {
@@ -50,7 +50,7 @@ class DbalPersistedConnection extends Connection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function commit()
     {
@@ -58,7 +58,7 @@ class DbalPersistedConnection extends Connection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rollBack()
     {
@@ -88,7 +88,7 @@ class DbalPersistedConnection extends Connection
         $this->setTransactionNestingLevel($this->getPersistedTransactionNestingLevel());
 
         try {
-            call_user_func(array('parent', $method));
+            call_user_func(['parent', $method]);
         } catch (\Exception $e) {
         }
 

@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\JobQueue\Tests;
 
-use Formapro\MessageQueue\Client\MessageProducer;
 use Formapro\JobQueue\DuplicateJobException;
 use Formapro\JobQueue\Job;
 use Formapro\JobQueue\JobProcessor;
 use Formapro\JobQueue\JobStorage;
 use Formapro\JobQueue\Topics;
+use Formapro\MessageQueue\Client\MessageProducer;
 
 class JobProcessorTest extends \PHPUnit_Framework_TestCase
 {

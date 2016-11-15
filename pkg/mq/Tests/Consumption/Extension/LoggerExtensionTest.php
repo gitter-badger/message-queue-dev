@@ -4,11 +4,11 @@ namespace Formapro\MessageQueue\Tests\Consumption\Extension;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\JMSContext;
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\Result;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Psr\Log\LoggerInterface;
 
 class LoggerExtensionTest extends \PHPUnit_Framework_TestCase

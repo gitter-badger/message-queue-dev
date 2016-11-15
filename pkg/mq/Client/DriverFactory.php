@@ -2,7 +2,6 @@
 namespace Formapro\MessageQueue\Client;
 
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Transport\ConnectionInterface;
 
 class DriverFactory
 {

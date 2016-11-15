@@ -8,8 +8,8 @@ use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\MessageQueue\Client\MessageProducer;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
 
 class MessageProducerTest extends \PHPUnit_Framework_TestCase
 {
@@ -390,7 +390,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
             \LogicException::class,
             'The message\'s body must be an array of scalars. Found not scalar in the array: stdClass'
         );
-        $producer->send($queue, ['foo' => new \stdClass]);
+        $producer->send($queue, ['foo' => new \stdClass()]);
     }
 
     public function testShouldThrowExceptionIfBodyIsArrayWithObjectsInSubArraysInsideOnSend()
@@ -410,7 +410,7 @@ class MessageProducerTest extends \PHPUnit_Framework_TestCase
             \LogicException::class,
             'The message\'s body must be an array of scalars. Found not scalar in the array: stdClass'
         );
-        $producer->send($queue, ['foo' => ['bar' => new \stdClass]]);
+        $producer->send($queue, ['foo' => ['bar' => new \stdClass()]]);
     }
 
     /**

@@ -51,7 +51,7 @@ class Context
     private $queue;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $executionInterrupted;
 
@@ -61,7 +61,7 @@ class Context
     public function __construct(JMSContext $context)
     {
         $this->context = $context;
-        
+
         $this->executionInterrupted = false;
     }
 
@@ -170,7 +170,7 @@ class Context
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isExecutionInterrupted()
     {
@@ -178,7 +178,7 @@ class Context
     }
 
     /**
-     * @param boolean $executionInterrupted
+     * @param bool $executionInterrupted
      */
     public function setExecutionInterrupted($executionInterrupted)
     {
@@ -205,7 +205,7 @@ class Context
         if ($this->logger) {
             throw new IllegalContextModificationException('The logger modification is not allowed');
         }
-        
+
         $this->logger = $logger;
     }
 

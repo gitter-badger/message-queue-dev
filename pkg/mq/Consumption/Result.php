@@ -10,7 +10,7 @@ class Result
 
     /**
      * Use this constant when the message is not valid or could not be processed
-     * The message is removed from the queue
+     * The message is removed from the queue.
      */
     const REJECT = 'formapro.message_queue.consumption.reject';
 
@@ -89,7 +89,7 @@ class Result
     /**
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->status;
     }

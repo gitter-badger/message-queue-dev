@@ -1,5 +1,6 @@
 <?php
 namespace Formapro\Jms;
+
 use Formapro\Jms\Exception\Exception;
 
 /**
@@ -22,15 +23,11 @@ interface Message
 
     /**
      * @param string $body
-     *
-     * @return void
      */
     public function setBody($body);
 
     /**
      * @param array $properties
-     *
-     * @return void
      */
     public function setProperties(array $properties);
 
@@ -41,15 +38,13 @@ interface Message
 
     /**
      * @param string $name
-     * @param mixed $value
-     *
-     * @return void
+     * @param mixed  $value
      */
     public function setProperty($name, $value);
 
     /**
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -57,8 +52,6 @@ interface Message
 
     /**
      * @param array $headers
-     *
-     * @return void
      */
     public function setHeaders(array $headers);
 
@@ -69,22 +62,20 @@ interface Message
 
     /**
      * @param string $name
-     * @param mixed $value
-     *
-     * @return void
+     * @param mixed  $value
      */
     public function setHeader($name, $value);
 
     /**
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
     public function getHeader($name, $default = null);
 
     /**
-     * @param boolean $redelivered
+     * @param bool $redelivered
      */
     public function setRedelivered($redelivered);
 
@@ -94,7 +85,7 @@ interface Message
      * when it was sent by a broker to consumer but consumer does not ACK or REJECT it.
      * The broker brings the message back to the queue and mark it as redelivered.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRedelivered();
 
@@ -105,9 +96,7 @@ interface Message
      *
      * @param string $correlationId the message ID of a message being referred to
      *
-     * @throws Exception if the provider fails to set the correlation ID due to some internal error.
-     *
-     * @return void
+     * @throws Exception if the provider fails to set the correlation ID due to some internal error
      */
     public function setCorrelationId($correlationId);
 
@@ -116,7 +105,8 @@ interface Message
      * This method is used to return correlation ID values that are either provider-specific message IDs
      * or application-specific String values.
      *
-     * @throws Exception if the provider fails to get the correlation ID due to some internal error.
+     * @throws Exception if the provider fails to get the correlation ID due to some internal error
+     *
      * @return string
      */
     public function getCorrelationId();
@@ -128,9 +118,7 @@ interface Message
      *
      * @param string $messageId the ID of the message
      *
-     * @throws Exception if the provider fails to set the message ID due to some internal error.
-     *
-     * @return void
+     * @throws Exception if the provider fails to set the message ID due to some internal error
      */
     public function setMessageId($messageId);
 
@@ -140,7 +128,7 @@ interface Message
      *
      * When a message is sent, MessageId can be ignored.
      *
-     * @throws Exception if the provider fails to get the message ID due to some internal error.
+     * @throws Exception if the provider fails to get the message ID due to some internal error
      *
      * @return string
      */
@@ -163,9 +151,7 @@ interface Message
      *
      * @param int $timestamp
      *
-     * @throws Exception if the provider fails to set the timestamp due to some internal error.
-     *
-     * @return void
+     * @throws Exception if the provider fails to set the timestamp due to some internal error
      */
     public function setTimestamp($timestamp);
 }

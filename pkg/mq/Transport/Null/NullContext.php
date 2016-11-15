@@ -50,7 +50,7 @@ class NullContext implements JMSContext
     {
         return new NullConsumer($destination);
     }
-    
+
     /**
      * {@inheritdoc}
      */

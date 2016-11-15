@@ -4,8 +4,8 @@ namespace Formapro\MessageQueue\Client\ConsumptionExtension;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\Result;
 
 class DelayRedeliveredMessageExtension implements ExtensionInterface
@@ -20,7 +20,7 @@ class DelayRedeliveredMessageExtension implements ExtensionInterface
     private $driver;
 
     /**
-     * The number of seconds the message should be delayed
+     * The number of seconds the message should be delayed.
      *
      * @var int
      */
@@ -28,7 +28,7 @@ class DelayRedeliveredMessageExtension implements ExtensionInterface
 
     /**
      * @param DriverInterface $driver
-     * @param int             $delay The number of seconds the message should be delayed
+     * @param int             $delay  The number of seconds the message should be delayed
      */
     public function __construct(DriverInterface $driver, $delay)
     {
@@ -47,10 +47,10 @@ class DelayRedeliveredMessageExtension implements ExtensionInterface
         }
 
         $properties = $message->getProperties();
-        if (! isset($properties[self::PROPERTY_REDELIVER_COUNT])) {
+        if (!isset($properties[self::PROPERTY_REDELIVER_COUNT])) {
             $properties[self::PROPERTY_REDELIVER_COUNT] = 1;
         } else {
-            $properties[self::PROPERTY_REDELIVER_COUNT]++;
+            ++$properties[self::PROPERTY_REDELIVER_COUNT];
         }
 
         $delayedMessage = new Message();

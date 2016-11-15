@@ -11,12 +11,12 @@ class AppKernel extends Kernel
      */
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Formapro\MessageQueueBundle\FormaproMessageQueueBundle(),
-        );
+        ];
 
         return $bundles;
     }

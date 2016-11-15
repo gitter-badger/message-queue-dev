@@ -2,12 +2,12 @@
 namespace Formapro\JobQueue\Tests;
 
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueue\Client\MessageProducerInterface;
-use Formapro\JobQueue\CalculateRootJobStatusService;
 use Formapro\JobQueue\CalculateRootJobStatusProcessor;
+use Formapro\JobQueue\CalculateRootJobStatusService;
 use Formapro\JobQueue\Job;
 use Formapro\JobQueue\JobStorage;
 use Formapro\JobQueue\Topics;
+use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Psr\Log\LoggerInterface;

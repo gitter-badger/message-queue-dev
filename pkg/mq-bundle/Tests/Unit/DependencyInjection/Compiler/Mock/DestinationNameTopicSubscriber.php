@@ -9,7 +9,7 @@ class DestinationNameTopicSubscriber implements TopicSubscriberInterface
     {
         return [
             'topic-subscriber-name' => [
-                'destinationName' => 'subscriber-destination-name'
+                'destinationName' => 'subscriber-destination-name',
             ],
         ];
     }

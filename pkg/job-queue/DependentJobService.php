@@ -31,7 +31,7 @@ class DependentJobService
      */
     public function saveDependentJob(DependentJobContext $context)
     {
-        if (! $context->getJob()->isRoot()) {
+        if (!$context->getJob()->isRoot()) {
             throw new \LogicException(sprintf(
                 'Only root jobs allowed but got child. jobId: "%s"',
                 $context->getJob()->getId()

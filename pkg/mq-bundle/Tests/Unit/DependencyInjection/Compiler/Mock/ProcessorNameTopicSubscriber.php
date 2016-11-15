@@ -9,7 +9,7 @@ class ProcessorNameTopicSubscriber implements TopicSubscriberInterface
     {
         return [
             'topic-subscriber-name' => [
-                'processorName' => 'subscriber-processor-name'
+                'processorName' => 'subscriber-processor-name',
             ],
         ];
     }

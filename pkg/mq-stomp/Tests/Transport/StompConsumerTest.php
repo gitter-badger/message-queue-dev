@@ -6,9 +6,9 @@ use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Message;
 use Formapro\Stomp\Test\ClassExtensionTrait;
 use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompConsumer;
 use Formapro\Stomp\Transport\StompDestination;
 use Formapro\Stomp\Transport\StompMessage;
-use Formapro\Stomp\Transport\StompConsumer;
 use Stomp\Protocol\Protocol;
 use Stomp\Transport\Frame;
 

@@ -70,7 +70,7 @@ class StompDestination implements Topic, Queue
             throw new \LogicException('Destination type or name is not set');
         }
 
-        $name = '/' . $this->getType() . '/' . $this->getStompName();
+        $name = '/'.$this->getType().'/'.$this->getStompName();
 
         if ($this->getRoutingKey()) {
             $name .= '/'.$this->getRoutingKey();
@@ -205,7 +205,7 @@ class StompDestination implements Topic, Queue
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setHeader($name, $value)
     {

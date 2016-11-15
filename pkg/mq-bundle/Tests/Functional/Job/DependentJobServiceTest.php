@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 
-use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 use Formapro\JobQueue\DependentJobService;
+use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
 class DependentJobServiceTest extends WebTestCase
 {

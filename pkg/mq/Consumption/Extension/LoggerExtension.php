@@ -3,8 +3,8 @@ namespace Formapro\MessageQueue\Consumption\Extension;
 
 use Formapro\Jms\Message;
 use Formapro\MessageQueue\Consumption\Context;
-use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
+use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\Result;
 use Psr\Log\LoggerInterface;
 

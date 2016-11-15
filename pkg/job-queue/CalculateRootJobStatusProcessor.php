@@ -33,10 +33,10 @@ class CalculateRootJobStatusProcessor implements MessageProcessorInterface, Topi
     private $logger;
 
     /**
-     * @param JobStorage $jobStorage
+     * @param JobStorage                    $jobStorage
      * @param CalculateRootJobStatusService $calculateRootJobStatusCase
-     * @param MessageProducerInterface $producer
-     * @param LoggerInterface $logger
+     * @param MessageProducerInterface      $producer
+     * @param LoggerInterface               $logger
      */
     public function __construct(
         JobStorage $jobStorage,
@@ -57,14 +57,14 @@ class CalculateRootJobStatusProcessor implements MessageProcessorInterface, Topi
     {
         $data = JSON::decode($message->getBody());
 
-        if (! isset($data['jobId'])) {
+        if (!isset($data['jobId'])) {
             $this->logger->critical(sprintf('Got invalid message. body: "%s"', $message->getBody()));
 
             return Result::REJECT;
         }
 
         $job = $this->jobStorage->findJobById($data['jobId']);
-        if (! $job) {
+        if (!$job) {
             $this->logger->critical(sprintf('Job was not found. id: "%s"', $data['jobId']));
 
             return Result::REJECT;

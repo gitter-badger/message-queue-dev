@@ -2,10 +2,10 @@
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
 use Formapro\Jms\JMSProducer;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullProducer;
 use Formapro\MessageQueue\Transport\Null\NullTopic;
-use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class NullProducerTest extends \PHPUnit_Framework_TestCase
 {

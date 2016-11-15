@@ -2,10 +2,10 @@
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
 use Formapro\Jms\JMSConsumer;
-use Formapro\MessageQueue\Transport\Null\NullMessage;
-use Formapro\MessageQueue\Transport\Null\NullConsumer;
-use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Transport\Null\NullConsumer;
+use Formapro\MessageQueue\Transport\Null\NullMessage;
+use Formapro\MessageQueue\Transport\Null\NullQueue;
 
 class NullConsumerTest extends \PHPUnit_Framework_TestCase
 {

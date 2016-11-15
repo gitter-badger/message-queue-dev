@@ -34,7 +34,7 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($ch, CURLOPT_USERPWD, $rabbitmqUser.':'.$rabbitmqPassword);
@@ -51,7 +51,7 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-       $this->stompContext->close();
+        $this->stompContext->close();
     }
 
     public function testWaitsForTwoSecondsAndReturnNullOnReceive()

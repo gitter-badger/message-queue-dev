@@ -35,9 +35,9 @@ class NullTransportFactory implements TransportFactoryInterface
     {
         $contextId = sprintf('formapro_message_queue.transport.%s.context', $this->getName());
         $context = new Definition(NullContext::class);
-        
+
         $container->setDefinition($contextId, $context);
-        
+
         return $contextId;
     }
 

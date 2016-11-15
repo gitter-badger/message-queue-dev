@@ -1,10 +1,10 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\Profiler;
 
-use Formapro\MessageQueueBundle\Profiler\MessageQueueCollector;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Client\TraceableMessageProducer;
+use Formapro\MessageQueueBundle\Profiler\MessageQueueCollector;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class MessageQueueCollectorTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
-    
+
     public function testShouldExtendDataCollectorClass()
     {
         $this->assertClassExtends(DataCollector::class, MessageQueueCollector::class);

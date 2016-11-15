@@ -7,7 +7,7 @@ class InvalidDestinationException extends Exception
 {
     /**
      * @param Destination $destination
-     * @param string $class
+     * @param string      $class
      *
      * @throws static
      */

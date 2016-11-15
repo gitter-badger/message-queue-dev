@@ -2,8 +2,8 @@
 namespace Formapro\Stomp\Transport;
 
 use Formapro\Jms\Destination;
-use Formapro\Jms\JMSContext;
 use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\JMSContext;
 
 class StompContext implements JMSContext
 {
@@ -62,7 +62,6 @@ class StompContext implements JMSContext
 
             return $destination;
         }
-
 
         return $this->createDestination($name);
     }

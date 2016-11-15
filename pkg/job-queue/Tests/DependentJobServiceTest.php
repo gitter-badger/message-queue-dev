@@ -57,13 +57,12 @@ class DependentJobServiceTest extends \PHPUnit_Framework_TestCase
                     'topic' => 'job-topic',
                     'message' => 'job-message',
                     'priority' => 'job-priority',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->assertEquals($expectedDependentJobs, $job->getData());
     }
-
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|JobStorage

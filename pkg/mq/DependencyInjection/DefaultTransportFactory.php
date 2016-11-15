@@ -18,7 +18,7 @@ class DefaultTransportFactory implements TransportFactoryInterface
     {
         $this->name = $name;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +28,7 @@ class DefaultTransportFactory implements TransportFactoryInterface
             ->beforeNormalization()
                 ->ifString()
                 ->then(function ($v) {
-                    return array('alias' => $v);
+                    return ['alias' => $v];
                 })
             ->end()
             ->children()
@@ -43,7 +43,7 @@ class DefaultTransportFactory implements TransportFactoryInterface
     {
         $contextId = sprintf('formapro_message_queue.transport.%s.context', $this->getName());
         $aliasId = sprintf('formapro_message_queue.transport.%s.context', $config['alias']);
-        
+
         $container->setAlias($contextId, $aliasId);
         $container->setAlias('formapro_message_queue.transport.context', $contextId);
 

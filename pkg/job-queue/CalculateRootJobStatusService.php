@@ -49,7 +49,7 @@ class CalculateRootJobStatusService
 
             if (in_array($status, $stopStatuses)) {
                 $rootStopped = true;
-                if (! $rootJob->getStoppedAt()) {
+                if (!$rootJob->getStoppedAt()) {
                     $rootJob->setStoppedAt(new \DateTime());
                 }
             }
@@ -112,7 +112,7 @@ class CalculateRootJobStatusService
     protected function getRootJobStatus($new, $running, $cancelled, $failed, $success)
     {
         $status = Job::STATUS_NEW;
-        if (! $new && ! $running) {
+        if (!$new && !$running) {
             if ($cancelled) {
                 $status = Job::STATUS_CANCELLED;
             } elseif ($failed) {

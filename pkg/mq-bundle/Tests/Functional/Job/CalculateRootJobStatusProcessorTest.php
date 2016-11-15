@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 
-use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 use Formapro\JobQueue\CalculateRootJobStatusProcessor;
+use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
 class CalculateRootJobStatusProcessorTest extends WebTestCase
 {

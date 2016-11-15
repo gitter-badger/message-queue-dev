@@ -9,7 +9,7 @@ class NullMessage implements Message
      * @var string
      */
     private $body;
-    
+
     /**
      * @var array
      */
@@ -21,7 +21,7 @@ class NullMessage implements Message
     private $headers;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $redelivered;
 
@@ -32,7 +32,7 @@ class NullMessage implements Message
 
         $this->redelivered = false;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -110,7 +110,7 @@ class NullMessage implements Message
      */
     public function getHeader($name, $default = null)
     {
-        return array_key_exists($name, $this->headers) ?$this->headers[$name] : $default;
+        return array_key_exists($name, $this->headers) ? $this->headers[$name] : $default;
     }
 
     /**

@@ -6,10 +6,10 @@ use Formapro\Jms\JMSContext;
 use Formapro\Jms\Queue;
 use Formapro\Stomp\Test\ClassExtensionTrait;
 use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Transport\StompConsumer;
 use Formapro\Stomp\Transport\StompContext;
 use Formapro\Stomp\Transport\StompDestination;
 use Formapro\Stomp\Transport\StompMessage;
-use Formapro\Stomp\Transport\StompConsumer;
 use Formapro\Stomp\Transport\StompProducer;
 
 class StompContextTest extends \PHPUnit_Framework_TestCase

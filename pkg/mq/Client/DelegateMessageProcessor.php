@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\Message as JMSMessage;
 use Formapro\Jms\JMSContext;
+use Formapro\Jms\Message as JMSMessage;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 
 class DelegateMessageProcessor implements MessageProcessorInterface

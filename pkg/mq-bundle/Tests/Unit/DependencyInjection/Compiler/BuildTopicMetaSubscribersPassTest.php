@@ -84,7 +84,7 @@ class BuildTopicMetaSubscribersPassTest extends \PHPUnit_Framework_TestCase
         $expectedValue = [
             'topic' => [
                 'description' => 'aDescription',
-                'subscribers' => ['fooProcessorName', 'barProcessorName',]
+                'subscribers' => ['fooProcessorName', 'barProcessorName'],
             ],
         ];
 
@@ -115,7 +115,7 @@ class BuildTopicMetaSubscribersPassTest extends \PHPUnit_Framework_TestCase
         $expectedValue = [
             'fooTopic' => [
                 'description' => 'aDescription',
-                'subscribers' => ['fooProcessorName', 'barProcessorName',]
+                'subscribers' => ['fooProcessorName', 'barProcessorName'],
             ],
             'barTopic' => ['description' => 'aBarDescription'],
         ];
@@ -150,7 +150,7 @@ class BuildTopicMetaSubscribersPassTest extends \PHPUnit_Framework_TestCase
 
         $expectedValue = [
             'fooTopic' => [
-                'subscribers' => ['fooProcessorName', 'barProcessorName',]
+                'subscribers' => ['fooProcessorName', 'barProcessorName'],
             ],
         ];
 
@@ -187,7 +187,7 @@ class BuildTopicMetaSubscribersPassTest extends \PHPUnit_Framework_TestCase
         $expectedValue = [
             'fooTopic' => [
                 'description' => 'aDescription',
-                'subscribers' => ['bazProcessorName', 'fooProcessorName', 'barProcessorName',]
+                'subscribers' => ['bazProcessorName', 'fooProcessorName', 'barProcessorName'],
             ],
         ];
 

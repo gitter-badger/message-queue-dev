@@ -31,9 +31,9 @@ class DependentJobContext
     }
 
     /**
-     * @param string $topic
+     * @param string       $topic
      * @param string|array $message
-     * @param int $priority
+     * @param int          $priority
      */
     public function addDependentJob($topic, $message, $priority = null)
     {

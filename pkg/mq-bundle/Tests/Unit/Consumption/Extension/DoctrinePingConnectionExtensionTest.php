@@ -4,9 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Unit\Consumption\Extension;
 use Doctrine\DBAL\Connection;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\JMSContext;
-use Formapro\MessageQueueBundle\Consumption\Extension\DoctrinePingConnectionExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
+use Formapro\MessageQueueBundle\Consumption\Extension\DoctrinePingConnectionExtension;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

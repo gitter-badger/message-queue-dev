@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildDestinationMetaRegistryPass;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\DestinationNameTopicSubscriber;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\OnlyTopicNameTopicSubscriber;
 use Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler\Mock\ProcessorNameTopicSubscriber;
-use Formapro\MessageQueue\Client\Config;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -69,7 +69,7 @@ class BuildDestinationMetaRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedDestinations = [
-            Config::DEFAULT_QUEUE_NAME =>  ['subscribers' => ['processor']]
+            Config::DEFAULT_QUEUE_NAME => ['subscribers' => ['processor']],
         ];
 
         $this->assertEquals($expectedDestinations, $registry->getArgument(1));
@@ -91,7 +91,7 @@ class BuildDestinationMetaRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedDestinations = [
-            Config::DEFAULT_QUEUE_NAME =>  ['subscribers' => ['processor-service-id']]
+            Config::DEFAULT_QUEUE_NAME => ['subscribers' => ['processor-service-id']],
         ];
 
         $this->assertEquals($expectedDestinations, $registry->getArgument(1));
@@ -115,7 +115,7 @@ class BuildDestinationMetaRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedDestinations = [
-            'destination' =>  ['subscribers' => ['processor-service-id']],
+            'destination' => ['subscribers' => ['processor-service-id']],
         ];
 
         $this->assertEquals($expectedDestinations, $registry->getArgument(1));
@@ -137,7 +137,7 @@ class BuildDestinationMetaRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedDestinations = [
-            Config::DEFAULT_QUEUE_NAME =>  ['subscribers' => ['processor-service-id']]
+            Config::DEFAULT_QUEUE_NAME => ['subscribers' => ['processor-service-id']],
         ];
 
         $this->assertEquals($expectedDestinations, $registry->getArgument(1));
@@ -159,7 +159,7 @@ class BuildDestinationMetaRegistryPassTest extends \PHPUnit_Framework_TestCase
         $pass->process($container);
 
         $expectedDestinations = [
-            Config::DEFAULT_QUEUE_NAME =>  ['subscribers' => ['subscriber-processor-name']]
+            Config::DEFAULT_QUEUE_NAME => ['subscribers' => ['subscriber-processor-name']],
         ];
 
         $this->assertEquals($expectedDestinations, $registry->getArgument(1));

@@ -161,7 +161,7 @@ class Job
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInterrupted()
     {
@@ -174,7 +174,7 @@ class Job
      *
      * @internal
      *
-     * @param boolean $interrupted
+     * @param bool $interrupted
      */
     public function setInterrupted($interrupted)
     {
@@ -182,7 +182,7 @@ class Job
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isUnique()
     {
@@ -195,7 +195,7 @@ class Job
      *
      * @internal
      *
-     * @param boolean $unique
+     * @param bool $unique
      */
     public function setUnique($unique)
     {

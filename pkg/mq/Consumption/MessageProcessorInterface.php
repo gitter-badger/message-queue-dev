@@ -7,7 +7,7 @@ use Formapro\Jms\Message;
 interface MessageProcessorInterface
 {
     /**
-     * @param Message $message
+     * @param Message    $message
      * @param JMSContext $context
      *
      * @return string

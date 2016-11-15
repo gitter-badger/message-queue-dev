@@ -8,16 +8,14 @@ interface TransportFactoryInterface
 {
     /**
      * @param ArrayNodeDefinition $builder
-     *
-     * @return void
      */
     public function addConfiguration(ArrayNodeDefinition $builder);
 
     /**
      * @param ContainerBuilder $container
-     * @param array $config
+     * @param array            $config
      *
-     * @return string The method must return a context service id.
+     * @return string The method must return a context service id
      */
     public function createService(ContainerBuilder $container, array $config);
 
