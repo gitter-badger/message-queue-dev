@@ -1,12 +1,14 @@
 <?php
 namespace Formapro\Stomp\Tests\DependencyInjection;
 
-use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\Stomp\Test\StompExtensionTrait;
 use Formapro\Stomp\Transport\StompContext;
 use Formapro\Stomp\Transport\StompMessage;
 
 class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 {
+    use StompExtensionTrait;
+
     /**
      * @var StompContext
      */
@@ -14,39 +16,9 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (false == getenv('RABBITMQ_HOST')) {
-            throw new \PHPUnit_Framework_SkippedTestError('Functional tests are not allowed in this environment');
-        }
+        $this->stompContext = $this->buildStompContext();
 
-        $rabbitmqHost = getenv('RABBITMQ_HOST');
-        $rabbitmqUser = getenv('RABBITMQ_USER');
-        $rabbitmqPort = getenv('RABBITMQ_STOMP_PORT');
-        $rabbitmqPassword = getenv('RABBITMQ_PASSWORD');
-        $rabbitmqVhost = getenv('RABBITMQ_VHOST');
-
-        $stomp = new BufferedStompClient("tcp://$rabbitmqHost:$rabbitmqPort");
-        $stomp->setLogin($rabbitmqUser, $rabbitmqPassword);
-        $stomp->setVhostname($rabbitmqVhost);
-
-        $this->stompContext = new StompContext($stomp);
-
-        $url = sprintf('http://%s:15672/api/queues/%s/stomp.test', $rabbitmqHost, urlencode($rabbitmqVhost));
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, $rabbitmqUser.':'.$rabbitmqPassword);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type' => 'application/json',
-        ]);
-        curl_exec($ch);
-
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $this->assertContains($httpCode, [204, 404]);
-
-        curl_close($ch);
+        $this->removeQueue('stomp.test');
     }
 
     public function tearDown()
