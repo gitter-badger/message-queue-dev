@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Stomp\Tests\DependencyInjection;
+namespace Formapro\Stomp\Tests\Functional;
 
 use Formapro\Stomp\Test\StompExtensionTrait;
 use Formapro\Stomp\Transport\StompContext;
@@ -78,8 +78,6 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $producer = $this->stompContext->createProducer();
         $producer->send($queue, $message);
 
-        usleep(100);
-
         $consumer = $this->stompContext->createConsumer($queue);
         $message = $consumer->receive(1);
 
@@ -94,29 +92,5 @@ class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
             'durable' => true,
             'BarHeader' => 'BarVal',
         ], $message->getHeaders());
-    }
-
-    public function testProduceAndReceiveNoWaitOneMessage()
-    {
-        $queue = $this->stompContext->createQueue('stomp.test');
-        $queue->setDurable(true);
-        $queue->setAutoDelete(false);
-
-        $message = $this->stompContext->createMessage(__METHOD__);
-
-        $producer = $this->stompContext->createProducer();
-        $producer->send($queue, $message);
-
-        usleep(200);
-
-        $stompContext = $this->buildStompContext();
-
-        $consumer = $stompContext->createConsumer($queue);
-        $message = $consumer->receiveNoWait();
-
-        $this->assertInstanceOf(StompMessage::class, $message);
-        $consumer->acknowledge($message);
-
-        $this->assertEquals(__METHOD__, $message->getBody());
     }
 }

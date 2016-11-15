@@ -4,6 +4,7 @@ namespace Formapro\Stomp\Transport;
 use Formapro\Jms\Destination;
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\JMSContext;
+use Formapro\MessageQueue\Util\UUID;
 
 class StompContext implements JMSContext
 {
@@ -53,6 +54,19 @@ class StompContext implements JMSContext
      *
      * @return StompDestination
      */
+    public function createTemporaryQueue()
+    {
+        $queue = $this->createQueue(UUID::generate());
+        $queue->setType(StompDestination::TYPE_TEMP_QUEUE);
+
+        return $queue;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return StompDestination
+     */
     public function createTopic($name)
     {
         if (0 !== strpos($name, '/')) {
@@ -79,6 +93,7 @@ class StompContext implements JMSContext
             StompDestination::TYPE_QUEUE,
             StompDestination::TYPE_AMQ_QUEUE,
             StompDestination::TYPE_TEMP_QUEUE,
+            StompDestination::TYPE_REPLY_QUEUE,
         ];
 
         $dest = $destination;

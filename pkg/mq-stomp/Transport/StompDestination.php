@@ -11,6 +11,7 @@ class StompDestination implements Topic, Queue
     const TYPE_QUEUE = 'queue';
     const TYPE_AMQ_QUEUE = 'amq/queue';
     const TYPE_TEMP_QUEUE = 'temp-queue';
+    const TYPE_REPLY_QUEUE = 'reply-queue';
 
     const HEADER_DURABLE = 'durable';
     const HEADER_AUTO_DELETE = 'auto-delete';
@@ -106,6 +107,7 @@ class StompDestination implements Topic, Queue
             self::TYPE_QUEUE,
             self::TYPE_AMQ_QUEUE,
             self::TYPE_TEMP_QUEUE,
+            self::TYPE_REPLY_QUEUE,
         ];
 
         if (false == in_array($type, $types)) {
