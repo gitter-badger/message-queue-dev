@@ -93,6 +93,7 @@ class StompContext implements JMSContext
             StompDestination::TYPE_QUEUE,
             StompDestination::TYPE_AMQ_QUEUE,
             StompDestination::TYPE_TEMP_QUEUE,
+            StompDestination::TYPE_REPLY_QUEUE,
         ];
 
         $dest = $destination;

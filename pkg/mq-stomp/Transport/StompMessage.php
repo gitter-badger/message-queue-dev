@@ -231,7 +231,7 @@ class StompMessage implements Message
      */
     public function setReplyTo($replyTo)
     {
-        $this->setHeader('reply_to', $replyTo);
+        $this->setHeader('reply-to', $replyTo);
     }
 
     /**
@@ -239,6 +239,6 @@ class StompMessage implements Message
      */
     public function getReplyTo()
     {
-        return $this->getHeader('reply_to');
+        return $this->getHeader('reply-to');
     }
 }
