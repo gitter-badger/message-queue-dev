@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Stomp\Test;
+namespace Formapro\MessageQueue\Test;
 
 trait ClassExtensionTrait
 {

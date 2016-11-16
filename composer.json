@@ -7,7 +7,8 @@
     "formapro/message-queue": "dev-master",
     "formapro/stomp": "dev-master",
     "formapro/message-queue-bundle": "dev-master",
-    "formapro/job-queue": "dev-master"
+    "formapro/job-queue": "dev-master",
+    "formapro/message-queue-test": "dev-stomp-reorganization"
   },
   "require-dev": {
     "phpunit/phpunit": "^5",
@@ -24,6 +25,10 @@
     {
       "type": "path",
       "url": "pkg/jms"
+    },
+    {
+      "type": "path",
+      "url": "pkg/test"
     },
     {
       "type": "path",

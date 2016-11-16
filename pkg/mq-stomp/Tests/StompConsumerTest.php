@@ -1,14 +1,14 @@
 <?php
-namespace Formapro\Stomp\Tests\Transport;
+namespace Formapro\Stomp\Tests;
 
 use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Message;
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Transport\BufferedStompClient;
-use Formapro\Stomp\Transport\StompConsumer;
-use Formapro\Stomp\Transport\StompDestination;
-use Formapro\Stomp\Transport\StompMessage;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompConsumer;
+use Formapro\Stomp\StompDestination;
+use Formapro\Stomp\StompMessage;
 use Stomp\Protocol\Protocol;
 use Stomp\Transport\Frame;
 
