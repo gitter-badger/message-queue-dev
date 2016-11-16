@@ -7,12 +7,12 @@ services:
     volumes:
       - ./:/mqs
     environment:
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASSWORD=guest
-      - RABBITMQ_VHOST=mqs
-      - RABBITMQ_AMQP_PORT=5672
-      - RABBITMQ_STOMP_PORT=61613
+      - SYMFONY__RABBITMQ__HOST=rabbitmq
+      - SYMFONY__RABBITMQ__USER=guest
+      - SYMFONY__RABBITMQ__PASSWORD=guest
+      - SYMFONY__RABBITMQ__VHOST=mqs
+      - SYMFONY__RABBITMQ__AMQP__PORT=5672
+      - SYMFONY__RABBITMQ__STOMP__PORT=61613
       - SYMFONY__DB__DRIVER=pdo_mysql
       - SYMFONY__DB__HOST=mysql
       - SYMFONY__DB__PORT=3306

@@ -20,19 +20,21 @@ monolog:
             type: 'null'
             level: 'error'
 
-doctrine:
-    dbal:
-        driver:   "%db.driver%"
-        host:     "%db.host%"
-        port:     "%db.port%"
-        dbname:   "%db.name%"
-        user:     "%db.user%"
-        password: "%db.password%"
-        charset:  UTF8
-
 formapro_message_queue:
     transport:
-        default: 'null'
-        'null': ~
-    client: ~
-    job: true
+        default: 'stomp'
+        stomp:
+            uri: 'tcp://%rabbitmq.host%:%rabbitmq.stomp.port%'
+            login: '%rabbitmq.user%'
+            password: '%rabbitmq.password%'
+            vhost: '%rabbitmq.vhost%'
+    client:
+        prefix: 'stomp'
+        router_destination: 'test'
+        default_destination: 'test'
+
+services:
+    test.message.processor:
+        class: 'Formapro\MessageQueueBundle\Tests\Functional\TestMessageProcessor'
+        tags:
+            - { name: 'formapro_message_queue.client.message_processor' }
