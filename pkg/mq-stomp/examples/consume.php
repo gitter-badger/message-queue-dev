@@ -15,8 +15,8 @@ if ($autoload) {
     throw new \LogicException('Composer autoload was not found');
 }
 
-use Formapro\Stomp\Transport\BufferedStompClient;
-use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompContext;
 use Stomp\Exception\ErrorFrameException;
 
 $url = 'tcp://localhost:61613';

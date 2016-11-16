@@ -7,8 +7,8 @@ use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
-use Formapro\Stomp\Transport\StompContext;
-use Formapro\Stomp\Transport\StompDestination;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompDestination;
 
 class StompDriver implements DriverInterface
 {

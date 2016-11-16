@@ -10,7 +10,7 @@ use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Formapro\MessageQueueDbalTransport\Transport\DbalLazyConnection;
 use Formapro\Stomp\Client\StompDriver;
-use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\StompContext;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

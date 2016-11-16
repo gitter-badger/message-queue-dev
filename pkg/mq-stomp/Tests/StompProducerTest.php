@@ -1,15 +1,15 @@
 <?php
-namespace Formapro\Stomp\Tests\Transport;
+namespace Formapro\Stomp\Tests;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSProducer;
 use Formapro\Jms\Message as JmsMessage;
 use Formapro\Jms\Queue;
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Transport\StompDestination;
-use Formapro\Stomp\Transport\StompMessage;
-use Formapro\Stomp\Transport\StompProducer;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\Stomp\StompDestination;
+use Formapro\Stomp\StompMessage;
+use Formapro\Stomp\StompProducer;
 use Stomp\Client;
 use Stomp\Transport\Message;
 

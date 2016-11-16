@@ -1,10 +1,10 @@
 <?php
-namespace Formapro\Stomp\Tests\DependencyInjection;
+namespace Formapro\Stomp\Tests\Symfony;
 
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use Formapro\Stomp\DependencyInjection\StompTransportFactory;
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\Symfony\StompTransportFactory;
 use Stomp\Network\Connection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;

@@ -11,8 +11,8 @@ use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildTopicMetaSubsc
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
 use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
 use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
-use Formapro\Stomp\DependencyInjection\StompTransportFactory;
-use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\Symfony\StompTransportFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

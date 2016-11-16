@@ -1,0 +1,7 @@
+{
+    "name": "formapro/message-queue-test",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": { "Formapro\\MessageQueue\\Test\\": "" }
+    }
+}

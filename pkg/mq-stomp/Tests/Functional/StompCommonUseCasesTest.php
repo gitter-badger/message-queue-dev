@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\Stomp\Tests\Functional;
 
-use Formapro\Stomp\Test\StompExtensionTrait;
-use Formapro\Stomp\Transport\StompContext;
-use Formapro\Stomp\Transport\StompMessage;
+use Formapro\MessageQueue\Test\StompExtensionTrait;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompMessage;
 
 class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 {

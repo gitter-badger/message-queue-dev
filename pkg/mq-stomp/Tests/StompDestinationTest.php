@@ -1,10 +1,10 @@
 <?php
-namespace Formapro\Stomp\Tests\Transport;
+namespace Formapro\Stomp\Tests;
 
 use Formapro\Jms\Queue;
 use Formapro\Jms\Topic;
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Transport\StompDestination;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\Stomp\StompDestination;
 
 class StompDestinationTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\Stomp\DependencyInjection;
+namespace Formapro\Stomp\Symfony;
 
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
-use Formapro\Stomp\Transport\BufferedStompClient;
-use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompContext;
 use Stomp\Network\Connection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
