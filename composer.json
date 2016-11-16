@@ -8,7 +8,7 @@
     "formapro/stomp": "dev-master",
     "formapro/message-queue-bundle": "dev-master",
     "formapro/job-queue": "dev-master",
-    "formapro/message-queue-test": "dev-stomp-reorganization"
+    "formapro/message-queue-test": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^5",
