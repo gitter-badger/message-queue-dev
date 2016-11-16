@@ -4,6 +4,7 @@ namespace Formapro\Stomp\DependencyInjection;
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\Stomp\Transport\BufferedStompClient;
 use Formapro\Stomp\Transport\StompContext;
+use Stomp\Network\Connection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -46,15 +47,23 @@ class StompTransportFactory implements TransportFactoryInterface
      */
     public function createService(ContainerBuilder $container, array $config)
     {
+        $connection = new Definition(Connection::class);
+        $connection->setArguments([
+            $config['uri'],
+            $config['connection_timeout'],
+        ]);
+
+        $connectionId = sprintf('formapro_message_queue.transport.%s.connection', $this->getName());
+        $container->setDefinition($connectionId, $connection);
+
         $client = new Definition(BufferedStompClient::class);
         $client->setArguments([
-            $config['uri'],
+            new Reference($connectionId),
             $config['buffer_size'],
         ]);
         $client->addMethodCall('setLogin', [$config['login'], $config['password']]);
         $client->addMethodCall('setVhostname', [$config['vhost']]);
         $client->addMethodCall('setSync', [$config['sync']]);
-        $client->addMethodCall('setConnectionTimeout', [$config['connection_timeout']]);
 
         $clientId = sprintf('formapro_message_queue.transport.%s.client', $this->getName());
         $container->setDefinition($clientId, $client);

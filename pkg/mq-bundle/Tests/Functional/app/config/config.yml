@@ -34,5 +34,6 @@ formapro_message_queue:
     transport:
         default: 'null'
         'null': ~
+        stomp: true
     client: ~
     job: true
