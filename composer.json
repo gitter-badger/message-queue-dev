@@ -6,6 +6,7 @@
     "formapro/jms": "dev-master",
     "formapro/message-queue": "dev-master",
     "formapro/stomp": "dev-master",
+    "formapro/amqp-ext": "dev-amqp-ext-transport",
     "formapro/message-queue-bundle": "dev-master",
     "formapro/job-queue": "dev-master",
     "formapro/message-queue-test": "dev-master"
@@ -37,6 +38,10 @@
     {
       "type": "path",
       "url": "pkg/mq-stomp"
+    },
+    {
+      "type": "path",
+      "url": "pkg/mq-amqp-ext"
     },
     {
       "type": "path",
