@@ -1,8 +1,8 @@
 <?php
-namespace Formapro\Stomp\Test;
+namespace Formapro\MessageQueue\Test;
 
-use Formapro\Stomp\Transport\BufferedStompClient;
-use Formapro\Stomp\Transport\StompContext;
+use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompContext;
 use Stomp\Client;
 use Stomp\Exception\ConnectionException;
 

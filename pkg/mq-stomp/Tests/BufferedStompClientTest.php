@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\Stomp\Tests\Transport;
+namespace Formapro\Stomp\Tests;
 
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Test\WriteAttributeTrait;
-use Formapro\Stomp\Transport\BufferedStompClient;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Test\WriteAttributeTrait;
+use Formapro\Stomp\BufferedStompClient;
 use Stomp\Client;
 use Stomp\Network\Connection;
 use Stomp\Transport\Frame;

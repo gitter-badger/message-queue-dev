@@ -7,12 +7,12 @@ use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\Client\StompDriver;
-use Formapro\Stomp\Test\ClassExtensionTrait;
-use Formapro\Stomp\Transport\StompContext;
-use Formapro\Stomp\Transport\StompDestination;
-use Formapro\Stomp\Transport\StompMessage;
-use Formapro\Stomp\Transport\StompProducer;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompDestination;
+use Formapro\Stomp\StompMessage;
+use Formapro\Stomp\StompProducer;
 
 class StompDriverTest extends \PHPUnit_Framework_TestCase
 {

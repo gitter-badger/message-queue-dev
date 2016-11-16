@@ -3,9 +3,9 @@ namespace Formapro\Stomp\Tests\Functional;
 
 use Formapro\MessageQueue\Rpc\Promise;
 use Formapro\MessageQueue\Rpc\RpcClient;
-use Formapro\Stomp\Test\StompExtensionTrait;
-use Formapro\Stomp\Transport\StompContext;
-use Formapro\Stomp\Transport\StompMessage;
+use Formapro\MessageQueue\Test\StompExtensionTrait;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompMessage;
 
 class StompRpcUseCasesTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Stomp\Transport;
+namespace Formapro\Stomp;
 
 class StompHeadersEncoder
 {
