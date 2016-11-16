@@ -2,10 +2,10 @@
 namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\MessageQueue\Client\ConsumeMessagesCommand;
+use Formapro\MessageQueue\Test\StompExtensionTrait;
 use Formapro\MessageQueueBundle\Tests\Functional\App\StompAppKernel;
-use Formapro\Stomp\Test\StompExtensionTrait;
-use Formapro\Stomp\Transport\StompContext;
-use Formapro\Stomp\Transport\StompMessage;
+use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompMessage;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsumeMessagesCommandTest extends WebTestCase
