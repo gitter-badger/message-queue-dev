@@ -269,8 +269,6 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldLoadJobServicesIfEnabled()
     {
-        $this->markTestSkipped('Jobs is not ready');
-
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
 
