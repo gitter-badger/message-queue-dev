@@ -2,23 +2,29 @@
 namespace Formapro\AmqpExt;
 
 use Formapro\Jms\Destination;
+use Formapro\Jms\Exception\InvalidDestinationException;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\JMSContext;
-use Formapro\Jms\JMSProducer;
 
 class AmqpContext implements JMSContext
 {
+    /**
+     * @var \AMQPConnection
+     */
+    private $amqpConnection;
+
     /**
      * @var \AMQPChannel
      */
     private $amqpChannel;
 
     /**
-     * @param \AMQPChannel $amqpChannel
+     * @param \AMQPConnection $amqpConnection
      */
-    public function __construct(\AMQPChannel $amqpChannel)
+    public function __construct(\AMQPConnection $amqpConnection)
     {
-        $this->amqpChannel = $amqpChannel;
+        $this->amqpConnection = $amqpConnection;
+        $this->amqpChannel = new \AMQPChannel($amqpConnection);
     }
 
     /**
@@ -42,6 +48,33 @@ class AmqpContext implements JMSContext
     }
 
     /**
+     * @param AmqpTopic|Destination $destination
+     */
+    public function deleteTopic(Destination $destination)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpTopic::class);
+
+        $amqpExchange = new \AMQPExchange($this->amqpChannel);
+        $amqpExchange->delete($destination->getTopicName(), $destination->getFlags());
+    }
+
+    /**
+     * @param AmqpTopic|Destination $destination
+     */
+    public function declareTopic(Destination $destination)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpTopic::class);
+
+        $amqpExchange = new \AMQPExchange($this->amqpChannel);
+        $amqpExchange->setName($destination->getTopicName());
+        $amqpExchange->setType($destination->getType());
+        $amqpExchange->setArguments($destination->getArguments());
+        $amqpExchange->setFlags($destination->getFlags());
+
+        $amqpExchange->declareExchange();
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @return AmqpQueue
@@ -49,6 +82,33 @@ class AmqpContext implements JMSContext
     public function createQueue($queueName)
     {
         return new AmqpQueue($queueName);
+    }
+
+    /**
+     * @param AmqpQueue|Destination $destination
+     */
+    public function deleteQueue(Destination $destination)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
+
+        $amqpQueue = new \AMQPQueue($this->amqpChannel);
+        $amqpQueue->setName($destination->getQueueName());
+        $amqpQueue->delete($destination->getFlags());
+    }
+
+    /**
+     * @param AmqpQueue|Destination $destination
+     */
+    public function declareQueue(Destination $destination)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
+
+        $amqpQueue = new \AMQPQueue($this->amqpChannel);
+        $amqpQueue->setName($destination->getQueueName());
+        $amqpQueue->setFlags($destination->getFlags());
+        $amqpQueue->setArguments($destination->getArguments());
+
+        $amqpQueue->declareQueue();
     }
 
     /**
@@ -68,11 +128,13 @@ class AmqpContext implements JMSContext
     }
 
     /**
-     * @return JMSProducer
+     * {@inheritdoc}
+     *
+     * @return AmqpProducer
      */
     public function createProducer()
     {
-        // TODO: Implement createProducer() method.
+        return new AmqpProducer($this->amqpChannel);
     }
 
     /**
@@ -87,5 +149,40 @@ class AmqpContext implements JMSContext
 
     public function close()
     {
+        if ($this->amqpConnection->isConnected()) {
+            $this->amqpConnection->isPersistent() ?
+                $this->amqpConnection->disconnect() :
+                $this->amqpConnection->pdisconnect();
+        }
+    }
+
+    /**
+     * @param AmqpTopic|Destination $source
+     * @param AmqpQueue|Destination $target
+     */
+    public function bind(Destination $source, Destination $target)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($source, AmqpTopic::class);
+        InvalidDestinationException::assertDestinationInstanceOf($target, AmqpQueue::class);
+
+        $amqpQueue = new \AMQPQueue($this->amqpChannel);
+        $amqpQueue->setName($target->getQueueName());
+        $amqpQueue->bind($source->getTopicName(), $amqpQueue->getName(), $target->getBindArguments());
+    }
+
+    /**
+     * @return \AMQPConnection
+     */
+    public function getAmqpExtConnection()
+    {
+        return $this->amqpConnection;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmqpExtChannel()
+    {
+        return $this->amqpChannel;
     }
 }

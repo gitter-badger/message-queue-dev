@@ -13,14 +13,14 @@ class AmqpProducer implements JMSProducer
     /**
      * @var \AMQPChannel
      */
-    private $channel;
+    private $amqpChannel;
 
     /**
-     * @param \AMQPChannel $channel
+     * @param \AMQPChannel $ampqChannel
      */
-    public function __construct(\AMQPChannel $channel)
+    public function __construct(\AMQPChannel $ampqChannel)
     {
-        $this->channel = $channel;
+        $this->amqpChannel = $ampqChannel;
     }
 
     /**
@@ -41,44 +41,31 @@ class AmqpProducer implements JMSProducer
         $amqpAttributes = $message->getHeaders();
 
         if ($message->getProperties()) {
-            $amqpAttributes['application_headers'] = $message->getProperties();
+            $amqpAttributes['headers'] = $message->getProperties();
         }
 
-//        $amqpMessage = new \AMQPMessage($message->getBody(), $amqpAttributes);
+        if ($destination instanceof AmqpTopic) {
+            $amqpExchange = new \AMQPExchange($this->amqpChannel);
+            $amqpExchange->setType($destination->getType());
+            $amqpExchange->setName($destination->getTopicName());
 
-//        if ($destination instanceof AmqpTopic) {
-//            $amqpExchange = new \AMQPExchange($this->channel);
-//            $amqpExchange->setType($destination);
-//            $amqpExchange->setName('');
+            $amqpExchange->publish(
+                $message->getBody(),
+                $destination->getRoutingKey(),
+                $message->getFlags(),
+                $amqpAttributes
+            );
+        } else {
+            $amqpExchange = new \AMQPExchange($this->amqpChannel);
+            $amqpExchange->setType(AMQP_EX_TYPE_DIRECT);
+            $amqpExchange->setName('');
 
-//            $amqpExchange->publish(
-//                $message->getBody(),
-//                $destination->getQueueName(),
-//                $message->getFlags(),
-//                $amqpAttributes
-//            );
-
-//            $this->channel->pr
-
-//            $this->channel->basic_publish(
-//                $amqpMessage,
-//                $destination->getTopicName(),
-//                $destination->getRoutingKey(),
-//                $message->isMandatory(),
-//                $message->isImmediate(),
-//                $message->getTicket()
-//            );
-//        } else {
-//            $amqpExchange = new \AMQPExchange($this->channel);
-//            $amqpExchange->setType(AMQP_EX_TYPE_DIRECT);
-//            $amqpExchange->setName('');
-
-//            $amqpExchange->publish(
-//                $message->getBody(),
-//                $destination->getQueueName(),
-//                $message->getFlags(),
-//                $amqpAttributes
-//            );
-//        }
+            $amqpExchange->publish(
+                $message->getBody(),
+                $destination->getQueueName(),
+                $message->getFlags(),
+                $amqpAttributes
+            );
+        }
     }
 }

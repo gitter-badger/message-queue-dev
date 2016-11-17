@@ -11,29 +11,9 @@ class AmqpQueue implements Queue
     private $name;
 
     /**
-     * @var bool
+     * @var int
      */
-    private $passive;
-
-    /**
-     * @var bool
-     */
-    private $durable;
-
-    /**
-     * @var bool
-     */
-    private $exclusive;
-
-    /**
-     * @var bool
-     */
-    private $autoDelete;
-
-    /**
-     * @var bool
-     */
-    private $noWait;
+    private $flags;
 
     /**
      * @var array
@@ -41,9 +21,9 @@ class AmqpQueue implements Queue
     private $arguments;
 
     /**
-     * @var int
+     * @var array
      */
-    private $ticket;
+    private $bindArguments;
 
     /**
      * @var string
@@ -51,28 +31,15 @@ class AmqpQueue implements Queue
     private $consumerTag;
 
     /**
-     * @var bool
-     */
-    private $noLocal;
-
-    /**
-     * @var bool
-     */
-    private $noAck;
-
-    /**
      * @param string $name
      */
     public function __construct($name)
     {
         $this->name = $name;
-        $this->passive = false;
-        $this->durable = false;
-        $this->exclusive = false;
-        $this->autoDelete = true;
-        $this->noWait = false;
-        $this->noLocal = false;
-        $this->noAck = false;
+
+        $this->arguments = [];
+        $this->bindArguments = [];
+        $this->flags = AMQP_NOPARAM;
     }
 
     /**
@@ -81,118 +48,6 @@ class AmqpQueue implements Queue
     public function getQueueName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPassive()
-    {
-        return $this->passive;
-    }
-
-    /**
-     * @param bool $passive
-     */
-    public function setPassive($passive)
-    {
-        $this->passive = (bool) $passive;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDurable()
-    {
-        return $this->durable;
-    }
-
-    /**
-     * @param bool $durable
-     */
-    public function setDurable($durable)
-    {
-        $this->durable = (bool) $durable;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isExclusive()
-    {
-        return $this->exclusive;
-    }
-
-    /**
-     * @param bool $exclusive
-     */
-    public function setExclusive($exclusive)
-    {
-        $this->exclusive = (bool) $exclusive;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAutoDelete()
-    {
-        return $this->autoDelete;
-    }
-
-    /**
-     * @param bool $autoDelete
-     */
-    public function setAutoDelete($autoDelete)
-    {
-        $this->autoDelete = (bool) $autoDelete;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isNoWait()
-    {
-        return $this->noWait;
-    }
-
-    /**
-     * @param bool $noWait
-     */
-    public function setNoWait($noWait)
-    {
-        $this->noWait = (bool) $noWait;
-    }
-
-    /**
-     * @return array
-     */
-    public function getArguments()
-    {
-        return $this->arguments;
-    }
-
-    /**
-     * @param array $arguments
-     */
-    public function setArguments(array $arguments = null)
-    {
-        $this->arguments = $arguments;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTicket()
-    {
-        return $this->ticket;
-    }
-
-    /**
-     * @param int $ticket
-     */
-    public function setTicket($ticket)
-    {
-        $this->ticket = $ticket;
     }
 
     /**
@@ -212,34 +67,55 @@ class AmqpQueue implements Queue
     }
 
     /**
-     * @return bool
+     * @param int $flag
      */
-    public function isNoLocal()
+    public function addFlag($flag)
     {
-        return $this->noLocal;
+        $this->flags |= $flag;
+    }
+
+    public function clearFlags()
+    {
+        $this->flags = AMQP_NOPARAM;
     }
 
     /**
-     * @param bool $noLocal
+     * @return int
      */
-    public function setNoLocal($noLocal)
+    public function getFlags()
     {
-        $this->noLocal = $noLocal;
+        return $this->flags;
     }
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isNoAck()
+    public function getArguments()
     {
-        return $this->noAck;
+        return $this->arguments;
     }
 
     /**
-     * @param bool $noAck
+     * @param array $arguments
      */
-    public function setNoAck($noAck)
+    public function setArguments(array $arguments = null)
     {
-        $this->noAck = $noAck;
+        $this->arguments = $arguments;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBindArguments()
+    {
+        return $this->bindArguments;
+    }
+
+    /**
+     * @param array $arguments
+     */
+    public function setBindArguments(array $arguments = null)
+    {
+        $this->bindArguments = $arguments;
     }
 }

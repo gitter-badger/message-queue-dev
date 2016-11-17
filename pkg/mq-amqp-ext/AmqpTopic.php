@@ -16,39 +16,9 @@ class AmqpTopic implements Topic
     private $type;
 
     /**
-     * @var bool
-     */
-    private $passive;
-
-    /**
-     * @var bool
-     */
-    private $durable;
-
-    /**
-     * @var bool
-     */
-    private $autoDelete;
-
-    /**
-     * @var bool
-     */
-    private $internal;
-
-    /**
-     * @var bool
-     */
-    private $noWait;
-
-    /**
-     * @var array
-     */
-    private $arguments;
-
-    /**
      * @var int
      */
-    private $ticket;
+    private $flags;
 
     /**
      * @var string
@@ -56,16 +26,20 @@ class AmqpTopic implements Topic
     private $routingKey;
 
     /**
+     * @var array
+     */
+    private $arguments;
+
+    /**
      * @param string $name
      */
     public function __construct($name)
     {
         $this->name = $name;
-        $this->passive = false;
-        $this->durable = false;
-        $this->autoDelete = true;
-        $this->internal = false;
-        $this->noWait = false;
+
+        $this->type = AMQP_EX_TYPE_DIRECT;
+        $this->flags = AMQP_NOPARAM;
+        $this->arguments = [];
     }
 
     /**
@@ -93,83 +67,24 @@ class AmqpTopic implements Topic
     }
 
     /**
-     * @return bool
+     * @param int $flag
      */
-    public function isPassive()
+    public function addFlag($flag)
     {
-        return $this->passive;
+        $this->flags |= $flag;
+    }
+
+    public function clearFlags()
+    {
+        $this->flags = AMQP_NOPARAM;
     }
 
     /**
-     * @param bool $passive
+     * @return int
      */
-    public function setPassive($passive)
+    public function getFlags()
     {
-        $this->passive = (bool) $passive;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDurable()
-    {
-        return $this->durable;
-    }
-
-    /**
-     * @param bool $durable
-     */
-    public function setDurable($durable)
-    {
-        $this->durable = (bool) $durable;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAutoDelete()
-    {
-        return $this->autoDelete;
-    }
-
-    /**
-     * @param bool $autoDelete
-     */
-    public function setAutoDelete($autoDelete)
-    {
-        $this->autoDelete = (bool) $autoDelete;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInternal()
-    {
-        return $this->internal;
-    }
-
-    /**
-     * @param bool $internal
-     */
-    public function setInternal($internal)
-    {
-        $this->internal = (bool) $internal;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isNoWait()
-    {
-        return $this->noWait;
-    }
-
-    /**
-     * @param bool $noWait
-     */
-    public function setNoWait($noWait)
-    {
-        $this->noWait = (bool) $noWait;
+        return $this->flags;
     }
 
     /**
@@ -186,22 +101,6 @@ class AmqpTopic implements Topic
     public function setArguments(array $arguments = null)
     {
         $this->arguments = $arguments;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTicket()
-    {
-        return $this->ticket;
-    }
-
-    /**
-     * @param int $ticket
-     */
-    public function setTicket($ticket)
-    {
-        $this->ticket = $ticket;
     }
 
     /**
