@@ -2,6 +2,7 @@
 namespace Formapro\MessageQueue\Client;
 
 use Formapro\MessageQueue\Util\JSON;
+use Formapro\MessageQueue\Util\UUID;
 
 class MessageProducer implements MessageProducerInterface
 {
@@ -37,7 +38,7 @@ class MessageProducer implements MessageProducerInterface
         $message->setProperty(Config::PARAMETER_QUEUE_NAME, $config->getRouterQueueName());
 
         if (!$message->getMessageId()) {
-            $message->setMessageId(uniqid('mq.', true));
+            $message->setMessageId(UUID::generate());
         }
         if (!$message->getTimestamp()) {
             $message->setTimestamp(time());
