@@ -33,7 +33,7 @@ class ConsumeMessagesCommandTest extends WebTestCase
         $this->assertInstanceOf(ConsumeMessagesCommand::class, $command);
     }
 
-    public function testShouldConsumeMessages()
+    public function testClientConsumeMessagesCommandShouldConsumeMessage()
     {
         $command = $this->container->get('formapro_message_queue.client.consume_messages_command');
         $messageProcessor = $this->container->get('test.message.processor');
@@ -44,6 +44,26 @@ class ConsumeMessagesCommandTest extends WebTestCase
         $tester->execute([
             '--message-limit' => 2,
             '--time-limit' => '+10sec',
+        ]);
+
+        $this->assertInstanceOf(StompMessage::class, $messageProcessor->message);
+        $this->assertEquals('test message body', $messageProcessor->message->getBody());
+    }
+
+    public function testTransportConsumeMessagesCommandShouldConsumeMessage()
+    {
+        $command = $this->container->get('formapro_message_queue.command.consume_messages');
+        $command->setContainer($this->container);
+        $messageProcessor = $this->container->get('test.message.processor');
+
+        $this->getMessageProducer()->send(TestMessageProcessor::TOPIC, 'test message body');
+
+        $tester = new CommandTester($command);
+        $tester->execute([
+            '--message-limit' => 1,
+            '--time-limit' => '+10sec',
+            'queue' => 'stomp.test',
+            'processor-service' => 'test.message.processor',
         ]);
 
         $this->assertInstanceOf(StompMessage::class, $messageProcessor->message);
