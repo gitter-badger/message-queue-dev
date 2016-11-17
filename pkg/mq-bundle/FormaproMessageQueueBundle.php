@@ -9,8 +9,6 @@ use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildMessageProcess
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildRouteRegistryPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildTopicMetaSubscribersPass;
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
-use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
-use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\Symfony\StompTransportFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,10 +31,6 @@ class FormaproMessageQueueBundle extends Bundle
         $extension = $container->getExtension('formapro_message_queue');
         $extension->addTransportFactory(new DefaultTransportFactory());
         $extension->addTransportFactory(new NullTransportFactory());
-
-        if (class_exists(DbalConnection::class)) {
-            $extension->addTransportFactory(new DbalTransportFactory());
-        }
 
         if (class_exists(StompContext::class)) {
             $extension->addTransportFactory(new StompTransportFactory());

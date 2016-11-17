@@ -13,15 +13,15 @@ trait StompExtensionTrait
      */
     private function buildStompContext()
     {
-        if (false == getenv('RABBITMQ_HOST')) {
+        if (false == getenv('SYMFONY__RABBITMQ__HOST')) {
             throw new \PHPUnit_Framework_SkippedTestError('Functional tests are not allowed in this environment');
         }
 
-        $rabbitmqHost = getenv('RABBITMQ_HOST');
-        $rabbitmqUser = getenv('RABBITMQ_USER');
-        $rabbitmqPort = getenv('RABBITMQ_STOMP_PORT');
-        $rabbitmqPassword = getenv('RABBITMQ_PASSWORD');
-        $rabbitmqVhost = getenv('RABBITMQ_VHOST');
+        $rabbitmqHost = getenv('SYMFONY__RABBITMQ__HOST');
+        $rabbitmqUser = getenv('SYMFONY__RABBITMQ__USER');
+        $rabbitmqPort = getenv('SYMFONY__RABBITMQ__STOMP__PORT');
+        $rabbitmqPassword = getenv('SYMFONY__RABBITMQ__PASSWORD');
+        $rabbitmqVhost = getenv('SYMFONY__RABBITMQ__VHOST');
 
         $stomp = new BufferedStompClient("tcp://$rabbitmqHost:$rabbitmqPort");
         $stomp->setLogin($rabbitmqUser, $rabbitmqPassword);
@@ -52,10 +52,10 @@ trait StompExtensionTrait
      */
     private function removeQueue($queueName)
     {
-        $rabbitmqHost = getenv('RABBITMQ_HOST');
-        $rabbitmqUser = getenv('RABBITMQ_USER');
-        $rabbitmqPassword = getenv('RABBITMQ_PASSWORD');
-        $rabbitmqVhost = getenv('RABBITMQ_VHOST');
+        $rabbitmqHost = getenv('SYMFONY__RABBITMQ__HOST');
+        $rabbitmqUser = getenv('SYMFONY__RABBITMQ__USER');
+        $rabbitmqPassword = getenv('SYMFONY__RABBITMQ__PASSWORD');
+        $rabbitmqVhost = getenv('SYMFONY__RABBITMQ__VHOST');
 
         $url = sprintf(
             'http://%s:15672/api/queues/%s/%s',

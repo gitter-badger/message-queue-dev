@@ -1,6 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Util;
 
+use Ramsey\Uuid\Uuid as RamseyUuid;
+
 class UUID
 {
     /**
@@ -8,6 +10,6 @@ class UUID
      */
     public static function generate()
     {
-        return uniqid('', true);
+        return RamseyUuid::uuid4()->toString();
     }
 }

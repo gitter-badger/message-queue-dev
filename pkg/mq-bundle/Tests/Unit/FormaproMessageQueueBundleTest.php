@@ -11,7 +11,6 @@ use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildTopicMetaSubsc
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
 use Formapro\MessageQueueBundle\FormaproMessageQueueBundle;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
-use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -82,30 +81,6 @@ class FormaproMessageQueueBundleTest extends \PHPUnit_Framework_TestCase
             ->expects($this->at(1))
             ->method('addTransportFactory')
             ->with($this->isInstanceOf(NullTransportFactory::class))
-        ;
-
-        $container = $this->createMock(ContainerBuilder::class);
-        $container
-            ->expects($this->at(5))
-            ->method('getExtension')
-            ->with('formapro_message_queue')
-            ->willReturn($extensionMock)
-        ;
-
-        $bundle = new FormaproMessageQueueBundle();
-        $bundle->build($container);
-    }
-
-    public function testShouldRegisterDbalTransportFactory()
-    {
-        $this->markTestSkipped('Dbal transport is not ready');
-
-        $extensionMock = $this->createMock(FormaproMessageQueueExtension::class);
-
-        $extensionMock
-            ->expects($this->at(2))
-            ->method('addTransportFactory')
-            ->with($this->isInstanceOf(DbalTransportFactory::class))
         ;
 
         $container = $this->createMock(ContainerBuilder::class);
