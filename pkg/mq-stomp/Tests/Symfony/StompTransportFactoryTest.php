@@ -5,6 +5,7 @@ use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\BufferedStompClient;
 use Formapro\Stomp\Symfony\StompTransportFactory;
+use Stomp\Network\Connection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -73,23 +74,27 @@ class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('formapro_message_queue.transport.stomp.context', $serviceId);
         $this->assertTrue($container->hasDefinition($serviceId));
 
-        $connection = $container->getDefinition('formapro_message_queue.transport.stomp.context');
-        $this->assertInstanceOf(Reference::class, $connection->getArgument(0));
-        $this->assertEquals('formapro_message_queue.transport.stomp.client', (string) $connection->getArgument(0));
+        $context = $container->getDefinition('formapro_message_queue.transport.stomp.context');
+        $this->assertInstanceOf(Reference::class, $context->getArgument(0));
+        $this->assertEquals('formapro_message_queue.transport.stomp.client', (string) $context->getArgument(0));
+
+        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.connection'));
+        $connection = $container->getDefinition('formapro_message_queue.transport.stomp.connection');
+        $this->assertEquals(Connection::class, $connection->getClass());
 
         $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.client'));
-        $clientFactory = $container->getDefinition('formapro_message_queue.transport.stomp.client');
-        $this->assertEquals(BufferedStompClient::class, $clientFactory->getClass());
-        $this->assertEquals('tcp://localhost:61613', $clientFactory->getArgument(0));
-        $this->assertEquals(1000, $clientFactory->getArgument(1));
+        $client = $container->getDefinition('formapro_message_queue.transport.stomp.client');
+        $this->assertEquals(BufferedStompClient::class, $client->getClass());
+        $this->assertInstanceOf(Reference::class, $client->getArgument(0));
+        $this->assertEquals('formapro_message_queue.transport.stomp.connection', (string) $client->getArgument(0));
+        $this->assertEquals(1000, $client->getArgument(1));
 
         $expectedMethodCalls = [
             ['setLogin', ['guest', 'guest']],
             ['setVhostname', ['/']],
             ['setSync', [true]],
-            ['setConnectionTimeout', [1]],
         ];
 
-        $this->assertEquals($expectedMethodCalls, $clientFactory->getMethodCalls());
+        $this->assertEquals($expectedMethodCalls, $client->getMethodCalls());
     }
 }

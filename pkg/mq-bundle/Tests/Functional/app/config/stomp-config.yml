@@ -1,0 +1,40 @@
+parameters:
+    locale: 'en'
+    secret: 'ThisTokenIsNotSoSecretChangeIt'
+
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: "%locale%" }
+    test: ~
+    templating:      { engines: ['php'] }
+    session:
+        storage_id: session.storage.mock_file
+    secret:          '%secret%'
+    router:          { resource: '%kernel.root_dir%/config/routing.yml' }
+    default_locale:  '%locale%'
+
+monolog:
+    handlers:
+        main:
+            type: 'null'
+            level: 'error'
+
+formapro_message_queue:
+    transport:
+        default: 'stomp'
+        stomp:
+            uri: 'tcp://%rabbitmq.host%:%rabbitmq.stomp.port%'
+            login: '%rabbitmq.user%'
+            password: '%rabbitmq.password%'
+            vhost: '%rabbitmq.vhost%'
+    client:
+        prefix: 'stomp'
+        router_destination: 'test'
+        default_destination: 'test'
+
+services:
+    test.message.processor:
+        class: 'Formapro\MessageQueueBundle\Tests\Functional\TestMessageProcessor'
+        tags:
+            - { name: 'formapro_message_queue.client.message_processor' }
