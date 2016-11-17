@@ -6,7 +6,6 @@ use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
 use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
-use Formapro\MessageQueueDbalTransport\DependencyInjection\DbalTransportFactory;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -124,38 +123,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 'default' => ['alias' => 'foo'],
                 'null' => [],
                 'foo' => ['foo_param' => 'aParam'],
-            ],
-        ], $config);
-    }
-
-    public function testShouldAllowConfigureDBALTransport()
-    {
-        $this->markTestSkipped('Dbal transport is not ready');
-
-        $configuration = new Configuration([
-            new DefaultTransportFactory(),
-            new DbalTransportFactory(),
-        ]);
-
-        $processor = new Processor();
-        $config = $processor->processConfiguration($configuration, [[
-            'transport' => [
-                'default' => 'dbal',
-                'dbal' => true,
-            ],
-        ]]);
-
-        $this->assertArraySubset([
-            'transport' => [
-                'default' => [
-                    'alias' => 'dbal',
-                ],
-                'dbal' => [
-                    'connection' => 'default',
-                    'table' => 'formapro_message_queue',
-                    'orphan_time' => 300,
-                    'polling_interval' => 1000,
-                ],
             ],
         ], $config);
     }

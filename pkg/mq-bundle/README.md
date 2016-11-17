@@ -21,7 +21,6 @@ formapro_message_queue:
             vhost: '/'
     client: ~
 ```
-[DBAL transport options](./Resources/doc/dbal.md)
 
 Once you configured everything you can start producing messages:
 

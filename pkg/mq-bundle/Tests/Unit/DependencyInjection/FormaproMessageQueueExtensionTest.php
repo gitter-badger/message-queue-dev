@@ -11,8 +11,6 @@ use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
 use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
-use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
-use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -267,56 +265,6 @@ class FormaproMessageQueueExtensionTest extends \PHPUnit_Framework_TestCase
         $firstArgument = $factory->getArgument(0);
         self::assertArrayHasKey(NullContext::class, $firstArgument);
         self::assertEquals(NullDriver::class, $firstArgument[NullContext::class]);
-    }
-
-    public function testShouldAddDbalConnectionToDbalDriverMapToDriverFactory()
-    {
-        $this->markTestSkipped('Dbal transport is not ready');
-
-        $container = new ContainerBuilder();
-        $container->setParameter('kernel.debug', true);
-
-        $extension = new FormaproMessageQueueExtension();
-        $extension->addTransportFactory(new DefaultTransportFactory());
-
-        $extension->load([[
-            'client' => true,
-            'transport' => [
-                'default' => 'foo',
-            ],
-        ]], $container);
-
-        self::assertTrue($container->hasDefinition('formapro_message_queue.client.driver_factory'));
-        $factory = $container->getDefinition('formapro_message_queue.client.driver_factory');
-
-        $firstArgument = $factory->getArgument(0);
-        self::assertArrayHasKey(DbalConnection::class, $firstArgument);
-        self::assertEquals(DbalDriver::class, $firstArgument[DbalConnection::class]);
-    }
-
-    public function testShouldAddDbalLazyConnectionToDbalDriverMapToDriverFactory()
-    {
-        $this->markTestSkipped('Dbal transport is not ready');
-
-        $container = new ContainerBuilder();
-        $container->setParameter('kernel.debug', true);
-
-        $extension = new FormaproMessageQueueExtension();
-        $extension->addTransportFactory(new DefaultTransportFactory());
-
-        $extension->load([[
-            'client' => true,
-            'transport' => [
-                'default' => 'foo',
-            ],
-        ]], $container);
-
-        self::assertTrue($container->hasDefinition('formapro_message_queue.client.driver_factory'));
-        $factory = $container->getDefinition('formapro_message_queue.client.driver_factory');
-
-        $firstArgument = $factory->getArgument(0);
-        self::assertArrayHasKey(DbalConnection::class, $firstArgument);
-        self::assertEquals(DbalDriver::class, $firstArgument[DbalConnection::class]);
     }
 
     public function testShouldLoadJobServicesIfEnabled()

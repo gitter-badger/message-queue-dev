@@ -6,9 +6,6 @@ use Formapro\MessageQueue\Client\NullDriver;
 use Formapro\MessageQueue\Client\TraceableMessageProducer;
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\MessageQueue\Transport\Null\NullContext;
-use Formapro\MessageQueueDbalTransport\Client\DbalDriver;
-use Formapro\MessageQueueDbalTransport\Transport\DbalConnection;
-use Formapro\MessageQueueDbalTransport\Transport\DbalLazyConnection;
 use Formapro\Stomp\Client\StompDriver;
 use Formapro\Stomp\StompContext;
 use Symfony\Component\Config\FileLocator;
@@ -67,11 +64,6 @@ class FormaproMessageQueueExtension extends Extension
             $drivers = [
                 NullContext::class => NullDriver::class,
             ];
-
-            if (class_exists(DbalConnection::class)) {
-                $drivers[DbalConnection::class] = DbalDriver::class;
-                $drivers[DbalLazyConnection::class] = DbalDriver::class;
-            }
 
             if (class_exists(StompContext::class)) {
                 $drivers[StompContext::class] = StompDriver::class;
