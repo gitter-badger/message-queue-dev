@@ -1,46 +1,41 @@
 <?php
 namespace Formapro\AmqpExt;
 
+use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSConsumer;
-use FormaPro\MessageQueue\Transport\Exception\InvalidMessageException;
-use FormaPro\MessageQueue\Transport\Message;
-use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Exception\AMQPTimeoutException;
-use PhpAmqpLib\Message\AMQPMessage as LibAMQPMessage;
-use PhpAmqpLib\Wire\AMQPTable;
+use Formapro\Jms\Message;
 
 class AmqpConsumer implements JMSConsumer
 {
-    /**
-     * @var AMQPChannel
-     */
-    private $channel;
-
     /**
      * @var AmqpQueue
      */
     private $queue;
 
     /**
-     * @var bool
+     * @var \AMQPQueue
      */
-    private $initialized;
+    private $extQueue;
 
     /**
-     * @var AmqpMessage
+     * @var \AMQPChannel
      */
-    private $receivedMessage;
+    private $extChannel;
 
     /**
-     * @param AMQPChannel $channel
-     * @param AmqpQueue   $queue
+     * @param \AMQPChannel $extChannel
+     * @param AmqpQueue    $queue
      */
-    public function __construct(AMQPChannel $channel, AmqpQueue $queue)
+    public function __construct(\AMQPChannel $extChannel, AmqpQueue $queue)
     {
-        $this->channel = $channel;
-        $this->queue = $queue;
+        $extQueue = new \AMQPQueue($extChannel);
+        $extQueue->setName($queue->getQueueName());
+        $extQueue->setFlags($queue->getFlags());
+        $extQueue->setArguments($queue->getArguments());
 
-        $this->initialized = false;
+        $this->queue = $queue;
+        $this->extQueue = $extQueue;
+        $this->extChannel = $extChannel;
     }
 
     /**
@@ -55,28 +50,44 @@ class AmqpConsumer implements JMSConsumer
 
     /**
      * {@inheritdoc}
+     *
+     * @return AmqpMessage|null
      */
     public function receive($timeout = 0)
     {
-        $this->initConsumer();
-
-        $this->receivedMessage = null;
-
+        $originalTimeout = $this->extChannel->getConnection()->getReadTimeout();
         try {
-            $this->channel->wait(null, false, $timeout);
-        } catch (AMQPTimeoutException $e) {
-        }
+            $this->extChannel->getConnection()->setReadTimeout($timeout);
 
-        return $this->receivedMessage;
+            $receivedMessage = null;
+
+            $this->extQueue->consume(function (\AMQPEnvelope $extEnvelope, \AMQPQueue $extQueue) use (&$receivedMessage) {
+                $receivedMessage = $this->convertMessage($extEnvelope);
+
+                return false;
+            });
+
+            return $receivedMessage;
+        } catch (\AMQPQueueException $e) {
+            if ('Consumer timeout exceed' == $e->getMessage()) {
+                return null;
+            }
+
+            throw $e;
+        } finally {
+            $this->extChannel->getConnection()->setReadTimeout($originalTimeout);
+        }
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @return AmqpMessage|null
      */
     public function receiveNoWait()
     {
-        if ($message = $this->channel->basic_get($this->queue->getQueueName())) {
-            return $this->convertMessage($message);
+        if ($extMessage = $this->extQueue->get()) {
+            return $this->convertMessage($extMessage);
         }
     }
 
@@ -89,7 +100,7 @@ class AmqpConsumer implements JMSConsumer
     {
         InvalidMessageException::assertMessageInstanceOf($message, AmqpMessage::class);
 
-        $this->channel->basic_ack($message->getDeliveryTag());
+        $this->extQueue->ack($message->getDeliveryTag());
     }
 
     /**
@@ -101,52 +112,30 @@ class AmqpConsumer implements JMSConsumer
     {
         InvalidMessageException::assertMessageInstanceOf($message, AmqpMessage::class);
 
-        $this->channel->basic_reject($message->getDeliveryTag(), $requeue);
-    }
-
-    private function initConsumer()
-    {
-        if ($this->initialized) {
-            return;
-        }
-        $this->initialized = true;
-
-        $callback = function (LibAMQPMessage $message) {
-            $this->receivedMessage = $this->convertMessage($message);
-        };
-
-        $this->channel->basic_qos(0, 1, false);
-
-        $this->channel->basic_consume(
-            $this->queue->getQueueName(),
-            $this->queue->getConsumerTag(),
-            $this->queue->isNoLocal(),
-            $this->queue->isNoAck(),
-            $this->queue->isExclusive(),
-            $this->queue->isNoWait(),
-            $callback
+        $this->extQueue->reject(
+            $message->getDeliveryTag(),
+            $requeue ? AMQP_REQUEUE : AMQP_NOPARAM
         );
     }
 
     /**
-     * @param LibAMQPMessage $amqpMessage
+     * @param \AMQPEnvelope $extEnvelope
      *
      * @return AmqpMessage
      */
-    private function convertMessage(LibAMQPMessage $amqpMessage)
+    private function convertMessage(\AMQPEnvelope $extEnvelope)
     {
-        $headers = new AMQPTable($amqpMessage->get_properties());
-        $headers = $headers->getNativeData();
+        $headers = $extEnvelope->getHeaders();
 
         $properties = [];
-        if (isset($headers['application_headers'])) {
-            $properties = $headers['application_headers'];
+        if (array_key_exists('headers', $headers)) {
+            $properties = $headers['headers'];
+            unset($headers['headers']);
         }
-        unset($headers['application_headers']);
 
-        $message = new AmqpMessage($amqpMessage->getBody(), $properties, $headers);
-        $message->setDeliveryTag($amqpMessage->delivery_info['delivery_tag']);
-        $message->setRedelivered($amqpMessage->delivery_info['redelivered']);
+        $message = new AmqpMessage($extEnvelope->getBody(), $properties, $headers);
+        $message->setRedelivered($extEnvelope->isRedelivery());
+        $message->setDeliveryTag($extEnvelope->getDeliveryTag());
 
         return $message;
     }

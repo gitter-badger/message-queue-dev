@@ -3,7 +3,6 @@ namespace Formapro\AmqpExt;
 
 use Formapro\Jms\Destination;
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\JMSContext;
 
 class AmqpContext implements JMSContext
@@ -138,13 +137,17 @@ class AmqpContext implements JMSContext
     }
 
     /**
-     * @param Destination $destination
+     * {@inheritdoc}
      *
-     * @return JMSConsumer
+     * @param Destination|AmqpQueue $destination
+     *
+     * @return AmqpConsumer
      */
     public function createConsumer(Destination $destination)
     {
-        // TODO: Implement createConsumer() method.
+        InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
+
+        return new AmqpConsumer($this->amqpChannel, $destination);
     }
 
     public function close()

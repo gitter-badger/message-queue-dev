@@ -21,6 +21,11 @@ class AmqpMessage implements Message
     private $headers;
 
     /**
+     * @var string|null
+     */
+    private $deliveryTag;
+
+    /**
      * @var bool
      */
     private $redelivered;
@@ -205,7 +210,23 @@ class AmqpMessage implements Message
         return $this->getHeader('reply_to');
     }
 
-    public function resetFlags()
+    /**
+     * @return null|string
+     */
+    public function getDeliveryTag()
+    {
+        return $this->deliveryTag;
+    }
+
+    /**
+     * @param null|string $deliveryTag
+     */
+    public function setDeliveryTag($deliveryTag)
+    {
+        $this->deliveryTag = $deliveryTag;
+    }
+
+    public function clearFlags()
     {
         $this->flags = AMQP_NOPARAM;
     }
