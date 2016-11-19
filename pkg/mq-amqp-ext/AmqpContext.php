@@ -117,11 +117,8 @@ class AmqpContext implements JMSContext
      */
     public function createTemporaryQueue()
     {
-        $queue = new AmqpQueue('');
-        $queue->setPassive(false);
-        $queue->setDurable(false);
-        $queue->setExclusive(true);
-        $queue->setAutoDelete(false);
+        $queue = $this->createQueue('');
+        $queue->addFlag(AMQP_EXCLUSIVE);
 
         return $queue;
     }
@@ -147,7 +144,7 @@ class AmqpContext implements JMSContext
     {
         InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
 
-        return new AmqpConsumer($this->amqpChannel, $destination);
+        return new AmqpConsumer($this, $destination);
     }
 
     public function close()

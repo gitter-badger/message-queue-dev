@@ -4,9 +4,15 @@ namespace Formapro\AmqpExt;
 use Formapro\Jms\Exception\InvalidMessageException;
 use Formapro\Jms\JMSConsumer;
 use Formapro\Jms\Message;
+use Formapro\MessageQueue\Util\UUID;
 
 class AmqpConsumer implements JMSConsumer
 {
+    /**
+     * @var AmqpContext
+     */
+    private $context;
+
     /**
      * @var AmqpQueue
      */
@@ -18,24 +24,32 @@ class AmqpConsumer implements JMSConsumer
     private $extQueue;
 
     /**
-     * @var \AMQPChannel
+     * @var string
      */
-    private $extChannel;
+    private $consumerId;
 
     /**
-     * @param \AMQPChannel $extChannel
-     * @param AmqpQueue    $queue
+     * @var bool
      */
-    public function __construct(\AMQPChannel $extChannel, AmqpQueue $queue)
-    {
-        $extQueue = new \AMQPQueue($extChannel);
-        $extQueue->setName($queue->getQueueName());
-        $extQueue->setFlags($queue->getFlags());
-        $extQueue->setArguments($queue->getArguments());
+    private $isInit;
 
+    /**
+     * @param AmqpContext $context
+     * @param AmqpQueue $queue
+     */
+    public function __construct(AmqpContext $context, AmqpQueue $queue)
+    {
         $this->queue = $queue;
+        $this->context = $context;
+
+        $this->consumerId = UUID::generate();
+        $this->isInit = false;
+
+        $extQueue = new \AMQPQueue($this->context->getAmqpExtChannel());
+        $extQueue->setName($this->queue->getQueueName());
+        $extQueue->setFlags($this->queue->getFlags());
+        $extQueue->setArguments($this->queue->getArguments());
         $this->extQueue = $extQueue;
-        $this->extChannel = $extChannel;
     }
 
     /**
@@ -55,19 +69,28 @@ class AmqpConsumer implements JMSConsumer
      */
     public function receive($timeout = 0)
     {
-        $originalTimeout = $this->extChannel->getConnection()->getReadTimeout();
+        /** @var \AMQPQueue $extQueue */
+        $extConnection = $this->extQueue->getChannel()->getConnection();
+
+        $originalTimeout = $extConnection->getReadTimeout();
         try {
-            $this->extChannel->getConnection()->setReadTimeout($timeout);
+            $extConnection->setReadTimeout($timeout);
 
-            $receivedMessage = null;
+            if (false == $this->isInit) {
+                $this->extQueue->consume(null, AMQP_NOPARAM, $this->consumerId);
 
-            $this->extQueue->consume(function (\AMQPEnvelope $extEnvelope, \AMQPQueue $extQueue) use (&$receivedMessage) {
-                $receivedMessage = $this->convertMessage($extEnvelope);
+                $this->isInit = true;
+            }
+
+            $message = null;
+
+            $this->extQueue->consume(function(\AMQPEnvelope $extEnvelope, \AMQPQueue $q) use (&$message) {
+                $message = $this->convertMessage($extEnvelope);
 
                 return false;
-            });
+            }, AMQP_JUST_CONSUME);
 
-            return $receivedMessage;
+            return $message;
         } catch (\AMQPQueueException $e) {
             if ('Consumer timeout exceed' == $e->getMessage()) {
                 return null;
@@ -75,7 +98,7 @@ class AmqpConsumer implements JMSConsumer
 
             throw $e;
         } finally {
-            $this->extChannel->getConnection()->setReadTimeout($originalTimeout);
+            $extConnection->setReadTimeout($originalTimeout);
         }
     }
 

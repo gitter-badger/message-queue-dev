@@ -34,16 +34,27 @@ $topic->setArguments(['alternate-exchange' => 'foo']);
 $context->deleteTopic($topic);
 $context->declareTopic($topic);
 
-$queue = $context->createQueue('test.amqp.queue');
-$queue->addFlag(AMQP_DURABLE);
+$fooQueue = $context->createQueue('foo');
+$fooQueue->addFlag(AMQP_DURABLE);
 
-$context->deleteQueue($queue);
-$context->declareQueue($queue);
+$context->deleteQueue($fooQueue);
+$context->declareQueue($fooQueue);
 
-$context->bind($topic, $queue);
+$context->bind($topic, $fooQueue);
 
-$message = $context->createMessage('Hello World!', ['foo' => 'fooVal'], ['message_id' => 123]);
+$barQueue = $context->createQueue('bar');
+$barQueue->addFlag(AMQP_DURABLE);
 
-$context->createProducer()->send($topic, $message);
+$context->deleteQueue($barQueue);
+$context->declareQueue($barQueue);
+
+$context->bind($topic, $barQueue);
+
+$message = $context->createMessage('Hello Bar!');
+
+while (true) {
+    $context->createProducer()->send($fooQueue, $message);
+    $context->createProducer()->send($barQueue, $message);
+}
 
 echo 'Done'."\n";

@@ -26,13 +26,26 @@ $connection->connect();
 
 $context = new \Formapro\AmqpExt\AmqpContext($connection);
 
-$queue = $context->createQueue('test.amqp.queue');
+$queue = $context->createQueue('foo');
+$fooConsumer = $context->createConsumer($queue);
+
+$queue = $context->createQueue('bar');
+$barConsumer = $context->createConsumer($queue);
 
 $consumer = $context->createConsumer($queue);
 
-$message = $context->createConsumer($queue)->receive(10);
-//$consumer->acknowledge($message);
+$fooConsumer->receive(1);
+$barConsumer->receive(1);
 
-var_dump($message);
+$consumers = [$fooConsumer, $barConsumer];
+
+$consumer = $consumers[rand(0,1)];
+
+while (true) {
+    if ($m = $consumer->receive(1)) {
+        $consumer = $consumers[rand(0,1)];
+        $consumer->acknowledge($m);
+    }
+}
 
 echo 'Done'."\n";
