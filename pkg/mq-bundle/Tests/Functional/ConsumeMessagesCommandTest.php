@@ -2,7 +2,8 @@
 namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\MessageQueue\Client\ConsumeMessagesCommand;
-use Formapro\MessageQueue\Test\StompExtensionTrait;
+use Formapro\MessageQueue\Test\RabbitmqManagmentExtensionTrait;
+use Formapro\MessageQueue\Test\RabbitmqStompExtension;
 use Formapro\MessageQueueBundle\Tests\Functional\App\StompAppKernel;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompMessage;
@@ -10,7 +11,8 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsumeMessagesCommandTest extends WebTestCase
 {
-    use StompExtensionTrait;
+    use RabbitmqStompExtension;
+    use RabbitmqManagmentExtensionTrait;
 
     /**
      * @var StompContext

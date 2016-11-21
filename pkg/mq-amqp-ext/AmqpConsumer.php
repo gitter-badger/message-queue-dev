@@ -148,15 +148,23 @@ class AmqpConsumer implements JMSConsumer
      */
     private function convertMessage(\AMQPEnvelope $extEnvelope)
     {
-        $headers = $extEnvelope->getHeaders();
-
-        $properties = [];
-        if (array_key_exists('headers', $headers)) {
-            $properties = $headers['headers'];
-            unset($headers['headers']);
-        }
-
-        $message = new AmqpMessage($extEnvelope->getBody(), $properties, $headers);
+        $message = new AmqpMessage(
+            $extEnvelope->getBody(),
+            $extEnvelope->getHeaders(),
+            [
+                'message_id' => $extEnvelope->getMessageId(),
+                'correlation_id' => $extEnvelope->getCorrelationId(),
+                'app_id' => $extEnvelope->getAppId(),
+                'type' => $extEnvelope->getType(),
+                'content_encoding' => $extEnvelope->getContentEncoding(),
+                'content_type' => $extEnvelope->getContentType(),
+                'expiration' => $extEnvelope->getExpiration(),
+                'priority' => $extEnvelope->getPriority(),
+                'reply_to' => $extEnvelope->getReplyTo(),
+                'timestamp' => $extEnvelope->getTimeStamp(),
+                'user_id' => $extEnvelope->getUserId(),
+            ]
+        );
         $message->setRedelivered($extEnvelope->isRedelivery());
         $message->setDeliveryTag($extEnvelope->getDeliveryTag());
 

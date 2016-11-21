@@ -151,8 +151,9 @@ class AmqpContext implements JMSContext
     {
         if ($this->amqpConnection->isConnected()) {
             $this->amqpConnection->isPersistent() ?
-                $this->amqpConnection->disconnect() :
-                $this->amqpConnection->pdisconnect();
+                $this->amqpConnection->pdisconnect() :
+                $this->amqpConnection->disconnect()
+            ;
         }
     }
 
