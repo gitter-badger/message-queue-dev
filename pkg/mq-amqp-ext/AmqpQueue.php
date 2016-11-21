@@ -51,6 +51,14 @@ class AmqpQueue implements Queue
     }
 
     /**
+     * @param string $name
+     */
+    public function setQueueName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return string
      */
     public function getConsumerTag()

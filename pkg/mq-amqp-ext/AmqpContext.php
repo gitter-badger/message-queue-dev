@@ -103,11 +103,18 @@ class AmqpContext implements JMSContext
         InvalidDestinationException::assertDestinationInstanceOf($destination, AmqpQueue::class);
 
         $amqpQueue = new \AMQPQueue($this->amqpChannel);
-        $amqpQueue->setName($destination->getQueueName());
         $amqpQueue->setFlags($destination->getFlags());
         $amqpQueue->setArguments($destination->getArguments());
 
+        if ($destination->getQueueName()) {
+            $amqpQueue->setName($destination->getQueueName());
+        }
+
         $amqpQueue->declareQueue();
+
+        if (false == $destination->getQueueName()) {
+            $destination->setQueueName($amqpQueue->getName());
+        }
     }
 
     /**
@@ -117,8 +124,10 @@ class AmqpContext implements JMSContext
      */
     public function createTemporaryQueue()
     {
-        $queue = $this->createQueue('');
+        $queue = $this->createQueue(null);
         $queue->addFlag(AMQP_EXCLUSIVE);
+
+        $this->declareQueue($queue);
 
         return $queue;
     }

@@ -21,6 +21,7 @@ class AmqpCommonUseCasesTest extends \PHPUnit_Framework_TestCase
         $this->amqpContext = $this->buildAmqpContext();
 
         $this->removeQueue('amqp_ext.test');
+        $this->removeExchange('amqp_ext.test_exchange');
     }
 
     public function tearDown()
@@ -98,5 +99,48 @@ class AmqpCommonUseCasesTest extends \PHPUnit_Framework_TestCase
             'timestamp' => '0',
             'user_id' => '',
         ], $message->getHeaders());
+    }
+
+    public function testProduceAndReceiveOneMessageSentDirectlyToTemporaryQueue()
+    {
+        $queue = $this->amqpContext->createTemporaryQueue();
+
+        $message = $this->amqpContext->createMessage(__METHOD__);
+
+        $producer = $this->amqpContext->createProducer();
+        $producer->send($queue, $message);
+
+        $consumer = $this->amqpContext->createConsumer($queue);
+        $message = $consumer->receive(1);
+
+        $this->assertInstanceOf(AmqpMessage::class, $message);
+        $consumer->acknowledge($message);
+
+        $this->assertEquals(__METHOD__, $message->getBody());
+    }
+
+    public function testProduceAndReceiveOneMessageSentDirectlyToTopic()
+    {
+        $topic = $this->amqpContext->createTopic('amqp_ext.test_exchange');
+        $topic->setType(AMQP_EX_TYPE_FANOUT);
+        $this->amqpContext->declareTopic($topic);
+
+        $queue = $this->amqpContext->createQueue('amqp_ext.test');
+        $this->amqpContext->declareQueue($queue);
+
+        $this->amqpContext->bind($topic, $queue);
+
+        $message = $this->amqpContext->createMessage(__METHOD__);
+
+        $producer = $this->amqpContext->createProducer();
+        $producer->send($topic, $message);
+
+        $consumer = $this->amqpContext->createConsumer($queue);
+        $message = $consumer->receive(1);
+
+        $this->assertInstanceOf(AmqpMessage::class, $message);
+        $consumer->acknowledge($message);
+
+        $this->assertEquals(__METHOD__, $message->getBody());
     }
 }
