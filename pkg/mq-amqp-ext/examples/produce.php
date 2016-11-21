@@ -22,7 +22,8 @@ $connection->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
 $connection->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
 $connection->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
 $connection->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
-$connection->connect();
+
+\Formapro\MessageQueue\Test\RabbitmqAmqpExtension::tryConnect($connection, 1);
 
 $context = new \Formapro\AmqpExt\AmqpContext($connection);
 
@@ -54,7 +55,7 @@ $message = $context->createMessage('Hello Bar!');
 
 while (true) {
     $context->createProducer()->send($fooQueue, $message);
-    $context->createProducer()->send($barQueue, $message);
+//    $context->createProducer()->send($barQueue, $message);
 }
 
 echo 'Done'."\n";

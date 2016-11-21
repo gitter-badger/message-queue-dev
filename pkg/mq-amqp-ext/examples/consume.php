@@ -22,7 +22,8 @@ $connection->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
 $connection->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
 $connection->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
 $connection->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
-$connection->connect();
+
+\Formapro\MessageQueue\Test\RabbitmqAmqpExtension::tryConnect($connection, 1);
 
 $context = new \Formapro\AmqpExt\AmqpContext($connection);
 
@@ -39,11 +40,11 @@ $barConsumer->receive(1);
 
 $consumers = [$fooConsumer, $barConsumer];
 
-$consumer = $consumers[rand(0,1)];
+$consumer = $consumers[rand(0, 1)];
 
 while (true) {
     if ($m = $consumer->receive(1)) {
-        $consumer = $consumers[rand(0,1)];
+        $consumer = $consumers[rand(0, 1)];
         $consumer->acknowledge($m);
     }
 }

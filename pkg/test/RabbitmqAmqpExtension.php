@@ -21,23 +21,23 @@ trait RabbitmqAmqpExtension
         $amqp->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
         $amqp->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
 
-        $this->tryConnect($amqp, 1);
+        self::tryConnect($amqp, 1);
 
         return new AmqpContext($amqp);
     }
 
-    private function tryConnect(\AMQPConnection $amqp, $attempt)
+    public static function tryConnect(\AMQPConnection $amqp, $attempt)
     {
         try {
             $amqp->connect();
         } catch (\AMQPConnectionException $e) {
-            if ($attempt > 5) {
+            if ($attempt > 7) {
                 throw $e;
             }
             sleep(1);
 
             ++$attempt;
-            $this->tryConnect($amqp, $attempt);
+            self::tryConnect($amqp, $attempt);
         }
     }
 }
