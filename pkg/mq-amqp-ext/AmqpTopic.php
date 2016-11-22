@@ -51,6 +51,14 @@ class AmqpTopic implements Topic
     }
 
     /**
+     * @param string $name
+     */
+    public function setTopicName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return string
      */
     public function getType()
