@@ -3,7 +3,7 @@ namespace Formapro\Stomp\Tests\Symfony;
 
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
-use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompConnectionFactory;
 use Formapro\Stomp\Symfony\StompTransportFactory;
 use Stomp\Network\Connection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -78,14 +78,10 @@ class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Reference::class, $context->getArgument(0));
         $this->assertEquals('formapro_message_queue.transport.stomp.client', (string) $context->getArgument(0));
 
-        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.connection'));
-        $connection = $container->getDefinition('formapro_message_queue.transport.stomp.connection');
-        $this->assertEquals(Connection::class, $connection->getClass());
+        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.connection_factory'));
+        $factory = $container->getDefinition('formapro_message_queue.transport.stomp.connection_factory');
+        $this->assertEquals(StompConnectionFactory::class, $factory->getClass());
 
-        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.client'));
-        $client = $container->getDefinition('formapro_message_queue.transport.stomp.client');
-        $this->assertEquals(BufferedStompClient::class, $client->getClass());
-        $this->assertInstanceOf(Reference::class, $client->getArgument(0));
         $this->assertEquals('formapro_message_queue.transport.stomp.connection', (string) $client->getArgument(0));
         $this->assertEquals(1000, $client->getArgument(1));
 

@@ -1,9 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Test;
 
-use Formapro\Stomp\BufferedStompClient;
+use Formapro\Stomp\StompConnectionFactory;
 use Formapro\Stomp\StompContext;
-use Stomp\Client;
 use Stomp\Exception\ConnectionException;
 
 trait RabbitmqStompExtension
@@ -23,19 +22,18 @@ trait RabbitmqStompExtension
         $rabbitmqPassword = getenv('SYMFONY__RABBITMQ__PASSWORD');
         $rabbitmqVhost = getenv('SYMFONY__RABBITMQ__VHOST');
 
-        $stomp = new BufferedStompClient("tcp://$rabbitmqHost:$rabbitmqPort");
-        $stomp->setLogin($rabbitmqUser, $rabbitmqPassword);
-        $stomp->setVhostname($rabbitmqVhost);
-
-        $this->tryConnect($stomp, 1);
-
-        return new StompContext($stomp);
+        return $this->attemptCreateContext([
+            'uri' => "tcp://$rabbitmqHost:$rabbitmqPort",
+            'login' => $rabbitmqUser,
+            'password' => $rabbitmqPassword,
+            'vhost' => $rabbitmqVhost,
+        ], 1);
     }
 
-    private function tryConnect(Client $stomp, $attempt)
+    private function attemptCreateContext(array $config, $attempt)
     {
         try {
-            $stomp->connect();
+            return (new StompConnectionFactory($config))->createContext();
         } catch (ConnectionException $e) {
             if ($attempt > 5) {
                 throw $e;
@@ -43,7 +41,8 @@ trait RabbitmqStompExtension
             sleep(1);
 
             ++$attempt;
-            $this->tryConnect($stomp, $attempt);
+
+            return $this->attemptCreateContext($config, $attempt);
         }
     }
 }
