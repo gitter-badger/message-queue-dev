@@ -28,4 +28,11 @@ interface DriverInterface
      * @return Config
      */
     public function getConfig();
+
+    /**
+     * @param JMSMessage $message
+     *
+     * @return Message
+     */
+    public function convertTransportToClientMessage(JMSMessage $message);
 }

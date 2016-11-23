@@ -2,6 +2,7 @@
 namespace Formapro\Stomp\Client;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\Message as JMSMessage;
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
@@ -9,6 +10,7 @@ use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompDestination;
+use Formapro\Stomp\StompMessage;
 
 class StompDriver implements DriverInterface
 {
@@ -128,5 +130,42 @@ class StompDriver implements DriverInterface
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * @param StompMessage $message
+     *
+     * {@inheritdoc}
+     */
+    public function convertTransportToClientMessage(JMSMessage $message)
+    {
+        $clientMessage = new Message();
+        $clientMessage->setBody($message->getBody());
+        $clientMessage->setHeaders($message->getHeaders());
+        $clientMessage->setProperties($message->getProperties());
+
+        $clientMessage->setContentType($message->getHeader('content-type'));
+
+        if ($delay = $message->getHeader('x-delay')) {
+            if (false == is_numeric($delay)) {
+                throw new \LogicException('x-delay header is not numeric. "%s"', $delay);
+            }
+
+            $clientMessage->setDelay((int) ((int) $delay) / 1000);
+        }
+
+        if ($expiration = $message->getHeader('expiration')) {
+            if (false == is_numeric($expiration)) {
+                throw new \LogicException('expiration header is not numeric. "%s"', $expiration);
+            }
+
+            $clientMessage->setExpire((int) ((int) $expiration) / 1000);
+        }
+
+        $clientMessage->setMessageId($message->getMessageId());
+        $clientMessage->setPriority($message->getHeader('priority'));
+        $clientMessage->setTimestamp($message->getTimestamp());
+
+        return $clientMessage;
     }
 }
