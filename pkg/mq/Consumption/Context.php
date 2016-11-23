@@ -41,7 +41,7 @@ class Context
     private $exception;
 
     /**
-     * @var string
+     * @var Result|string
      */
     private $result;
 
@@ -70,6 +70,8 @@ class Context
      */
     public function getMessage()
     {
+        'foo';
+
         return $this->message;
     }
 
@@ -150,7 +152,7 @@ class Context
     }
 
     /**
-     * @return string
+     * @return Result|string
      */
     public function getResult()
     {
@@ -158,12 +160,12 @@ class Context
     }
 
     /**
-     * @param string $result
+     * @param Result|string $result
      */
     public function setResult($result)
     {
         if ($this->result) {
-            throw new IllegalContextModificationException('The status modification is not allowed');
+            throw new IllegalContextModificationException('The result modification is not allowed');
         }
 
         $this->result = $result;
