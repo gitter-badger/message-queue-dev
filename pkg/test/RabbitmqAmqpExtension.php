@@ -14,22 +14,22 @@ trait RabbitmqAmqpExtension
             throw new \PHPUnit_Framework_SkippedTestError('Functional tests are not allowed in this environment');
         }
 
-        $amqp = new \AMQPConnection();
-        $amqp->setHost(getenv('SYMFONY__RABBITMQ__HOST'));
-        $amqp->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
-        $amqp->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
-        $amqp->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
-        $amqp->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
+        $extConnection = new \AMQPConnection();
+        $extConnection->setHost(getenv('SYMFONY__RABBITMQ__HOST'));
+        $extConnection->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
+        $extConnection->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
+        $extConnection->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
+        $extConnection->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
 
-        self::tryConnect($amqp, 1);
+        self::tryConnect($extConnection, 1);
 
-        return new AmqpContext($amqp);
+        return new AmqpContext(new \AMQPChannel($extConnection));
     }
 
-    public static function tryConnect(\AMQPConnection $amqp, $attempt)
+    public static function tryConnect(\AMQPConnection $extConnection, $attempt)
     {
         try {
-            $amqp->connect();
+            $extConnection->connect();
         } catch (\AMQPConnectionException $e) {
             if ($attempt > 7) {
                 throw $e;
@@ -37,7 +37,7 @@ trait RabbitmqAmqpExtension
             sleep(1);
 
             ++$attempt;
-            self::tryConnect($amqp, $attempt);
+            self::tryConnect($extConnection, $attempt);
         }
     }
 }

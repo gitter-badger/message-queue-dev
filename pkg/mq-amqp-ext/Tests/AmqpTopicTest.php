@@ -9,7 +9,7 @@ class AmqpTopicTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
-    public function testShouldImplementQueueInterface()
+    public function testShouldImplementTopicInterface()
     {
         $this->assertClassImplements(Topic::class, AmqpTopic::class);
     }

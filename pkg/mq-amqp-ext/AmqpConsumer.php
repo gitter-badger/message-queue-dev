@@ -35,7 +35,7 @@ class AmqpConsumer implements JMSConsumer
 
     /**
      * @param AmqpContext $context
-     * @param AmqpQueue $queue
+     * @param AmqpQueue   $queue
      */
     public function __construct(AmqpContext $context, AmqpQueue $queue)
     {
@@ -44,12 +44,6 @@ class AmqpConsumer implements JMSConsumer
 
         $this->consumerId = UUID::generate();
         $this->isInit = false;
-
-        $extQueue = new \AMQPQueue($this->context->getAmqpExtChannel());
-        $extQueue->setName($this->queue->getQueueName());
-        $extQueue->setFlags($this->queue->getFlags());
-        $extQueue->setArguments($this->queue->getArguments());
-        $this->extQueue = $extQueue;
     }
 
     /**
@@ -70,21 +64,21 @@ class AmqpConsumer implements JMSConsumer
     public function receive($timeout = 0)
     {
         /** @var \AMQPQueue $extQueue */
-        $extConnection = $this->extQueue->getChannel()->getConnection();
+        $extConnection = $this->getExtQueue()->getChannel()->getConnection();
 
         $originalTimeout = $extConnection->getReadTimeout();
         try {
             $extConnection->setReadTimeout($timeout);
 
             if (false == $this->isInit) {
-                $this->extQueue->consume(null, AMQP_NOPARAM, $this->consumerId);
+                $this->getExtQueue()->consume(null, AMQP_NOPARAM, $this->consumerId);
 
                 $this->isInit = true;
             }
 
             $message = null;
 
-            $this->extQueue->consume(function(\AMQPEnvelope $extEnvelope, \AMQPQueue $q) use (&$message) {
+            $this->getExtQueue()->consume(function (\AMQPEnvelope $extEnvelope, \AMQPQueue $q) use (&$message) {
                 $message = $this->convertMessage($extEnvelope);
 
                 return false;
@@ -109,7 +103,7 @@ class AmqpConsumer implements JMSConsumer
      */
     public function receiveNoWait()
     {
-        if ($extMessage = $this->extQueue->get()) {
+        if ($extMessage = $this->getExtQueue()->get()) {
             return $this->convertMessage($extMessage);
         }
     }
@@ -123,7 +117,7 @@ class AmqpConsumer implements JMSConsumer
     {
         InvalidMessageException::assertMessageInstanceOf($message, AmqpMessage::class);
 
-        $this->extQueue->ack($message->getDeliveryTag());
+        $this->getExtQueue()->ack($message->getDeliveryTag());
     }
 
     /**
@@ -135,7 +129,7 @@ class AmqpConsumer implements JMSConsumer
     {
         InvalidMessageException::assertMessageInstanceOf($message, AmqpMessage::class);
 
-        $this->extQueue->reject(
+        $this->getExtQueue()->reject(
             $message->getDeliveryTag(),
             $requeue ? AMQP_REQUEUE : AMQP_NOPARAM
         );
@@ -169,5 +163,22 @@ class AmqpConsumer implements JMSConsumer
         $message->setDeliveryTag($extEnvelope->getDeliveryTag());
 
         return $message;
+    }
+
+    /**
+     * @return \AMQPQueue
+     */
+    private function getExtQueue()
+    {
+        if (false == $this->extQueue) {
+            $extQueue = new \AMQPQueue($this->context->getExtChannel());
+            $extQueue->setName($this->queue->getQueueName());
+            $extQueue->setFlags($this->queue->getFlags());
+            $extQueue->setArguments($this->queue->getArguments());
+
+            $this->extQueue = $extQueue;
+        }
+
+        return $this->extQueue;
     }
 }

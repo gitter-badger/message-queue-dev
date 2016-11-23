@@ -143,4 +143,27 @@ class AmqpCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(__METHOD__, $message->getBody());
     }
+
+    public function testConsumerReceiveMessageFromTopicDirectly()
+    {
+        $topic = $this->amqpContext->createTopic('amqp_ext.test_exchange');
+        $topic->setType(AMQP_EX_TYPE_FANOUT);
+
+        $this->amqpContext->declareTopic($topic);
+
+        $consumer = $this->amqpContext->createConsumer($topic);
+        //guard
+        $this->assertSame(null, $consumer->receive(1));
+
+        $message = $this->amqpContext->createMessage(__METHOD__);
+
+        $producer = $this->amqpContext->createProducer();
+        $producer->send($topic, $message);
+        $actualMessage = $consumer->receive(1);
+
+        $this->assertInstanceOf(AmqpMessage::class, $actualMessage);
+        $consumer->acknowledge($message);
+
+        $this->assertEquals(__METHOD__, $message->getBody());
+    }
 }
