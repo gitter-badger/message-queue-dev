@@ -31,7 +31,7 @@ class NullDriverTest extends \PHPUnit_Framework_TestCase
             ->with(self::identicalTo($queue), self::identicalTo($transportMessage))
         ;
 
-        $session = $this->createSessionStub($transportMessage, $producer);
+        $session = $this->createContextStub($transportMessage, $producer);
 
         $driver = new NullDriver($session, $config);
 
@@ -41,7 +41,6 @@ class NullDriverTest extends \PHPUnit_Framework_TestCase
     public function testShouldConvertClientMessageToTransportMessage()
     {
         $config = new Config('', '', '', '', '');
-        $queue = new NullQueue('aQueue');
 
         $message = new Message();
         $message->setBody('theBody');
@@ -56,17 +55,11 @@ class NullDriverTest extends \PHPUnit_Framework_TestCase
 
         $transportMessage = new NullMessage();
 
-        $producer = $this->createMessageProducer();
-        $producer
-            ->expects(self::once())
-            ->method('send')
-        ;
-
-        $session = $this->createSessionStub($transportMessage, $producer);
+        $session = $this->createContextStub($transportMessage);
 
         $driver = new NullDriver($session, $config);
 
-        $driver->send($queue, $message);
+        $transportMessage = $driver->createTransportMessage($message);
 
         self::assertSame('theBody', $transportMessage->getBody());
         self::assertSame([
@@ -75,52 +68,66 @@ class NullDriverTest extends \PHPUnit_Framework_TestCase
             'expiration' => 345,
             'delay' => 123,
             'priority' => MessagePriority::LOW,
+            'timestamp' => 12345,
+            'message_id' => 'theMessageId',
         ], $transportMessage->getHeaders());
         self::assertSame([
             'thePropertyBar' => 'theBar',
         ], $transportMessage->getProperties());
     }
 
+    public function testShouldConvertTransportMessageToClientMessage()
+    {
+        $config = new Config('', '', '', '', '');
+
+        $message = new NullMessage();
+        $message->setBody('theBody');
+        $message->setHeaders(['theHeaderFoo' => 'theFoo']);
+        $message->setTimestamp(12345);
+        $message->setMessageId('theMessageId');
+        $message->setHeader('priority', MessagePriority::LOW);
+        $message->setHeader('content_type', 'theContentType');
+        $message->setHeader('delay', 123);
+        $message->setHeader('expiration', 345);
+        $message->setProperties(['thePropertyBar' => 'theBar']);
+
+        $driver = new NullDriver($this->createContextStub(), $config);
+
+        $clientMessage = $driver->createClientMessage($message);
+
+        self::assertSame('theBody', $clientMessage->getBody());
+        self::assertSame(MessagePriority::LOW, $clientMessage->getPriority());
+        self::assertSame('theContentType', $clientMessage->getContentType());
+        self::assertSame(123, $clientMessage->getDelay());
+        self::assertSame(345, $clientMessage->getExpire());
+        self::assertEquals([
+            'theHeaderFoo' => 'theFoo',
+            'content_type' => 'theContentType',
+            'expiration' => 345,
+            'delay' => 123,
+            'priority' => MessagePriority::LOW,
+            'timestamp' => 12345,
+            'message_id' => 'theMessageId',
+        ], $clientMessage->getHeaders());
+        self::assertSame([
+            'thePropertyBar' => 'theBar',
+        ], $clientMessage->getProperties());
+    }
+
     public function testShouldReturnConfigInstance()
     {
         $config = new Config('', '', '', '', '');
 
-        $driver = new NullDriver($this->createSessionStub(), $config);
+        $driver = new NullDriver($this->createContextStub(), $config);
         $result = $driver->getConfig();
 
         self::assertSame($config, $result);
     }
 
-    public function testAllowCreateTransportMessage()
-    {
-        $config = new Config('', '', '', '', '');
-
-        $message = new NullMessage();
-
-        $session = $this->createSessionMock();
-        $session
-            ->expects(self::once())
-            ->method('createMessage')
-            ->willReturn($message)
-        ;
-
-        $driver = new NullDriver($session, $config);
-
-        self::assertSame($message, $driver->createTransportMessage());
-    }
-
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|NullContext
      */
-    private function createSessionMock()
-    {
-        return $this->createMock(NullContext::class);
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|NullContext
-     */
-    private function createSessionStub($message = null, $messageProducer = null)
+    private function createContextStub($message = null, $messageProducer = null)
     {
         $sessionMock = $this->createMock(NullContext::class);
         $sessionMock

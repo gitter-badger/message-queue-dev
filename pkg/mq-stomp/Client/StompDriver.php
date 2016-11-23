@@ -2,7 +2,7 @@
 namespace Formapro\Stomp\Client;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Message as JMSMessage;
+use Formapro\Jms\Message as TransportMessage;
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
@@ -48,25 +48,13 @@ class StompDriver implements DriverInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function createTransportMessage()
-    {
-        return $this->context->createMessage();
-    }
-
-    /**
-     * {@inheritdoc}
+     * @return StompMessage
      *
-     * @param StompDestination $queue
+     * {@inheritdoc}
      */
-    public function send(Queue $queue, Message $message)
+    public function createTransportMessage(Message $message)
     {
-        InvalidDestinationException::assertDestinationInstanceOf($queue, StompDestination::class);
-
-        $destination = $queue;
         $headers = $message->getHeaders();
-
         $headers['content-type'] = $message->getContentType();
 
         if ($message->getExpire()) {
@@ -83,14 +71,9 @@ class StompDriver implements DriverInterface
 
         if ($message->getDelay()) {
             $headers['x-delay'] = (string) ($message->getDelay() * 1000);
-
-            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
-            $destination->setType(StompDestination::TYPE_EXCHANGE);
-            $destination->setDurable(true);
-            $destination->setAutoDelete(false);
         }
 
-        $transportMessage = $this->createTransportMessage();
+        $transportMessage = $this->context->createMessage();
         $transportMessage->setHeaders($headers);
         $transportMessage->setPersistent(true);
         $transportMessage->setBody($message->getBody());
@@ -104,32 +87,7 @@ class StompDriver implements DriverInterface
             $transportMessage->setTimestamp($message->getTimestamp());
         }
 
-        $this->context->createProducer()->send($destination, $transportMessage);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createQueue($queueName)
-    {
-        $queue = $this->context->createQueue($queueName);
-        $queue->setDurable(true);
-        $queue->setAutoDelete(false);
-        $queue->setExclusive(false);
-
-        $headers = $queue->getHeaders();
-        $headers['x-max-priority'] = 4;
-        $queue->setHeaders($headers);
-
-        return $queue;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfig()
-    {
-        return $this->config;
+        return $transportMessage;
     }
 
     /**
@@ -137,7 +95,7 @@ class StompDriver implements DriverInterface
      *
      * {@inheritdoc}
      */
-    public function convertTransportToClientMessage(JMSMessage $message)
+    public function createClientMessage(TransportMessage $message)
     {
         $clientMessage = new Message();
         $clientMessage->setBody($message->getBody());
@@ -167,5 +125,52 @@ class StompDriver implements DriverInterface
         $clientMessage->setTimestamp($message->getTimestamp());
 
         return $clientMessage;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param StompDestination $queue
+     */
+    public function send(Queue $queue, Message $message)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($queue, StompDestination::class);
+
+        $destination = $queue;
+        $transportMessage = $this->createTransportMessage($message);
+
+        if ($message->getDelay()) {
+            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
+            $destination->setType(StompDestination::TYPE_EXCHANGE);
+            $destination->setDurable(true);
+            $destination->setAutoDelete(false);
+        }
+
+        $this->context->createProducer()->send($destination, $transportMessage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createQueue($queueName)
+    {
+        $queue = $this->context->createQueue($queueName);
+        $queue->setDurable(true);
+        $queue->setAutoDelete(false);
+        $queue->setExclusive(false);
+
+        $headers = $queue->getHeaders();
+        $headers['x-max-priority'] = 4;
+        $queue->setHeaders($headers);
+
+        return $queue;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

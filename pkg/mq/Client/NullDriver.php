@@ -2,6 +2,7 @@
 namespace Formapro\MessageQueue\Client;
 
 use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\Message as TransportMessage;
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
@@ -12,7 +13,7 @@ class NullDriver implements DriverInterface
     /**
      * @var NullContext
      */
-    protected $session;
+    protected $context;
 
     /**
      * @var Config
@@ -25,7 +26,7 @@ class NullDriver implements DriverInterface
      */
     public function __construct(NullContext $session, Config $config)
     {
-        $this->session = $session;
+        $this->context = $session;
         $this->config = $config;
     }
 
@@ -34,9 +35,55 @@ class NullDriver implements DriverInterface
      *
      * @return NullMessage
      */
-    public function createTransportMessage()
+    public function createTransportMessage(Message $message)
     {
-        return $this->session->createMessage();
+        $headers = $message->getHeaders();
+        $headers['content_type'] = $message->getContentType();
+        $headers['expiration'] = $message->getExpire();
+        $headers['delay'] = $message->getDelay();
+        $headers['priority'] = $message->getPriority();
+
+        $transportMessage = $this->context->createMessage();
+        $transportMessage->setBody($message->getBody());
+        $transportMessage->setHeaders($headers);
+        $transportMessage->setProperties($message->getProperties());
+        $transportMessage->setTimestamp($message->getTimestamp());
+        $transportMessage->setMessageId($message->getMessageId());
+
+        return $transportMessage;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param NullMessage $message
+     */
+    public function createClientMessage(TransportMessage $message)
+    {
+        $clientMessage = new Message();
+        $clientMessage->setBody($message->getBody());
+        $clientMessage->setHeaders($message->getHeaders());
+        $clientMessage->setProperties($message->getProperties());
+        $clientMessage->setTimestamp($message->getTimestamp());
+        $clientMessage->setMessageId($message->getMessageId());
+
+        if ($contentType = $message->getHeader('content_type')) {
+            $clientMessage->setContentType($contentType);
+        }
+
+        if ($expiration = $message->getHeader('expiration')) {
+            $clientMessage->setExpire($expiration);
+        }
+
+        if ($delay = $message->getHeader('delay')) {
+            $clientMessage->setDelay($delay);
+        }
+
+        if ($priority = $message->getHeader('priority')) {
+            $clientMessage->setPriority($priority);
+        }
+
+        return $clientMessage;
     }
 
     /**
@@ -44,7 +91,7 @@ class NullDriver implements DriverInterface
      */
     public function createQueue($queueName)
     {
-        return $this->session->createQueue($queueName);
+        return $this->context->createQueue($queueName);
     }
 
     /**
@@ -62,21 +109,8 @@ class NullDriver implements DriverInterface
     {
         InvalidDestinationException::assertDestinationInstanceOf($queue, NullQueue::class);
 
-        $destination = $queue;
+        $transportMessage = $this->createTransportMessage($message);
 
-        $headers = $message->getHeaders();
-        $headers['content_type'] = $message->getContentType();
-        $headers['expiration'] = $message->getExpire();
-        $headers['delay'] = $message->getDelay();
-        $headers['priority'] = $message->getPriority();
-
-        $transportMessage = $this->createTransportMessage();
-        $transportMessage->setBody($message->getBody());
-        $transportMessage->setProperties($message->getProperties());
-        $transportMessage->setMessageId($message->getMessageId());
-        $transportMessage->setTimestamp($message->getTimestamp());
-        $transportMessage->setHeaders($headers);
-
-        $this->session->createProducer()->send($destination, $transportMessage);
+        $this->context->createProducer()->send($queue, $transportMessage);
     }
 }
