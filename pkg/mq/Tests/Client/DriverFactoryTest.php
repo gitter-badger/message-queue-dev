@@ -18,7 +18,7 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
         $driver = $factory->create($context, $config);
 
         self::assertInstanceOf(NullDriver::class, $driver);
-        self::assertAttributeInstanceOf(NullContext::class, 'session', $driver);
+        self::assertAttributeInstanceOf(NullContext::class, 'context', $driver);
         self::assertAttributeSame($config, 'config', $driver);
     }
 

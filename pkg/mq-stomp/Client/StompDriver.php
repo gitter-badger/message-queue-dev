@@ -98,8 +98,19 @@ class StompDriver implements DriverInterface
     public function createClientMessage(TransportMessage $message)
     {
         $clientMessage = new Message();
+
+        $headers = $message->getHeaders();
+        unset(
+            $headers['content-type'],
+            $headers['x-delay'],
+            $headers['expiration'],
+            $headers['priority'],
+            $headers['message_id'],
+            $headers['timestamp']
+        );
+
+        $clientMessage->setHeaders($headers);
         $clientMessage->setBody($message->getBody());
-        $clientMessage->setHeaders($message->getHeaders());
         $clientMessage->setProperties($message->getProperties());
 
         $clientMessage->setContentType($message->getHeader('content-type'));
@@ -120,8 +131,15 @@ class StompDriver implements DriverInterface
             $clientMessage->setExpire((int) ((int) $expiration) / 1000);
         }
 
+        if ($priority = $message->getHeader('priority')) {
+            if (false === $clientPriority = array_search($priority, $this->priorityMap, true)) {
+                throw new \LogicException(sprintf('Cant convert transport priority to client: "%s"', $priority));
+            }
+
+            $clientMessage->setPriority($priority);
+        }
+
         $clientMessage->setMessageId($message->getMessageId());
-        $clientMessage->setPriority($message->getHeader('priority'));
         $clientMessage->setTimestamp($message->getTimestamp());
 
         return $clientMessage;
