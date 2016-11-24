@@ -114,10 +114,8 @@ class Router implements RecipientListRouterInterface
         $properties[Config::PARAMETER_PROCESSOR_NAME] = $processorName;
         $properties[Config::PARAMETER_QUEUE_NAME] = $queueName;
 
-        $newMessage = $this->driver->createTransportMessage();
+        $newMessage = clone $message;
         $newMessage->setProperties($properties);
-        $newMessage->setHeaders($message->getHeaders());
-        $newMessage->setBody($message->getBody());
 
         $queue = $this->driver->createQueue($queueName);
 

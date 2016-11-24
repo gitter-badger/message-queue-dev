@@ -6,6 +6,7 @@ use Formapro\AmqpExt\AmqpMessage;
 use Formapro\AmqpExt\AmqpQueue;
 use Formapro\AmqpExt\AmqpTopic;
 use Formapro\Jms\Exception\InvalidDestinationException;
+use Formapro\Jms\Message as TransportMessage;
 use Formapro\Jms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
@@ -59,32 +60,10 @@ class AmqpDriver implements DriverInterface
 
         $destination = $queue;
 
-        $headers = $message->getHeaders();
-        $properties = $message->getProperties();
-
-        $headers['content_type'] = $message->getContentType();
-
-        if ($message->getExpire()) {
-            $headers['expiration'] = (string) ($message->getExpire() * 1000);
-        }
+        $transportMessage = $this->createTransportMessage($message);
 
         if ($message->getDelay()) {
-            $properties['x-delay'] = (string) ($message->getDelay() * 1000);
-
             $destination = $this->createDelayedTopic($queue);
-        }
-
-        $headers['delivery_mode'] = AmqpMessage::DELIVERY_MODE_PERSISTENT;
-
-        $transportMessage = $this->createTransportMessage();
-        $transportMessage->setBody($message->getBody());
-        $transportMessage->setHeaders($headers);
-        $transportMessage->setProperties($properties);
-        $transportMessage->setMessageId($message->getMessageId());
-        $transportMessage->setTimestamp($message->getTimestamp());
-
-        if ($message->getPriority()) {
-            $this->setMessagePriority($transportMessage, $message->getPriority());
         }
 
         $this->context->createProducer()->send($destination, $transportMessage);
@@ -110,9 +89,87 @@ class AmqpDriver implements DriverInterface
      *
      * @return AmqpMessage
      */
-    public function createTransportMessage()
+    public function createTransportMessage(Message $message)
     {
-        return $this->context->createMessage();
+        $headers = $message->getHeaders();
+        $properties = $message->getProperties();
+
+        $headers['content_type'] = $message->getContentType();
+
+        if ($message->getExpire()) {
+            $headers['expiration'] = (string) ($message->getExpire() * 1000);
+        }
+
+        if ($message->getDelay()) {
+            $properties['x-delay'] = (string) ($message->getDelay() * 1000);
+        }
+
+        if ($priority = $message->getPriority()) {
+            if (false == array_key_exists($priority, $this->priorityMap)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Given priority could not be converted to client\'s one. Got: %s',
+                    $priority
+                ));
+            }
+
+            $headers['priority'] = $this->priorityMap[$priority];
+        }
+
+        $headers['delivery_mode'] = AmqpMessage::DELIVERY_MODE_PERSISTENT;
+
+        $transportMessage = $this->context->createMessage();
+        $transportMessage->setBody($message->getBody());
+        $transportMessage->setHeaders($headers);
+        $transportMessage->setProperties($properties);
+        $transportMessage->setMessageId($message->getMessageId());
+        $transportMessage->setTimestamp($message->getTimestamp());
+
+        return $transportMessage;
+    }
+
+    /**
+     * @param AmqpMessage $message
+     *
+     * {@inheritdoc}
+     */
+    public function createClientMessage(TransportMessage $message)
+    {
+        $clientMessage = new Message();
+
+        $clientMessage->setBody($message->getBody());
+        $clientMessage->setHeaders($message->getHeaders());
+        $clientMessage->setProperties($message->getProperties());
+
+        $clientMessage->setContentType($message->getHeader('content_type'));
+
+        if ($delay = $message->getProperty('x-delay')) {
+            if (false == is_numeric($delay)) {
+                throw new \LogicException(sprintf('x-delay header is not numeric. "%s"', $delay));
+            }
+
+            $clientMessage->setDelay((int) ((int) $delay) / 1000);
+        }
+
+        if ($expiration = $message->getHeader('expiration')) {
+            if (false == is_numeric($expiration)) {
+                throw new \LogicException(sprintf('expiration header is not numeric. "%s"', $expiration));
+            }
+
+            $clientMessage->setExpire((int) ((int) $expiration) / 1000);
+        }
+
+        if ($priority = $message->getHeader('priority')) {
+            if (false === $clientPriority = array_search($priority, $this->priorityMap, true)) {
+                throw new \LogicException(sprintf('Cant convert transport priority to client: "%s"', $priority));
+            }
+
+            $clientMessage->setPriority($priority);
+        }
+
+        $clientMessage->setMessageId($message->getMessageId());
+        $clientMessage->setTimestamp($message->getTimestamp());
+
+        return $clientMessage;
     }
 
     /**
@@ -121,22 +178,6 @@ class AmqpDriver implements DriverInterface
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * @param AmqpMessage $message
-     * @param string      $priority
-     */
-    private function setMessagePriority(AmqpMessage $message, $priority)
-    {
-        if (false == array_key_exists($priority, $this->priorityMap)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Given priority could not be converted to transport\'s one. Got: %s',
-                $priority
-            ));
-        }
-
-        $message->setHeader('priority', $this->priorityMap[$priority]);
     }
 
     /**

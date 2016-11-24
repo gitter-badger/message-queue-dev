@@ -67,20 +67,126 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedHeaders, $queue->getHeaders());
     }
 
-    public function testShouldCreateAndReturnMessageInstance()
+    public function testShouldConvertTransportMessageToClientMessage()
     {
-        $message = new StompMessage();
+        $transportMessage = new StompMessage();
+        $transportMessage->setBody('body');
+        $transportMessage->setHeaders(['hkey' => 'hval']);
+        $transportMessage->setProperties(['key' => 'val']);
+        $transportMessage->setHeader('content-type', 'ContentType');
+        $transportMessage->setHeader('expiration', '12345000');
+        $transportMessage->setHeader('priority', 3);
+        $transportMessage->setHeader('x-delay', '5678000');
+        $transportMessage->setMessageId('MessageId');
+        $transportMessage->setTimestamp(1000);
 
-        $session = $this->createContextMock();
-        $session
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
+
+        $clientMessage = $driver->createClientMessage($transportMessage);
+
+        $this->assertInstanceOf(Message::class, $clientMessage);
+        $this->assertSame('body', $clientMessage->getBody());
+        $this->assertSame(['hkey' => 'hval'], $clientMessage->getHeaders());
+        $this->assertSame(['key' => 'val'], $clientMessage->getProperties());
+        $this->assertSame('MessageId', $clientMessage->getMessageId());
+        $this->assertSame(12345, $clientMessage->getExpire());
+        $this->assertSame(5678, $clientMessage->getDelay());
+        $this->assertSame('ContentType', $clientMessage->getContentType());
+        $this->assertSame(1000, $clientMessage->getTimestamp());
+        $this->assertSame(3, $clientMessage->getPriority());
+    }
+
+    public function testShouldThrowExceptionIfXDelayIsNotNumeric()
+    {
+        $transportMessage = new StompMessage();
+        $transportMessage->setHeader('x-delay', 'is-not-numeric');
+
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('x-delay header is not numeric. "is-not-numeric"');
+
+        $driver->createClientMessage($transportMessage);
+    }
+
+    public function testShouldThrowExceptionIfExpirationIsNotNumeric()
+    {
+        $transportMessage = new StompMessage();
+        $transportMessage->setHeader('expiration', 'is-not-numeric');
+
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('expiration header is not numeric. "is-not-numeric"');
+
+        $driver->createClientMessage($transportMessage);
+    }
+
+    public function testShouldThrowExceptionIfCantConvertTransportPriorityToClientPriority()
+    {
+        $transportMessage = new StompMessage();
+        $transportMessage->setHeader('priority', 'unknown');
+
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Cant convert transport priority to client: "unknown"');
+
+        $driver->createClientMessage($transportMessage);
+    }
+
+    public function testShouldThrowExceptionIfCantConvertClientPriorityToTransportPriority()
+    {
+        $clientMessage = new Message();
+        $clientMessage->setPriority('unknown');
+
+        $driver = new StompDriver($this->createContextMock(), new Config('', '', '', ''));
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Cant convert client priority to transport: "unknown"');
+
+        $driver->createTransportMessage($clientMessage);
+    }
+
+    public function testShouldConvertClientMessageToTransportMessage()
+    {
+        $clientMessage = new Message();
+        $clientMessage->setBody('body');
+        $clientMessage->setHeaders(['hkey' => 'hval']);
+        $clientMessage->setProperties(['key' => 'val']);
+        $clientMessage->setContentType('ContentType');
+        $clientMessage->setExpire(123);
+        $clientMessage->setPriority(MessagePriority::VERY_HIGH);
+        $clientMessage->setDelay(432);
+        $clientMessage->setMessageId('MessageId');
+        $clientMessage->setTimestamp(1000);
+
+        $context = $this->createContextMock();
+        $context
             ->expects($this->once())
             ->method('createMessage')
-            ->will($this->returnValue($message))
+            ->willReturn(new StompMessage())
         ;
 
-        $driver = new StompDriver($session, new Config('', '', '', ''));
+        $driver = new StompDriver($context, new Config('', '', '', ''));
 
-        $this->assertSame($message, $driver->createTransportMessage());
+        $transportMessage = $driver->createTransportMessage($clientMessage);
+
+        $this->assertInstanceOf(StompMessage::class, $transportMessage);
+        $this->assertSame('body', $transportMessage->getBody());
+        $this->assertSame([
+            'hkey' => 'hval',
+            'content-type' => 'ContentType',
+            'expiration' => '123000',
+            'priority' => 4,
+            'x-delay' => '432000',
+            'persistent' => true,
+            'message_id' => 'MessageId',
+            'timestamp' => 1000,
+        ], $transportMessage->getHeaders());
+        $this->assertSame(['key' => 'val'], $transportMessage->getProperties());
+        $this->assertSame('MessageId', $transportMessage->getMessageId());
+        $this->assertSame(1000, $transportMessage->getTimestamp());
     }
 
     public function testShouldThrowInvalidDestinationExceptionIfInvalidDestinationInstance()
@@ -175,22 +281,6 @@ class StompDriverTest extends \PHPUnit_Framework_TestCase
         $driver->send($queue, $message);
 
         $this->assertSame(4, $transportMessage->getHeader('priority'));
-    }
-
-    public function testShouldThrowExceptionIfCantConvertClientPriorityToTransportPriority()
-    {
-        $session = $this->createContextMock();
-
-        $queue = new StompDestination();
-        $message = new Message();
-        $message->setPriority('unknown-priority');
-
-        $driver = new StompDriver($session, new Config('', '', '', ''));
-
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Cant convert client priority to transport: "unknown-priority"');
-
-        $driver->send($queue, $message);
     }
 
     public function testShouldSetDelayHeader()
