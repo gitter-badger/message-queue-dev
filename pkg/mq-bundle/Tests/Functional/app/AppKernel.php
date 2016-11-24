@@ -37,6 +37,11 @@ class AppKernel extends Kernel
         return sys_get_temp_dir().'/FormaproMessageQueueBundle/cache/logs';
     }
 
+    protected function getContainerClass()
+    {
+        return parent::getContainerClass().'BundleDefault';
+    }
+
     /**
      * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
      */
