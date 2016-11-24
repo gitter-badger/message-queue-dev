@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\Stomp\Client;
 
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\Fms\Message as TransportMessage;
 use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;

@@ -3,7 +3,7 @@ namespace Formapro\AmqpExt;
 
 use Formapro\Fms\Context;
 use Formapro\Fms\Destination;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\Fms\Topic;
 
 class AmqpContext implements Context

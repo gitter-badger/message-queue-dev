@@ -2,8 +2,8 @@
 namespace Formapro\Stomp;
 
 use Formapro\Fms\Destination;
-use Formapro\Fms\Exception\InvalidDestinationException;
-use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\InvalidMessageException;
 use Formapro\Fms\Message;
 use Formapro\Fms\Producer;
 use Stomp\Client;

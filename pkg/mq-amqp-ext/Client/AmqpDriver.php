@@ -5,7 +5,7 @@ use Formapro\AmqpExt\AmqpContext;
 use Formapro\AmqpExt\AmqpMessage;
 use Formapro\AmqpExt\AmqpQueue;
 use Formapro\AmqpExt\AmqpTopic;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\Fms\Message as TransportMessage;
 use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;

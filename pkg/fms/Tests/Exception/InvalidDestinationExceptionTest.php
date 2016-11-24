@@ -2,8 +2,8 @@
 namespace Formapro\Fms\Tests\Exception;
 
 use Formapro\Fms\Destination;
-use Formapro\Fms\Exception\Exception as ExceptionInterface;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\Exception as ExceptionInterface;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\Fms\Test\ClassExtensionTrait;
 
 class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase

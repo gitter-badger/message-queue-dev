@@ -2,7 +2,7 @@
 namespace Formapro\Stomp\Tests;
 
 use Formapro\Fms\Consumer;
-use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\InvalidMessageException;
 use Formapro\Fms\Message;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\BufferedStompClient;

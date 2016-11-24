@@ -3,7 +3,7 @@ namespace Formapro\Stomp;
 
 use Formapro\Fms\Context;
 use Formapro\Fms\Destination;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\MessageQueue\Util\UUID;
 
 class StompContext implements Context

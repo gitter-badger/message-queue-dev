@@ -2,7 +2,7 @@
 namespace Formapro\Stomp\Tests;
 
 use Formapro\Fms\Context;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\BufferedStompClient;

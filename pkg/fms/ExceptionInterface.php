@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Fms\Exception;
+namespace Formapro\Fms;
 
 interface ExceptionInterface
 {

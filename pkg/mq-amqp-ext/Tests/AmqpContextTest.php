@@ -8,7 +8,7 @@ use Formapro\AmqpExt\AmqpProducer;
 use Formapro\AmqpExt\AmqpQueue;
 use Formapro\AmqpExt\AmqpTopic;
 use Formapro\Fms\Context;
-use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\Null\NullTopic;

@@ -9,8 +9,8 @@ interface MessageProducerInterface
      * @param string               $topic
      * @param string|array|Message $message
      *
-     * @throws \Formapro\Fms\Exception\Exception - if the producer fails to send
-     *                                           the message due to some internal error
+     * @throws \Formapro\Fms\Exception - if the producer fails to send
+     *                                 the message due to some internal error
      */
     public function send($topic, $message);
 }

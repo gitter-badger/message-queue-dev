@@ -2,8 +2,8 @@
 namespace Formapro\Fms\Tests\Exception;
 
 use Formapro\Fms\DeliveryMode;
-use Formapro\Fms\Exception\ExceptionInterface;
-use Formapro\Fms\Exception\InvalidDeliveryModeException;
+use Formapro\Fms\ExceptionInterface;
+use Formapro\Fms\InvalidDeliveryModeException;
 use Formapro\Fms\Test\ClassExtensionTrait;
 
 class InvalidDeliveryModeExceptionTest extends \PHPUnit_Framework_TestCase

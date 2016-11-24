@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Fms\Exception\InvalidDestinationException;
-use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\InvalidMessageException;
 use Formapro\Fms\Message as FMSMessage;
 use Formapro\Fms\Producer;
 use Formapro\Fms\Queue;
