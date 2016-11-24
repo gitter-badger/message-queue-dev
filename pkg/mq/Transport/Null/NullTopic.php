@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\Jms\Topic;
+use Formapro\Fms\Topic;
 
 class NullTopic implements Topic
 {

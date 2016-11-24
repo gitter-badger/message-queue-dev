@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSProducer;
-use Formapro\Jms\Message as JmsMessage;
-use Formapro\Jms\Queue;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\InvalidMessageException;
+use Formapro\Fms\Message as FMSMessage;
+use Formapro\Fms\Producer;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\StompDestination;
 use Formapro\Stomp\StompMessage;
@@ -19,7 +19,7 @@ class StompProducerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageProducerInterface()
     {
-        $this->assertClassImplements(JMSProducer::class, StompProducer::class);
+        $this->assertClassImplements(Producer::class, StompProducer::class);
     }
 
     public function testShouldThrowInvalidDestinationExceptionWhenDestinationIsWrongType()
@@ -39,7 +39,7 @@ class StompProducerTest extends \PHPUnit_Framework_TestCase
 
         $producer = new StompProducer($this->createStompClientMock());
 
-        $producer->send(new StompDestination(), $this->createMock(JmsMessage::class));
+        $producer->send(new StompDestination(), $this->createMock(FMSMessage::class));
     }
 
     public function testShouldSendMessage()

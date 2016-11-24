@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Router;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Message;
+use Formapro\Fms\Destination;
+use Formapro\Fms\Message;
 
 class Recipient
 {

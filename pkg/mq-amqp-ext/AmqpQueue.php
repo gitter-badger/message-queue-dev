@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Queue;
+use Formapro\Fms\Queue;
 
 class AmqpQueue implements Queue
 {

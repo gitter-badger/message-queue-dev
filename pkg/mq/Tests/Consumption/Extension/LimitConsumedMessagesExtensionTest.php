@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption\Extension;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
@@ -97,9 +97,9 @@ class LimitConsumedMessagesExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected function createContext()
     {
-        $context = new Context($this->createMock(JMSContext::class));
+        $context = new Context($this->createMock(FMSContext::class));
         $context->setLogger($this->createMock(LoggerInterface::class));
-        $context->setConsumer($this->createMock(JMSConsumer::class));
+        $context->setFMSConsumer($this->createMock(Consumer::class));
         $context->setMessageProcessor($this->createMock(MessageProcessorInterface::class));
 
         return $context;

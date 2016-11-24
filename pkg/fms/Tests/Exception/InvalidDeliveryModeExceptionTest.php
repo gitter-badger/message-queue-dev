@@ -1,10 +1,10 @@
 <?php
-namespace Formapro\Jms\Tests\Exception;
+namespace Formapro\Fms\Tests\Exception;
 
-use Formapro\Jms\DeliveryMode;
-use Formapro\Jms\Exception\ExceptionInterface;
-use Formapro\Jms\Exception\InvalidDeliveryModeException;
-use Formapro\Jms\Test\ClassExtensionTrait;
+use Formapro\Fms\DeliveryMode;
+use Formapro\Fms\ExceptionInterface;
+use Formapro\Fms\InvalidDeliveryModeException;
+use Formapro\Fms\Test\ClassExtensionTrait;
 
 class InvalidDeliveryModeExceptionTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\Message;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Destination;
+use Formapro\Fms\Message;
 
-class NullConsumer implements JMSConsumer
+class NullConsumer implements Consumer
 {
     /**
      * @var Destination

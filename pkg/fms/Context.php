@@ -1,7 +1,7 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
-interface JMSContext
+interface Context
 {
     /**
      * @param string $body
@@ -36,14 +36,14 @@ interface JMSContext
     public function createTemporaryQueue();
 
     /**
-     * @return JMSProducer
+     * @return Producer
      */
     public function createProducer();
 
     /**
      * @param Destination $destination
      *
-     * @return JMSConsumer
+     * @return Consumer
      */
     public function createConsumer(Destination $destination);
 

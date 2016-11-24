@@ -21,6 +21,8 @@ abstract class WebTestCase extends BaseWebTestCase
     {
         parent::setUp();
 
+        static::$class = null;
+
         $this->client = static::createClient();
         $this->container = static::$kernel->getContainer();
 

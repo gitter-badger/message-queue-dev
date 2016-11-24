@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\Stomp\Client;
 
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Message as TransportMessage;
-use Formapro\Jms\Queue;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\Message as TransportMessage;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;

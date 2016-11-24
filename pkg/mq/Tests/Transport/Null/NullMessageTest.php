@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 

@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\Jms\Queue;
+use Formapro\Fms\Queue;
 
 class NullQueue implements Queue
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\Jms\Tests\Exception;
+namespace Formapro\Fms\Tests\Exception;
 
-use Formapro\Jms\Exception\Exception;
-use Formapro\Jms\Exception\ExceptionInterface;
-use Formapro\Jms\Test\ClassExtensionTrait;
+use Formapro\Fms\Exception;
+use Formapro\Fms\ExceptionInterface;
+use Formapro\Fms\Test\ClassExtensionTrait;
 
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {

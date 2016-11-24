@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\Stomp;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 use Stomp\Transport\Frame;
 
 class StompMessage implements Message

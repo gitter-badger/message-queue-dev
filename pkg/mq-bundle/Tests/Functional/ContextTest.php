@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Functional;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 
 class ContextTest extends WebTestCase
 {
@@ -9,6 +9,6 @@ class ContextTest extends WebTestCase
     {
         $connection = $this->container->get('formapro_message_queue.transport.context');
 
-        $this->assertInstanceOf(JMSContext::class, $connection);
+        $this->assertInstanceOf(Context::class, $connection);
     }
 }

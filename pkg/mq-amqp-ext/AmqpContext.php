@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Topic;
+use Formapro\Fms\Context;
+use Formapro\Fms\Destination;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\Topic;
 
-class AmqpContext implements JMSContext
+class AmqpContext implements Context
 {
     /**
      * @var \AMQPChannel

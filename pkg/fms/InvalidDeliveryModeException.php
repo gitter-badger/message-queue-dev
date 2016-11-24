@@ -1,7 +1,5 @@
 <?php
-namespace Formapro\Jms\Exception;
-
-use Formapro\Jms\DeliveryMode;
+namespace Formapro\Fms;
 
 class InvalidDeliveryModeException extends Exception
 {

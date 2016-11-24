@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverFactory;
 use Formapro\MessageQueue\Client\NullDriver;
@@ -27,9 +27,9 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new DriverFactory([]);
 
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Unexpected context instance: "Mock_JMSContext');
+        $this->expectExceptionMessage('Unexpected context instance: "Mock_Context');
 
-        $factory->create($this->createMock(JMSContext::class), new Config('', '', '', ''));
+        $factory->create($this->createMock(Context::class), new Config('', '', '', ''));
     }
 
     /**

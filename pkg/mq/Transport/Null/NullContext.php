@@ -1,11 +1,11 @@
 <?php
 namespace Formapro\MessageQueue\Transport\Null;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
+use Formapro\Fms\Destination;
 use Formapro\MessageQueue\Util\UUID;
 
-class NullContext implements JMSContext
+class NullContext implements Context
 {
     /**
      * {@inheritdoc}

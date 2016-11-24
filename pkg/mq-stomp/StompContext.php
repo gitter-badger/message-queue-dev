@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\Stomp;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
+use Formapro\Fms\Destination;
+use Formapro\Fms\InvalidDestinationException;
 use Formapro\MessageQueue\Util\UUID;
 
-class StompContext implements JMSContext
+class StompContext implements Context
 {
     /**
      * @var BufferedStompClient

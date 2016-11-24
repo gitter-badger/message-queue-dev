@@ -15,7 +15,7 @@ class MessageProcessor implements MessageProcessorInterface
      */
     private $jobRunner;
 
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 
@@ -49,7 +49,7 @@ class Step1MessageProcessor implements MessageProcessorInterface
      */
     private $producer;
 
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 
@@ -87,7 +87,7 @@ class Step2MessageProcessor implements MessageProcessorInterface
      */
     private $jobRunner;
 
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 
@@ -123,7 +123,7 @@ class MessageProcessor implements MessageProcessorInterface
      */
     private $dependentJob;
 
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 

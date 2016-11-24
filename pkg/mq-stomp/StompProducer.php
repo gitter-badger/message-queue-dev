@@ -1,15 +1,15 @@
 <?php
 namespace Formapro\Stomp;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSProducer;
-use Formapro\Jms\Message;
+use Formapro\Fms\Destination;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\InvalidMessageException;
+use Formapro\Fms\Message;
+use Formapro\Fms\Producer;
 use Stomp\Client;
 use Stomp\Transport\Message as StompLibMessage;
 
-class StompProducer implements JMSProducer
+class StompProducer implements Producer
 {
     /**
      * @var Client

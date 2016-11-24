@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Jms\Queue;
-use Formapro\Jms\Topic;
+use Formapro\Fms\Queue;
+use Formapro\Fms\Topic;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\StompDestination;
 

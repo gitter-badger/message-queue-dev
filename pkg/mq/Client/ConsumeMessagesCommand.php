@@ -98,7 +98,7 @@ class ConsumeMessagesCommand extends Command
         try {
             $this->consumer->consume($runtimeExtensions);
         } finally {
-            $this->consumer->getContext()->close();
+            $this->consumer->getFmsContext()->close();
         }
     }
 }

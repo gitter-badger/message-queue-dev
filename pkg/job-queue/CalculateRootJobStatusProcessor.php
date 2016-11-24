@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\JobQueue;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
+use Formapro\Fms\Context;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Client\TopicSubscriberInterface;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
@@ -53,7 +53,7 @@ class CalculateRootJobStatusProcessor implements MessageProcessorInterface, Topi
     /**
      * {@inheritdoc}
      */
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 

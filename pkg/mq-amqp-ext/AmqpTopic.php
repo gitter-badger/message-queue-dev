@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Topic;
+use Formapro\Fms\Topic;
 
 class AmqpTopic implements Topic
 {

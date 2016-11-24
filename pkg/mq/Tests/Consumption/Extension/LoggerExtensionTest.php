@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption\Extension;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Extension\LoggerExtension;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
@@ -31,7 +31,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new LoggerExtension($logger);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
 
         $extension->onStart($context);
 
@@ -49,7 +49,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new LoggerExtension($logger);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
 
         $extension->onStart($context);
     }
@@ -68,9 +68,9 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message = new NullMessage();
         $message->setBody('message body');
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setResult(Result::reject('reason'));
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
 
         $extension->onPostReceived($context);
     }
@@ -89,9 +89,9 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message = new NullMessage();
         $message->setBody('message body');
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setResult(Result::requeue('reason'));
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
 
         $extension->onPostReceived($context);
     }
@@ -106,7 +106,7 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new LoggerExtension($logger);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setResult(Result::requeue());
 
         $extension->onPostReceived($context);
@@ -126,9 +126,9 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
         $message = new NullMessage();
         $message->setBody('message body');
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setResult(Result::ack('reason'));
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
 
         $extension->onPostReceived($context);
     }
@@ -143,18 +143,18 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new LoggerExtension($logger);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setResult(Result::ack());
 
         $extension->onPostReceived($context);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|FMSContext
      */
-    protected function createContextMock()
+    protected function createFMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(FMSContext::class);
     }
 
     /**
@@ -166,10 +166,10 @@ class LoggerExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSConsumer
+     * @return \PHPUnit_Framework_MockObject_MockObject|Consumer
      */
     protected function createConsumerMock()
     {
-        return $this->createMock(JMSConsumer::class);
+        return $this->createMock(Consumer::class);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client\ConsumptionExtension;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Context as FMSContext;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\ConsumptionExtension\DelayRedeliveredMessageExtension;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
@@ -58,9 +58,9 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             )
         ;
 
-        $context = new Context($this->createContextMock());
-        $context->setQueue($queue);
-        $context->setMessage($originMessage);
+        $context = new Context($this->createFMSContextMock());
+        $context->setFMSQueue($queue);
+        $context->setFMSMessage($originMessage);
         $context->setLogger($logger);
 
         self::assertNull($context->getResult());
@@ -89,8 +89,8 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('send')
         ;
 
-        $context = new Context($this->createContextMock());
-        $context->setMessage($message);
+        $context = new Context($this->createFMSContextMock());
+        $context->setFMSMessage($message);
 
         $extension = new DelayRedeliveredMessageExtension($driver, 12345);
         $extension->onPreReceived($context);
@@ -117,9 +117,9 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             }))
         ;
 
-        $context = new Context($this->createContextMock());
-        $context->setQueue($queue);
-        $context->setMessage($message);
+        $context = new Context($this->createFMSContextMock());
+        $context->setFMSQueue($queue);
+        $context->setFMSMessage($message);
         $context->setLogger(new NullLogger());
 
         self::assertNull($context->getResult());
@@ -156,9 +156,9 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
             }))
         ;
 
-        $context = new Context($this->createContextMock());
-        $context->setQueue($queue);
-        $context->setMessage($message);
+        $context = new Context($this->createFMSContextMock());
+        $context->setFMSQueue($queue);
+        $context->setFMSMessage($message);
         $context->setLogger(new NullLogger());
 
         self::assertNull($context->getResult());
@@ -181,11 +181,11 @@ class DelayRedeliveredMessageExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|FMSContext
      */
-    private function createContextMock()
+    private function createFMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(FMSContext::class);
     }
 
     /**
