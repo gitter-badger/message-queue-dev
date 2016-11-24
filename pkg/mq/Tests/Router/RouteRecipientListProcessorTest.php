@@ -53,7 +53,7 @@ class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($barRecipient->getDestination()), $this->identicalTo($barRecipient->getMessage()))
         ;
 
-        $sessionMock = $this->createJMSContextMock();
+        $sessionMock = $this->createFMSContextMock();
         $sessionMock
             ->expects($this->once())
             ->method('createProducer')
@@ -78,7 +78,7 @@ class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    protected function createJMSContextMock()
+    protected function createFMSContextMock()
     {
         return $this->createMock(Context::class);
     }

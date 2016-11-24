@@ -23,12 +23,12 @@ class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $processor = new DelegateMessageProcessor($this->createMessageProcessorRegistryMock());
-        $processor->process(new NullMessage(), $this->createJMSContextMock());
+        $processor->process(new NullMessage(), $this->createFMSContextMock());
     }
 
     public function testShouldProcessMessage()
     {
-        $session = $this->createJMSContextMock();
+        $session = $this->createFMSContextMock();
         $message = new NullMessage();
         $message->setProperties([
             Config::PARAMETER_PROCESSOR_NAME => 'processor-name',
@@ -67,7 +67,7 @@ class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    protected function createJMSContextMock()
+    protected function createFMSContextMock()
     {
         return $this->createMock(Context::class);
     }

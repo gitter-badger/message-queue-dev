@@ -134,7 +134,7 @@ interface Message
 
     /**
      * Gets the message timestamp.
-     * The JMSTimestamp header field contains the time a message was handed off to a provider to be sent.
+     * The timestamp header field contains the time a message was handed off to a provider to be sent.
      * It is not the time the message was actually transmitted,
      * because the actual send may occur later due to transactions or other client-side queueing of messages.
      *
@@ -162,7 +162,7 @@ interface Message
      * A response is optional; it is up to the client to decide. These messages are called requests.
      * A message sent in response to a request is called a reply.
      * In some cases a client may wish to match a request it sent earlier with a reply it has just received.
-     * The client can use the JMSCorrelationID header field for this purpose.
+     * The client can use the CorrelationID header field for this purpose.
      *
      * @param string|null $replyTo
      */
