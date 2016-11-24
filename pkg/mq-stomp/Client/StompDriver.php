@@ -117,7 +117,7 @@ class StompDriver implements DriverInterface
 
         if ($delay = $message->getHeader('x-delay')) {
             if (false == is_numeric($delay)) {
-                throw new \LogicException('x-delay header is not numeric. "%s"', $delay);
+                throw new \LogicException(sprintf('x-delay header is not numeric. "%s"', $delay));
             }
 
             $clientMessage->setDelay((int) ((int) $delay) / 1000);
@@ -125,7 +125,7 @@ class StompDriver implements DriverInterface
 
         if ($expiration = $message->getHeader('expiration')) {
             if (false == is_numeric($expiration)) {
-                throw new \LogicException('expiration header is not numeric. "%s"', $expiration);
+                throw new \LogicException(sprintf('expiration header is not numeric. "%s"', $expiration));
             }
 
             $clientMessage->setExpire((int) ((int) $expiration) / 1000);
