@@ -1,6 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
+use Formapro\Jms\Message;
+
 class Result
 {
     /**
@@ -29,6 +31,27 @@ class Result
      * @var string
      */
     private $reason;
+
+    /**
+     * @var Message|null
+     */
+    private $reply;
+
+    /**
+     * @return Message|null
+     */
+    public function getReply()
+    {
+        return $this->reply;
+    }
+
+    /**
+     * @param Message|null $reply
+     */
+    public function setReply(Message $reply = null)
+    {
+        $this->reply = $reply;
+    }
 
     /**
      * @param string $status
@@ -84,6 +107,20 @@ class Result
     public static function requeue($reason = '')
     {
         return new static(self::REQUEUE, $reason);
+    }
+
+    /**
+     * @param Message     $replyMessage
+     * @param string|null $reason
+     *
+     * @return Result
+     */
+    public static function reply(Message $replyMessage, $reason = '')
+    {
+        $result = static::ack($reason);
+        $result->setReply($replyMessage);
+
+        return $result;
     }
 
     /**

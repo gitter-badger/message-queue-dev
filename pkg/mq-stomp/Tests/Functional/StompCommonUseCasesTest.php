@@ -1,13 +1,15 @@
 <?php
 namespace Formapro\Stomp\Tests\Functional;
 
-use Formapro\MessageQueue\Test\StompExtensionTrait;
+use Formapro\MessageQueue\Test\RabbitmqManagmentExtensionTrait;
+use Formapro\MessageQueue\Test\RabbitmqStompExtension;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompMessage;
 
 class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 {
-    use StompExtensionTrait;
+    use RabbitmqStompExtension;
+    use RabbitmqManagmentExtensionTrait;
 
     /**
      * @var StompContext

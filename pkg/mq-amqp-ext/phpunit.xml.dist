@@ -13,24 +13,8 @@
         >
 
     <testsuites>
-        <testsuite name="jms">
-            <directory>pkg/jms/Tests</directory>
-        </testsuite>
-
-        <testsuite name="mq">
-            <directory>pkg/mq/Tests</directory>
-        </testsuite>
-
-        <testsuite name="stomp">
-            <directory>pkg/mq-stomp/Tests</directory>
-        </testsuite>
-
-        <testsuite name="amqp-ext">
-            <directory>pkg/mq-amqp-ext/Tests</directory>
-        </testsuite>
-
-        <testsuite name="bundle">
-            <directory>pkg/mq-bundle/Tests</directory>
+        <testsuite name="Message Queue AmqpExt Transport Test Suite">
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -39,7 +23,6 @@
             <directory suffix=".php">.</directory>
             <exclude>
                 <directory>./vendor</directory>
-                <directory>./Resources</directory>
                 <directory>./Tests</directory>
             </exclude>
         </whitelist>

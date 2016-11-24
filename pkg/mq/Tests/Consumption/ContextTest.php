@@ -131,28 +131,28 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($exception, $context->getException());
     }
 
-    public function testShouldAllowGetPreviouslySetStatus()
+    public function testShouldAllowGetPreviouslySetResult()
     {
-        $status = 'aStatus';
+        $result = 'aResult';
 
         $context = new Context($this->createContext());
 
-        $context->setResult($status);
+        $context->setResult($result);
 
-        $this->assertSame($status, $context->getResult());
+        $this->assertSame($result, $context->getResult());
     }
 
-    public function testThrowOnTryToChangeStatusIfAlreadySet()
+    public function testThrowOnTryToChangeResultIfAlreadySet()
     {
-        $status = 'aStatus';
+        $result = 'aResult';
 
         $context = new Context($this->createContext());
 
         $this->expectException(IllegalContextModificationException::class);
-        $this->expectExceptionMessage('The status modification is not allowed');
+        $this->expectExceptionMessage('The result modification is not allowed');
 
-        $context->setResult($status);
-        $context->setResult($status);
+        $context->setResult($result);
+        $context->setResult($result);
     }
 
     public function testShouldAllowGetPreviouslySetExecutionInterrupted()
