@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client\ConsumptionExtension;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context as FMSContext;
 use Formapro\MessageQueue\Client\ConsumptionExtension\CreateQueueExtension;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Consumption\Context;
@@ -33,8 +33,8 @@ class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('[CreateQueueExtension] Make sure the queue theQueueName exists on a broker side.')
         ;
 
-        $context = new Context($this->createContextMock());
-        $context->setQueue(new NullQueue('theQueueName'));
+        $context = new Context($this->createFMSContextMock());
+        $context->setFMSQueue(new NullQueue('theQueueName'));
         $context->setLogger($loggerMock);
 
         $driverMock = $this->createDriverMock();
@@ -77,27 +77,27 @@ class CreateQueueExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension = new CreateQueueExtension($driverMock);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setLogger($loggerMock);
-        $context->setQueue(new NullQueue('theQueueName1'));
+        $context->setFMSQueue(new NullQueue('theQueueName1'));
 
         $extension->onBeforeReceive($context);
         $extension->onBeforeReceive($context);
 
-        $context = new Context($this->createContextMock());
+        $context = new Context($this->createFMSContextMock());
         $context->setLogger($loggerMock);
-        $context->setQueue(new NullQueue('theQueueName2'));
+        $context->setFMSQueue(new NullQueue('theQueueName2'));
 
         $extension->onBeforeReceive($context);
         $extension->onBeforeReceive($context);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|FMSContext
      */
-    protected function createContextMock()
+    protected function createFMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(FMSContext::class);
     }
 
     /**

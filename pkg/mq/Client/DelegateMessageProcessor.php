@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message as JMSMessage;
+use Formapro\Fms\Context;
+use Formapro\Fms\Message as FMSMessage;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 
 class DelegateMessageProcessor implements MessageProcessorInterface
@@ -23,7 +23,7 @@ class DelegateMessageProcessor implements MessageProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(JMSMessage $message, JMSContext $context)
+    public function process(FMSMessage $message, Context $context)
     {
         $processorName = $message->getProperty(Config::PARAMETER_PROCESSOR_NAME);
         if (false == $processorName) {

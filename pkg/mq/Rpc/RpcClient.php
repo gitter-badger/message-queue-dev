@@ -1,29 +1,29 @@
 <?php
 namespace Formapro\MessageQueue\Rpc;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
+use Formapro\Fms\Context;
+use Formapro\Fms\Destination;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Util\UUID;
 
 class RpcClient
 {
     /**
-     * @var JMSContext
+     * @var Context
      */
     private $context;
 
     /**
-     * @param JMSContext $context
+     * @param Context $context
      */
-    public function __construct(JMSContext $context)
+    public function __construct(Context $context)
     {
         $this->context = $context;
     }
 
     /**
      * @param Destination $destination
-     * @param Message $message
+     * @param Message     $message
      * @param $timeout
      *
      * @return Message
@@ -35,7 +35,7 @@ class RpcClient
 
     /**
      * @param Destination $destination
-     * @param Message $message
+     * @param Message     $message
      * @param $timeout
      *
      * @return Promise

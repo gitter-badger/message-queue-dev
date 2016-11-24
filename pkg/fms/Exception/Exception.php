@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Jms\Exception;
+namespace Formapro\Fms\Exception;
 
 /**
  * This is the root class of all transport's exceptions.

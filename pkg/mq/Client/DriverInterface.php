@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\Message as TransportMessage;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Message as TransportMessage;
+use Formapro\Fms\Queue;
 
 interface DriverInterface
 {

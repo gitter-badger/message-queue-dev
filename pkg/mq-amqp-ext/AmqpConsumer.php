@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\Message;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Util\UUID;
 
-class AmqpConsumer implements JMSConsumer
+class AmqpConsumer implements Consumer
 {
     /**
      * @var AmqpContext

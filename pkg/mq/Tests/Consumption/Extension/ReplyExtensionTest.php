@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption\Extension;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\JMSProducer;
+use Formapro\Fms\Context as FMSContext;
+use Formapro\Fms\Producer;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Extension\ReplyExtension;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
@@ -59,7 +59,7 @@ class ReplyExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new ReplyExtension();
 
         $context = new Context(new NullContext());
-        $context->setMessage(new NullMessage());
+        $context->setFMSMessage(new NullMessage());
 
         $extension->onPostReceived($context);
     }
@@ -72,7 +72,7 @@ class ReplyExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setReplyTo('aReplyToQueue');
 
         $context = new Context(new NullContext());
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
         $context->setResult('notInstanceOfResult');
 
         $this->expectException(\LogicException::class);
@@ -88,7 +88,7 @@ class ReplyExtensionTest extends \PHPUnit_Framework_TestCase
         $message->setReplyTo('aReplyToQueue');
 
         $context = new Context(new NullContext());
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
         $context->setResult(Result::ack());
 
         $this->expectException(\LogicException::class);
@@ -109,14 +109,14 @@ class ReplyExtensionTest extends \PHPUnit_Framework_TestCase
 
         $replyQueue = new NullQueue('aReplyName');
 
-        $producerMock = $this->createMock(JMSProducer::class);
+        $producerMock = $this->createMock(Producer::class);
         $producerMock
             ->expects($this->once())
             ->method('send')
             ->with($replyQueue, $replyMessage)
         ;
 
-        $contextMock = $this->createMock(JMSContext::class);
+        $contextMock = $this->createMock(FMSContext::class);
         $contextMock
             ->expects($this->once())
             ->method('createQueue')
@@ -129,7 +129,7 @@ class ReplyExtensionTest extends \PHPUnit_Framework_TestCase
         ;
 
         $context = new Context($contextMock);
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
         $context->setResult(Result::reply($replyMessage));
 
         $extension->onPostReceived($context);

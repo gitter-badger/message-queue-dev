@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
-use Formapro\Jms\JMSProducer;
+use Formapro\Fms\Producer;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullProducer;
@@ -13,7 +13,7 @@ class NullProducerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageProducerInterface()
     {
-        $this->assertClassImplements(JMSProducer::class, NullProducer::class);
+        $this->assertClassImplements(Producer::class, NullProducer::class);
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()

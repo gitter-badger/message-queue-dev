@@ -3,7 +3,7 @@
   "type": "project",
   "require": {
     "php": ">=5.6",
-    "formapro/jms": "dev-master",
+    "formapro/fms": "dev-master",
     "formapro/message-queue": "dev-master",
     "formapro/stomp": "dev-master",
     "formapro/amqp-ext": "dev-master",
@@ -25,7 +25,7 @@
   "repositories": [
     {
       "type": "path",
-      "url": "pkg/jms"
+      "url": "pkg/fms"
     },
     {
       "type": "path",

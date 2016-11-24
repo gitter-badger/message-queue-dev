@@ -1,24 +1,24 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
+use Formapro\Fms\Message;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
 use Psr\Log\LoggerInterface;
 
 class Context
 {
     /**
-     * @var JMSContext
+     * @var FMSContext
      */
-    private $context;
+    private $fmsContext;
 
     /**
-     * @var JMSConsumer
+     * @var \Formapro\Fms\Consumer
      */
-    private $consumer;
+    private $fmsConsumer;
 
     /**
      * @var MessageProcessorInterface
@@ -33,7 +33,7 @@ class Context
     /**
      * @var Message
      */
-    private $message;
+    private $fmsMessage;
 
     /**
      * @var \Exception
@@ -46,9 +46,9 @@ class Context
     private $result;
 
     /**
-     * @var Queue
+     * @var \Formapro\Fms\Queue
      */
-    private $queue;
+    private $fmsQueue;
 
     /**
      * @var bool
@@ -56,63 +56,61 @@ class Context
     private $executionInterrupted;
 
     /**
-     * @param JMSContext $context
+     * @param FMSContext $fmsContext
      */
-    public function __construct(JMSContext $context)
+    public function __construct(FMSContext $fmsContext)
     {
-        $this->context = $context;
+        $this->fmsContext = $fmsContext;
 
         $this->executionInterrupted = false;
     }
 
     /**
-     * @return Message
+     * @return \Formapro\Fms\Message
      */
-    public function getMessage()
+    public function getFMSMessage()
     {
-        'foo';
-
-        return $this->message;
+        return $this->fmsMessage;
     }
 
     /**
-     * @param Message $message
+     * @param Message $fmsMessage
      */
-    public function setMessage(Message $message)
+    public function setFMSMessage(Message $fmsMessage)
     {
-        if ($this->message) {
+        if ($this->fmsMessage) {
             throw new IllegalContextModificationException('The message could be set once');
         }
 
-        $this->message = $message;
+        $this->fmsMessage = $fmsMessage;
     }
 
     /**
-     * @return JMSContext
+     * @return FMSContext
      */
-    public function getContext()
+    public function getFMSContext()
     {
-        return $this->context;
+        return $this->fmsContext;
     }
 
     /**
-     * @return JMSConsumer
+     * @return Consumer
      */
-    public function getConsumer()
+    public function getFMSConsumer()
     {
-        return $this->consumer;
+        return $this->fmsConsumer;
     }
 
     /**
-     * @param JMSConsumer $consumer
+     * @param Consumer $fmsConsumer
      */
-    public function setConsumer(JMSConsumer $consumer)
+    public function setFMSConsumer(Consumer $fmsConsumer)
     {
-        if ($this->consumer) {
+        if ($this->fmsConsumer) {
             throw new IllegalContextModificationException('The message consumer could be set once');
         }
 
-        $this->consumer = $consumer;
+        $this->fmsConsumer = $fmsConsumer;
     }
 
     /**
@@ -212,22 +210,22 @@ class Context
     }
 
     /**
-     * @return Queue
+     * @return \Formapro\Fms\Queue
      */
-    public function getQueue()
+    public function getFMSQueue()
     {
-        return $this->queue;
+        return $this->fmsQueue;
     }
 
     /**
-     * @param Queue $queue
+     * @param \Formapro\Fms\Queue $fmsQueue
      */
-    public function setQueue(Queue $queue)
+    public function setFMSQueue(Queue $fmsQueue)
     {
-        if ($this->queue) {
+        if ($this->fmsQueue) {
             throw new IllegalContextModificationException('The queue modification is not allowed');
         }
 
-        $this->queue = $queue;
+        $this->fmsQueue = $fmsQueue;
     }
 }

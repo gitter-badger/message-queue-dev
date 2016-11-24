@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\JobQueue\Tests;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 use Formapro\JobQueue\DependentJobMessageProcessor;
 use Formapro\JobQueue\Job;
 use Formapro\JobQueue\JobStorage;
@@ -316,11 +316,11 @@ class DependentJobMessageProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
     private function createContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

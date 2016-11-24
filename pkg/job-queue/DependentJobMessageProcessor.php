@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\JobQueue;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message as JMSMessage;
+use Formapro\Fms\Context;
+use Formapro\Fms\Message as FMSMessage;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueue\Client\TopicSubscriberInterface;
@@ -43,7 +43,7 @@ class DependentJobMessageProcessor implements MessageProcessorInterface, TopicSu
     /**
      * {@inheritdoc}
      */
-    public function process(JMSMessage $message, JMSContext $context)
+    public function process(FMSMessage $message, Context $context)
     {
         $data = JSON::decode($message->getBody());
 

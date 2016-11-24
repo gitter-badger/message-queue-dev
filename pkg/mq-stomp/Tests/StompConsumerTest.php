@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\Message;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\BufferedStompClient;
 use Formapro\Stomp\StompConsumer;
@@ -18,7 +18,7 @@ class StompConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageConsumerInterface()
     {
-        $this->assertClassImplements(JMSConsumer::class, StompConsumer::class);
+        $this->assertClassImplements(Consumer::class, StompConsumer::class);
     }
 
     public function testCouldBeConstructedWithRequiredAttributes()

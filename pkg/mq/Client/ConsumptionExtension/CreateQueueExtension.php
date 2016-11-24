@@ -33,17 +33,17 @@ class CreateQueueExtension implements ExtensionInterface
      */
     public function onBeforeReceive(Context $context)
     {
-        if (isset($this->createdQueues[$context->getQueue()->getQueueName()])) {
+        if (isset($this->createdQueues[$context->getFMSQueue()->getQueueName()])) {
             return;
         }
 
-        $this->createdQueues[$context->getQueue()->getQueueName()] = true;
+        $this->createdQueues[$context->getFMSQueue()->getQueueName()] = true;
 
-        $this->driver->createQueue($context->getQueue()->getQueueName());
+        $this->driver->createQueue($context->getFMSQueue()->getQueueName());
 
         $context->getLogger()->debug(sprintf(
             '[CreateQueueExtension] Make sure the queue %s exists on a broker side.',
-            $context->getQueue()->getQueueName()
+            $context->getFMSQueue()->getQueueName()
         ));
     }
 }

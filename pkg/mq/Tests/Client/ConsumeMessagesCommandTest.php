@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Context;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\ConsumeMessagesCommand;
 use Formapro\MessageQueue\Client\DelegateMessageProcessor;
@@ -73,7 +73,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $processor = $this->createDelegateMessageProcessorMock();
         $queue = $this->createQueueMock();
 
-        $context = $this->createContextMock();
+        $context = $this->createFMSContextMock();
         $context
             ->expects($this->once())
             ->method('close')
@@ -92,7 +92,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         ;
         $consumer
             ->expects($this->once())
-            ->method('getContext')
+            ->method('getFMSContext')
             ->will($this->returnValue($context))
         ;
 
@@ -118,7 +118,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $processor = $this->createDelegateMessageProcessorMock();
         $queue = $this->createQueueMock();
 
-        $context = $this->createContextMock();
+        $context = $this->createFMSContextMock();
         $context
             ->expects($this->once())
             ->method('close')
@@ -137,7 +137,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         ;
         $consumer
             ->expects($this->once())
-            ->method('getContext')
+            ->method('getFMSContext')
             ->will($this->returnValue($context))
         ;
 
@@ -165,7 +165,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         $processor = $this->createDelegateMessageProcessorMock();
         $queue = $this->createQueueMock();
 
-        $context = $this->createContextMock();
+        $context = $this->createFMSContextMock();
         $context
             ->expects($this->once())
             ->method('close')
@@ -184,7 +184,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         ;
         $consumer
             ->expects($this->once())
-            ->method('getContext')
+            ->method('getFMSContext')
             ->will($this->returnValue($context))
         ;
 
@@ -221,11 +221,11 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    private function createContextMock()
+    private function createFMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Context;
+use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\BufferedStompClient;
 use Formapro\Stomp\StompConsumer;
@@ -18,7 +18,7 @@ class StompContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementSessionInterface()
     {
-        $this->assertClassImplements(JMSContext::class, StompContext::class);
+        $this->assertClassImplements(Context::class, StompContext::class);
     }
 
     public function testCouldBeCreatedWithRequiredArguments()

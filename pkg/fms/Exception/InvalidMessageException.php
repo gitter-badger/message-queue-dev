@@ -1,7 +1,7 @@
 <?php
-namespace Formapro\Jms\Exception;
+namespace Formapro\Fms\Exception;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 
 class InvalidMessageException extends Exception
 {

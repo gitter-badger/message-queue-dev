@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Consumption;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 
 class Result
 {

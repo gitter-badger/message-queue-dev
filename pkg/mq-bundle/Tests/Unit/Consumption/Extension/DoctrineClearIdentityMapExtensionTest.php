@@ -2,8 +2,8 @@
 namespace Formapro\MessageQueueBundle\Tests\Unit\Consumption\Extension;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueueBundle\Consumption\Extension\DoctrineClearIdentityMapExtension;
@@ -32,7 +32,7 @@ class DoctrineClearIdentityMapExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['manager-name' => $manager]))
         ;
 
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
         $context->getLogger()
             ->expects($this->once())
             ->method('debug')
@@ -46,11 +46,11 @@ class DoctrineClearIdentityMapExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Context
      */
-    protected function createContext()
+    protected function createFMSContext()
     {
-        $context = new Context($this->createMock(JMSContext::class));
+        $context = new Context($this->createMock(FMSContext::class));
         $context->setLogger($this->createMock(LoggerInterface::class));
-        $context->setConsumer($this->createMock(JMSConsumer::class));
+        $context->setFMSConsumer($this->createMock(Consumer::class));
         $context->setMessageProcessor($this->createMock(MessageProcessorInterface::class));
 
         return $context;

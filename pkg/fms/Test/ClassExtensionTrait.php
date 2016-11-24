@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Jms\Test;
+namespace Formapro\Fms\Test;
 
 trait ClassExtensionTrait
 {

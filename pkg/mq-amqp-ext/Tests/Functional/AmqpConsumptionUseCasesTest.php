@@ -2,8 +2,8 @@
 namespace Formapro\AmqpExt\Tests\Functional;
 
 use Formapro\AmqpExt\AmqpContext;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
+use Formapro\Fms\Context;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumedMessagesExtension;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumptionTimeExtension;
@@ -99,10 +99,10 @@ class StubMessageProcessor implements MessageProcessorInterface
 {
     public $result = Result::ACK;
 
-    /** @var Message */
+    /** @var \Formapro\Fms\Message */
     public $lastProcessedMessage;
 
-    public function process(Message $message, JMSContext $context)
+    public function process(Message $message, Context $context)
     {
         $this->lastProcessedMessage = $message;
 

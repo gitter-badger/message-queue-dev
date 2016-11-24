@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Router;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\JMSProducer;
+use Formapro\Fms\Context;
+use Formapro\Fms\Producer;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Router\Recipient;
@@ -53,7 +53,7 @@ class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($barRecipient->getDestination()), $this->identicalTo($barRecipient->getMessage()))
         ;
 
-        $sessionMock = $this->createContextMock();
+        $sessionMock = $this->createJMSContextMock();
         $sessionMock
             ->expects($this->once())
             ->method('createProducer')
@@ -68,19 +68,19 @@ class RouteRecipientListProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSProducer
+     * @return \PHPUnit_Framework_MockObject_MockObject|Producer
      */
     protected function createProducerMock()
     {
-        return $this->createMock(JMSProducer::class);
+        return $this->createMock(Producer::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    protected function createContextMock()
+    protected function createJMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

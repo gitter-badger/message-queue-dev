@@ -1,14 +1,14 @@
 {
-    "name": "formapro/jms",
+    "name": "formapro/fms",
     "type": "library",
-    "description": "Java Message Service Interfaces",
+    "description": "Formapro Message Service (based on Java Message Service)",
     "keywords": ["messaging", "queue", "java message service", "jms"],
     "license": "MIT",
     "require": {
         "php": ">=5.6"
     },
     "autoload": {
-        "psr-4": { "Formapro\\Jms\\": "" }
+        "psr-4": { "Formapro\\Fms\\": "" }
     },
     "minimum-stability": "dev",
     "extra": {

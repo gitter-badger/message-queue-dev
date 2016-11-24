@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\Stomp\Tests;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\Stomp\StompMessage;
 use Stomp\Transport\Frame;

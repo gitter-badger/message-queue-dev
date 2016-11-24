@@ -15,8 +15,8 @@ class ReplyExtension implements ExtensionInterface
      */
     public function onPostReceived(Context $context)
     {
-        $replyTo = $context->getMessage()->getReplyTo();
-        $correlationId = $context->getMessage()->getCorrelationId();
+        $replyTo = $context->getFMSMessage()->getReplyTo();
+        $correlationId = $context->getFMSMessage()->getCorrelationId();
         if (false == $replyTo) {
             return;
         }
@@ -33,8 +33,8 @@ class ReplyExtension implements ExtensionInterface
         $replyMessage = clone $result->getReply();
         $replyMessage->setCorrelationId($correlationId);
 
-        $replyQueue = $context->getContext()->createQueue($replyTo);
+        $replyQueue = $context->getFMSContext()->createQueue($replyTo);
 
-        $context->getContext()->createProducer()->send($replyQueue, $replyMessage);
+        $context->getFMSContext()->createProducer()->send($replyQueue, $replyMessage);
     }
 }

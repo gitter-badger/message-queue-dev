@@ -7,8 +7,8 @@ use Formapro\AmqpExt\AmqpMessage;
 use Formapro\AmqpExt\AmqpProducer;
 use Formapro\AmqpExt\AmqpQueue;
 use Formapro\AmqpExt\AmqpTopic;
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
+use Formapro\Fms\Exception\InvalidDestinationException;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullQueue;
 use Formapro\MessageQueue\Transport\Null\NullTopic;
@@ -17,9 +17,9 @@ class AmqpContextTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
-    public function testShouldImplementJMSContextInterface()
+    public function testShouldImplementFMSContextInterface()
     {
-        $this->assertClassImplements(JMSContext::class, AmqpContext::class);
+        $this->assertClassImplements(Context::class, AmqpContext::class);
     }
 
     public function testCouldBeConstructedWithExtChannelAsFirstArgument()

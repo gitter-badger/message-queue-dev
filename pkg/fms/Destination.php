@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
 /**
  * A Destination object encapsulates a provider-specific address.

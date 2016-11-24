@@ -1,7 +1,7 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
-use Formapro\Jms\Exception\Exception;
+use Formapro\Fms\Exception\Exception;
 
 /**
  * The Message interface is the root interface of all transport messages.
@@ -96,7 +96,7 @@ interface Message
      *
      * @param string $correlationId the message ID of a message being referred to
      *
-     * @throws Exception if the provider fails to set the correlation ID due to some internal error
+     * @throws \Formapro\Fms\Exception\Exception if the provider fails to set the correlation ID due to some internal error
      */
     public function setCorrelationId($correlationId);
 
@@ -105,7 +105,7 @@ interface Message
      * This method is used to return correlation ID values that are either provider-specific message IDs
      * or application-specific String values.
      *
-     * @throws Exception if the provider fails to get the correlation ID due to some internal error
+     * @throws \Formapro\Fms\Exception\Exception if the provider fails to get the correlation ID due to some internal error
      *
      * @return string
      */

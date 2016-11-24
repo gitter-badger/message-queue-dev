@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 
 class AmqpMessage implements Message
 {

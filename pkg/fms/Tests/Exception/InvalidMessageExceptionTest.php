@@ -1,9 +1,9 @@
 <?php
-namespace Formapro\Jms\Tests\Exception;
+namespace Formapro\Fms\Tests\Exception;
 
-use Formapro\Jms\Exception\Exception as ExceptionInterface;
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\Test\ClassExtensionTrait;
+use Formapro\Fms\Exception\Exception as ExceptionInterface;
+use Formapro\Fms\Exception\InvalidMessageException;
+use Formapro\Fms\Test\ClassExtensionTrait;
 
 class InvalidMessageExceptionTest extends \PHPUnit_Framework_TestCase
 {

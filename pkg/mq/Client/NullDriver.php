@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Message as TransportMessage;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Exception\InvalidDestinationException;
+use Formapro\Fms\Message as TransportMessage;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Transport\Null\NullContext;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
 use Formapro\MessageQueue\Transport\Null\NullQueue;

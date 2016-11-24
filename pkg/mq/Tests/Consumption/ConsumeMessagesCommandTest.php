@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption;
 
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Context;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\ConsumeMessagesCommand;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
@@ -95,7 +95,7 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
         ;
         $consumer
             ->expects($this->exactly(2))
-            ->method('getContext')
+            ->method('getFMSContext')
             ->will($this->returnValue($context))
         ;
 
@@ -113,11 +113,11 @@ class ConsumeMessagesCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
     protected function createContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

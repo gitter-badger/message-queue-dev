@@ -1,10 +1,10 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
+use Formapro\Fms\Message;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
@@ -19,40 +19,40 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 {
     public function testCouldBeConstructedWithConnectionAndExtensionsAsArguments()
     {
-        new QueueConsumer($this->createContextStub(), null, 0);
+        new QueueConsumer($this->createFMSContextStub(), null, 0);
     }
 
     public function testCouldBeConstructedWithConnectionOnly()
     {
-        new QueueConsumer($this->createContextStub());
+        new QueueConsumer($this->createFMSContextStub());
     }
 
     public function testCouldBeConstructedWithConnectionAndSingleExtension()
     {
-        new QueueConsumer($this->createContextStub(), $this->createExtension());
+        new QueueConsumer($this->createFMSContextStub(), $this->createExtension());
     }
 
     public function testShouldSetEmptyArrayToBoundMessageProcessorsPropertyInConstructor()
     {
-        $consumer = new QueueConsumer($this->createContextStub(), null, 0);
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
         $this->assertAttributeSame([], 'boundMessageProcessors', $consumer);
     }
 
     public function testShouldAllowGetConnectionSetInConstructor()
     {
-        $expectedConnection = $this->createContextStub();
+        $expectedConnection = $this->createFMSContextStub();
 
         $consumer = new QueueConsumer($expectedConnection, null, 0);
 
-        $this->assertSame($expectedConnection, $consumer->getContext());
+        $this->assertSame($expectedConnection, $consumer->getFmsContext());
     }
 
     public function testThrowIfQueueNameEmptyOnBind()
     {
         $messageProcessorMock = $this->createMessageProcessorMock();
 
-        $consumer = new QueueConsumer($this->createContextStub(), null, 0);
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
         $this->setExpectedException(\LogicException::class, 'The queue name must be not empty.');
         $consumer->bind(new NullQueue(''), $messageProcessorMock);
@@ -62,7 +62,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageProcessorMock = $this->createMessageProcessorMock();
 
-        $consumer = new QueueConsumer($this->createContextStub(), null, 0);
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
         $consumer->bind(new NullQueue('theQueueName'), $messageProcessorMock);
 
@@ -75,7 +75,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $queue = new NullQueue('theQueueName');
         $messageProcessorMock = $this->createMessageProcessorMock();
 
-        $consumer = new QueueConsumer($this->createContextStub(), null, 0);
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
         $consumer->bind($queue, $messageProcessorMock);
 
@@ -86,7 +86,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageProcessorMock = $this->createMessageProcessorMock();
 
-        $consumer = new QueueConsumer($this->createContextStub(), null, 0);
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
         $this->assertSame($consumer, $consumer->bind(new NullQueue('aQueueName'), $messageProcessorMock));
     }
@@ -95,14 +95,14 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $expectedQueue = new NullQueue('theQueueName');
 
-        $messageConsumerMock = $this->createMock(JMSConsumer::class);
+        $messageConsumerMock = $this->createMock(Consumer::class);
         $messageConsumerMock
             ->expects($this->exactly(5))
             ->method('receive')
             ->willReturn(null)
         ;
 
-        $contextMock = $this->createMock(JMSContext::class);
+        $contextMock = $this->createMock(FMSContext::class);
         $contextMock
             ->expects($this->once())
             ->method('createConsumer')
@@ -126,7 +126,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageMock = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($messageMock);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -151,7 +151,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($messageMock))
         ;
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -172,7 +172,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageMock = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($messageMock);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -199,7 +199,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($messageMock), false)
         ;
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -225,7 +225,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->with($this->identicalTo($messageMock), true)
         ;
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -248,7 +248,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageMock = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($messageMock);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -279,7 +279,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $messageMock = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($messageMock);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -298,7 +298,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageConsumerStub = $this->createMessageConsumerStub($message = null);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
 
@@ -312,14 +312,14 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageConsumerStub,
                 $messageProcessorMock
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertNull($context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertNull($context->getFMSConsumer());
                 $this->assertNull($context->getMessageProcessor());
                 $this->assertNull($context->getLogger());
-                $this->assertNull($context->getMessage());
+                $this->assertNull($context->getFMSMessage());
                 $this->assertNull($context->getException());
                 $this->assertNull($context->getResult());
-                $this->assertNull($context->getQueue());
+                $this->assertNull($context->getFMSQueue());
                 $this->assertFalse($context->isExecutionInterrupted());
             })
         ;
@@ -335,7 +335,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageConsumerStub = $this->createMessageConsumerStub($message = null);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
 
@@ -349,11 +349,11 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageConsumerStub,
                 $messageProcessorMock
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
-                $this->assertNull($context->getMessage());
+                $this->assertNull($context->getFMSMessage());
                 $this->assertNull($context->getException());
                 $this->assertNull($context->getResult());
                 $this->assertFalse($context->isExecutionInterrupted());
@@ -372,7 +372,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorStub();
 
@@ -390,15 +390,15 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $expectedMessage,
                 $queue
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
-                $this->assertNull($context->getMessage());
+                $this->assertNull($context->getFMSMessage());
                 $this->assertNull($context->getException());
                 $this->assertNull($context->getResult());
                 $this->assertFalse($context->isExecutionInterrupted());
-                $this->assertSame($queue, $context->getQueue());
+                $this->assertSame($queue, $context->getFMSQueue());
             })
         ;
 
@@ -414,7 +414,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorStub();
 
@@ -429,10 +429,10 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageProcessorMock,
                 $expectedMessage
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($expectedMessage, $context->getMessage());
+                $this->assertSame($expectedMessage, $context->getFMSMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
                 $this->assertNull($context->getResult());
@@ -449,10 +449,10 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageProcessorMock,
                 $expectedMessage
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($expectedMessage, $context->getMessage());
+                $this->assertSame($expectedMessage, $context->getFMSMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
                 $this->assertSame(Result::ACK, $context->getResult());
@@ -471,7 +471,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageConsumerStub = $this->createMessageConsumerStub($message = null);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
 
@@ -493,11 +493,11 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageConsumerStub,
                 $messageProcessorMock
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
-                $this->assertNull($context->getMessage());
+                $this->assertNull($context->getFMSMessage());
                 $this->assertNull($context->getException());
                 $this->assertNull($context->getResult());
                 $this->assertTrue($context->isExecutionInterrupted());
@@ -515,7 +515,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $messageConsumerStub = $this->createMessageConsumerStub($message = null);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
         $contextStub
             ->expects($this->once())
             ->method('close')
@@ -546,7 +546,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
         $messageConsumerStub = $this->createMessageConsumerStub($message = $this->createMessageMock());
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
         $contextStub
             ->expects($this->once())
             ->method('close')
@@ -581,7 +581,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
         $messageConsumerStub = $this->createMessageConsumerStub($message = $this->createMessageMock());
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -618,7 +618,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -646,10 +646,10 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageProcessorMock,
                 $expectedMessage
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($expectedMessage, $context->getMessage());
+                $this->assertSame($expectedMessage, $context->getFMSMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
                 $this->assertSame(Result::ACK, $context->getResult());
@@ -669,7 +669,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -697,10 +697,10 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $messageProcessorMock,
                 $expectedMessage
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($expectedMessage, $context->getMessage());
+                $this->assertSame($expectedMessage, $context->getFMSMessage());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getException());
                 $this->assertSame(Result::ACK, $context->getResult());
@@ -723,7 +723,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -744,10 +744,10 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
                 $expectedMessage,
                 $expectedException
             ) {
-                $this->assertSame($contextStub, $context->getContext());
-                $this->assertSame($messageConsumerStub, $context->getConsumer());
+                $this->assertSame($contextStub, $context->getFMSContext());
+                $this->assertSame($messageConsumerStub, $context->getFMSConsumer());
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($expectedMessage, $context->getMessage());
+                $this->assertSame($expectedMessage, $context->getFMSMessage());
                 $this->assertSame($expectedException, $context->getException());
                 $this->assertInstanceOf(NullLogger::class, $context->getLogger());
                 $this->assertNull($context->getResult());
@@ -767,7 +767,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -809,7 +809,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorMock();
         $messageProcessorMock
@@ -859,7 +859,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
 
-        $contextStub = $this->createContextStub($messageConsumerStub);
+        $contextStub = $this->createFMSContextStub($messageConsumerStub);
 
         $messageProcessorMock = $this->createMessageProcessorStub();
         $anotherMessageProcessorMock = $this->createMessageProcessorStub();
@@ -874,7 +874,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->with($this->isInstanceOf(Context::class))
             ->willReturnCallback(function (Context $context) use ($messageProcessorMock, $queue1) {
                 $this->assertSame($messageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($queue1, $context->getQueue());
+                $this->assertSame($queue1, $context->getFMSQueue());
             })
         ;
         $extension
@@ -883,7 +883,7 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
             ->with($this->isInstanceOf(Context::class))
             ->willReturnCallback(function (Context $context) use ($anotherMessageProcessorMock, $queue2) {
                 $this->assertSame($anotherMessageProcessorMock, $context->getMessageProcessor());
-                $this->assertSame($queue2, $context->getQueue());
+                $this->assertSame($queue2, $context->getFMSQueue());
             })
         ;
 
@@ -897,11 +897,11 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSConsumer
+     * @return \PHPUnit_Framework_MockObject_MockObject|Consumer
      */
     protected function createMessageConsumerStub($message = null)
     {
-        $messageConsumerMock = $this->createMock(JMSConsumer::class);
+        $messageConsumerMock = $this->createMock(Consumer::class);
         $messageConsumerMock
             ->expects($this->any())
             ->method('receive')
@@ -912,11 +912,11 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|FMSContext
      */
-    protected function createContextStub($messageConsumer = null)
+    protected function createFMSContextStub($messageConsumer = null)
     {
-        $context = $this->createMock(JMSContext::class);
+        $context = $this->createMock(FMSContext::class);
         $context
             ->expects($this->any())
             ->method('createConsumer')

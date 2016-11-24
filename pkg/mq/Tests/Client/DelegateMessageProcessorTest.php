@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DelegateMessageProcessor;
 use Formapro\MessageQueue\Client\MessageProcessorRegistryInterface;
@@ -23,12 +23,12 @@ class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $processor = new DelegateMessageProcessor($this->createMessageProcessorRegistryMock());
-        $processor->process(new NullMessage(), $this->createContextMock());
+        $processor->process(new NullMessage(), $this->createJMSContextMock());
     }
 
     public function testShouldProcessMessage()
     {
-        $session = $this->createContextMock();
+        $session = $this->createJMSContextMock();
         $message = new NullMessage();
         $message->setProperties([
             Config::PARAMETER_PROCESSOR_NAME => 'processor-name',
@@ -65,11 +65,11 @@ class DelegateMessageProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    protected function createContextMock()
+    protected function createJMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

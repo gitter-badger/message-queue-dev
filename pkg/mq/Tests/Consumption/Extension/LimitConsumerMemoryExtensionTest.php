@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption\Extension;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Extension\LimitConsumerMemoryExtension;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
@@ -24,7 +24,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnIdleShouldInterruptExecutionIfMemoryLimitReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
         $context->getLogger()
             ->expects($this->once())
             ->method('debug')
@@ -43,7 +43,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnPostReceivedShouldInterruptExecutionIfMemoryLimitReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
         $context->getLogger()
             ->expects($this->once())
             ->method('debug')
@@ -62,7 +62,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnBeforeReceivedShouldInterruptExecutionIfMemoryLimitReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
         $context->getLogger()
             ->expects($this->once())
             ->method('debug')
@@ -81,7 +81,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnBeforeReceiveShouldNotInterruptExecutionIfMemoryLimitIsNotReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
 
         // guard
         $this->assertFalse($context->isExecutionInterrupted());
@@ -95,7 +95,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnIdleShouldNotInterruptExecutionIfMemoryLimitIsNotReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
 
         // guard
         $this->assertFalse($context->isExecutionInterrupted());
@@ -109,7 +109,7 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testOnPostReceivedShouldNotInterruptExecutionIfMemoryLimitIsNotReached()
     {
-        $context = $this->createContext();
+        $context = $this->createFMSContext();
 
         // guard
         $this->assertFalse($context->isExecutionInterrupted());
@@ -124,11 +124,11 @@ class LimitConsumerMemoryExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Context
      */
-    protected function createContext()
+    protected function createFMSContext()
     {
-        $context = new Context($this->createMock(JMSContext::class));
+        $context = new Context($this->createMock(FMSContext::class));
         $context->setLogger($this->createMock(LoggerInterface::class));
-        $context->setConsumer($this->createMock(JMSConsumer::class));
+        $context->setFMSConsumer($this->createMock(Consumer::class));
         $context->setMessageProcessor($this->createMock(MessageProcessorInterface::class));
 
         return $context;
