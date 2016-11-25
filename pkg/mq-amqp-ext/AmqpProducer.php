@@ -1,14 +1,14 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSProducer;
-use Formapro\Jms\Message;
-use Formapro\Jms\Topic;
+use Formapro\Fms\Destination;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\InvalidMessageException;
+use Formapro\Fms\Message;
+use Formapro\Fms\Producer;
+use Formapro\Fms\Topic;
 
-class AmqpProducer implements JMSProducer
+class AmqpProducer implements Producer
 {
     /**
      * @var \AMQPChannel

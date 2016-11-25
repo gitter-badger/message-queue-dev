@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection\Compiler;
 
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildExtensionsPass;
-use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

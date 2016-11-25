@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\Exception\InvalidMessageException;
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\Message;
-use Formapro\MessageQueue\Util\UUID;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\InvalidMessageException;
+use Formapro\Fms\Message;
+use Ramsey\Uuid\Uuid;
 
-class AmqpConsumer implements JMSConsumer
+class AmqpConsumer implements Consumer
 {
     /**
      * @var AmqpContext
@@ -42,7 +42,7 @@ class AmqpConsumer implements JMSConsumer
         $this->queue = $queue;
         $this->context = $context;
 
-        $this->consumerId = UUID::generate();
+        $this->consumerId = Uuid::uuid4()->toString();
         $this->isInit = false;
     }
 

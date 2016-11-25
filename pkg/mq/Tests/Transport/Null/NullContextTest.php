@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullConsumer;
 use Formapro\MessageQueue\Transport\Null\NullContext;
@@ -16,7 +16,7 @@ class NullContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementSessionInterface()
     {
-        $this->assertClassImplements(JMSContext::class, NullContext::class);
+        $this->assertClassImplements(Context::class, NullContext::class);
     }
 
     public function testCouldBeConstructedWithoutAnyArguments()

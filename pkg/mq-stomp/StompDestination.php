@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\Stomp;
 
-use Formapro\Jms\Queue;
-use Formapro\Jms\Topic;
+use Formapro\Fms\Queue;
+use Formapro\Fms\Topic;
 
 class StompDestination implements Topic, Queue
 {

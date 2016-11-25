@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Rpc;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\JMSProducer;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context;
+use Formapro\Fms\Producer;
 use Formapro\MessageQueue\Rpc\Promise;
 use Formapro\MessageQueue\Rpc\RpcClient;
 use Formapro\MessageQueue\Transport\Null\NullContext;
@@ -12,9 +12,9 @@ use Formapro\MessageQueue\Transport\Null\NullQueue;
 
 class RpcClientTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCouldBeConstructedWithJMSContextAsFirstArgument()
+    public function testCouldBeConstructedWithFMSContextAsFirstArgument()
     {
-        new RpcClient($this->createJMSContextMock());
+        new RpcClient($this->createFMSContextMock());
     }
 
     public function testShouldSetReplyToIfNotSet()
@@ -89,7 +89,7 @@ class RpcClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Promise::class, $promise);
         $this->assertAttributeEquals('theCorrelationId', 'correlationId', $promise);
         $this->assertAttributeEquals(123, 'timeout', $promise);
-        $this->assertAttributeInstanceOf(JMSConsumer::class, 'consumer', $promise);
+        $this->assertAttributeInstanceOf(Consumer::class, 'consumer', $promise);
     }
 
     public function testShouldProduceMessageToQueueAndCreateConsumerForReplyQueue()
@@ -100,14 +100,14 @@ class RpcClientTest extends \PHPUnit_Framework_TestCase
         $message->setCorrelationId('theCorrelationId');
         $message->setReplyTo('theReplyTo');
 
-        $producer = $this->createJMSProducerMock();
+        $producer = $this->createFMSProducerMock();
         $producer
             ->expects($this->once())
             ->method('send')
             ->with($this->identicalTo($queue), $this->identicalTo($message))
         ;
 
-        $context = $this->createJMSContextMock();
+        $context = $this->createFMSContextMock();
         $context
             ->expects($this->once())
             ->method('createProducer')
@@ -123,7 +123,7 @@ class RpcClientTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('createConsumer')
             ->with($this->identicalTo($replyQueue))
-            ->willReturn($this->createJMSConsumerMock())
+            ->willReturn($this->createFMSConsumerMock())
         ;
 
         $rpc = new RpcClient($context);
@@ -159,26 +159,26 @@ class RpcClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return JMSContext|\PHPUnit_Framework_MockObject_MockObject|JMSProducer
+     * @return Context|\PHPUnit_Framework_MockObject_MockObject|Producer
      */
-    private function createJMSProducerMock()
+    private function createFMSProducerMock()
     {
-        return $this->createMock(JMSProducer::class);
+        return $this->createMock(Producer::class);
     }
 
     /**
-     * @return JMSContext|\PHPUnit_Framework_MockObject_MockObject|JMSConsumer
+     * @return \Formapro\Fms\Context|\PHPUnit_Framework_MockObject_MockObject|Consumer
      */
-    private function createJMSConsumerMock()
+    private function createFMSConsumerMock()
     {
-        return $this->createMock(JMSConsumer::class);
+        return $this->createMock(Consumer::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
-    private function createJMSContextMock()
+    private function createFMSContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 }

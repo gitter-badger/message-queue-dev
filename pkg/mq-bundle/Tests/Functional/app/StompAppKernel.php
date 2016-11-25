@@ -39,7 +39,7 @@ class StompAppKernel extends Kernel
 
     protected function getContainerClass()
     {
-        return parent::getContainerClass().'Stomp';
+        return parent::getContainerClass().'BundleStomp';
     }
 
     /**

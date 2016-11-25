@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
 /**
  * A Queue object encapsulates a provider-specific queue name.

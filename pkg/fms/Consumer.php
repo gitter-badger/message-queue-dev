@@ -1,5 +1,5 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
 /**
  * A client uses a MessageConsumer object to receive messages from a destination.
@@ -8,7 +8,7 @@ namespace Formapro\Jms;
  *
  * @link https://docs.oracle.com/javaee/7/api/javax/jms/MessageConsumer.html
  */
-interface JMSConsumer
+interface Consumer
 {
     /**
      * Gets the Queue associated with this queue receiver.

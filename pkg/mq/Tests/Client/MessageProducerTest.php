@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Client;
 
-use Formapro\Jms\Queue;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;

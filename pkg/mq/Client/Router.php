@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\Message as JMSMessage;
+use Formapro\Fms\Message as FMSMessage;
 use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 use Formapro\MessageQueue\Router\Recipient;
 use Formapro\MessageQueue\Router\RecipientListRouterInterface;
@@ -78,7 +78,7 @@ class Router implements RecipientListRouterInterface
     /**
      * {@inheritdoc}
      */
-    public function route(JMSMessage $message)
+    public function route(FMSMessage $message)
     {
         $topicName = $message->getProperty(Config::PARAMETER_TOPIC_NAME);
         if (false == $topicName) {
@@ -102,22 +102,20 @@ class Router implements RecipientListRouterInterface
     }
 
     /**
-     * @param JMSMessage $message
+     * @param FMSMessage $message
      * @param string     $processorName
      * @param string     $queueName
      *
      * @return Recipient
      */
-    protected function createRecipient(JMSMessage $message, $processorName, $queueName)
+    protected function createRecipient(FMSMessage $message, $processorName, $queueName)
     {
         $properties = $message->getProperties();
         $properties[Config::PARAMETER_PROCESSOR_NAME] = $processorName;
         $properties[Config::PARAMETER_QUEUE_NAME] = $queueName;
 
-        $newMessage = $this->driver->createTransportMessage();
+        $newMessage = clone $message;
         $newMessage->setProperties($properties);
-        $newMessage->setHeaders($message->getHeaders());
-        $newMessage->setBody($message->getBody());
 
         $queue = $this->driver->createQueue($queueName);
 

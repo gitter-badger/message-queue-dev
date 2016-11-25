@@ -1,7 +1,5 @@
 <?php
-namespace Formapro\Jms\Exception;
-
-use Formapro\Jms\Destination;
+namespace Formapro\Fms;
 
 class InvalidDestinationException extends Exception
 {

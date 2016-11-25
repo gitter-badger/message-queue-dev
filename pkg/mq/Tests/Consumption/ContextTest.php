@@ -1,9 +1,9 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Consumption;
 
-use Formapro\Jms\JMSConsumer;
-use Formapro\Jms\JMSContext;
-use Formapro\Jms\Message;
+use Formapro\Fms\Consumer;
+use Formapro\Fms\Context as FMSContext;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\Exception\IllegalContextModificationException;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
@@ -17,47 +17,47 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testCouldBeConstructedWithSessionAsFirstArgument()
     {
-        new Context($this->createContext());
+        new Context($this->createFMSContext());
     }
 
     public function testShouldAllowGetSessionSetInConstructor()
     {
-        $jmsContext = $this->createContext();
+        $fmsContext = $this->createFMSContext();
 
-        $context = new Context($jmsContext);
+        $context = new Context($fmsContext);
 
-        $this->assertSame($jmsContext, $context->getContext());
+        $this->assertSame($fmsContext, $context->getFMSContext());
     }
 
     public function testShouldAllowGetMessageConsumerPreviouslySet()
     {
-        $messageConsumer = $this->createConsumer();
+        $messageConsumer = $this->createFMSConsumer();
 
-        $context = new Context($this->createContext());
-        $context->setConsumer($messageConsumer);
+        $context = new Context($this->createFMSContext());
+        $context->setFMSConsumer($messageConsumer);
 
-        $this->assertSame($messageConsumer, $context->getConsumer());
+        $this->assertSame($messageConsumer, $context->getFMSConsumer());
     }
 
     public function testThrowOnTryToChangeMessageConsumerIfAlreadySet()
     {
-        $messageConsumer = $this->createConsumer();
-        $anotherMessageConsumer = $this->createConsumer();
+        $messageConsumer = $this->createFMSConsumer();
+        $anotherMessageConsumer = $this->createFMSConsumer();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
-        $context->setConsumer($messageConsumer);
+        $context->setFMSConsumer($messageConsumer);
 
         $this->expectException(IllegalContextModificationException::class);
 
-        $context->setConsumer($anotherMessageConsumer);
+        $context->setFMSConsumer($anotherMessageConsumer);
     }
 
     public function testShouldAllowGetMessageProducerPreviouslySet()
     {
         $messageProcessor = $this->createMessageProcessor();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
         $context->setMessageProcessor($messageProcessor);
 
         $this->assertSame($messageProcessor, $context->getMessageProcessor());
@@ -68,7 +68,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $messageProcessor = $this->createMessageProcessor();
         $anotherMessageProcessor = $this->createMessageProcessor();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $context->setMessageProcessor($messageProcessor);
 
@@ -81,7 +81,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new NullLogger();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
         $context->setLogger($logger);
 
         $this->assertSame($logger, $context->getLogger());
@@ -89,7 +89,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldSetExecutionInterruptedToFalseInConstructor()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $this->assertFalse($context->isExecutionInterrupted());
     }
@@ -99,11 +99,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         /** @var Message $message */
         $message = $this->createMock(Message::class);
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
 
-        $this->assertSame($message, $context->getMessage());
+        $this->assertSame($message, $context->getFMSMessage());
     }
 
     public function testThrowOnTryToChangeMessageIfAlreadySet()
@@ -111,53 +111,53 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         /** @var Message $message */
         $message = $this->createMock(Message::class);
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $this->expectException(IllegalContextModificationException::class);
         $this->expectExceptionMessage('The message could be set once');
 
-        $context->setMessage($message);
-        $context->setMessage($message);
+        $context->setFMSMessage($message);
+        $context->setFMSMessage($message);
     }
 
     public function testShouldAllowGetPreviouslySetException()
     {
         $exception = new \Exception();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $context->setException($exception);
 
         $this->assertSame($exception, $context->getException());
     }
 
-    public function testShouldAllowGetPreviouslySetStatus()
+    public function testShouldAllowGetPreviouslySetResult()
     {
-        $status = 'aStatus';
+        $result = 'aResult';
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
-        $context->setResult($status);
+        $context->setResult($result);
 
-        $this->assertSame($status, $context->getResult());
+        $this->assertSame($result, $context->getResult());
     }
 
-    public function testThrowOnTryToChangeStatusIfAlreadySet()
+    public function testThrowOnTryToChangeResultIfAlreadySet()
     {
-        $status = 'aStatus';
+        $result = 'aResult';
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $this->expectException(IllegalContextModificationException::class);
-        $this->expectExceptionMessage('The status modification is not allowed');
+        $this->expectExceptionMessage('The result modification is not allowed');
 
-        $context->setResult($status);
-        $context->setResult($status);
+        $context->setResult($result);
+        $context->setResult($result);
     }
 
     public function testShouldAllowGetPreviouslySetExecutionInterrupted()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         // guard
         $this->assertFalse($context->isExecutionInterrupted());
@@ -169,7 +169,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowOnTryToRollbackExecutionInterruptedIfAlreadySetToTrue()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $this->expectException(IllegalContextModificationException::class);
         $this->expectExceptionMessage('The execution once interrupted could not be roll backed');
@@ -180,7 +180,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testNotThrowOnSettingExecutionInterruptedToTrueIfAlreadySetToTrue()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $context->setExecutionInterrupted(true);
         $context->setExecutionInterrupted(true);
@@ -190,7 +190,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $expectedLogger = new NullLogger();
 
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $context->setLogger($expectedLogger);
 
@@ -199,7 +199,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowOnSettingLoggerIfAlreadySet()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
         $context->setLogger(new NullLogger());
 
@@ -211,39 +211,39 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldAllowGetPreviouslySetQueue()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
-        $context->setQueue($queue = new NullQueue(''));
+        $context->setFMSQueue($queue = new NullQueue(''));
 
-        $this->assertSame($queue, $context->getQueue());
+        $this->assertSame($queue, $context->getFMSQueue());
     }
 
     public function testThrowOnSettingQueueNameIfAlreadySet()
     {
-        $context = new Context($this->createContext());
+        $context = new Context($this->createFMSContext());
 
-        $context->setQueue(new NullQueue(''));
+        $context->setFMSQueue(new NullQueue(''));
 
         $this->expectException(IllegalContextModificationException::class);
         $this->expectExceptionMessage('The queue modification is not allowed');
 
-        $context->setQueue(new NullQueue(''));
+        $context->setFMSQueue(new NullQueue(''));
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|FMSContext
      */
-    protected function createContext()
+    protected function createFMSContext()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(FMSContext::class);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSConsumer
+     * @return \PHPUnit_Framework_MockObject_MockObject|Consumer
      */
-    protected function createConsumer()
+    protected function createFMSConsumer()
     {
-        return $this->createMock(JMSConsumer::class);
+        return $this->createMock(Consumer::class);
     }
 
     /**

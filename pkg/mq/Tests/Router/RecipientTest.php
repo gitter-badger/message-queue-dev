@@ -1,8 +1,8 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Router;
 
-use Formapro\Jms\Destination;
-use Formapro\Jms\Message;
+use Formapro\Fms\Destination;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Router\Recipient;
 
 class RecipientTest extends \PHPUnit_Framework_TestCase

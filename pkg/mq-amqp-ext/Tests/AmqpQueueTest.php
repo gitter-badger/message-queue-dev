@@ -2,7 +2,7 @@
 namespace Formapro\AmqpExt\Tests;
 
 use Formapro\AmqpExt\AmqpQueue;
-use Formapro\Jms\Queue;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class AmqpQueueTest extends \PHPUnit_Framework_TestCase

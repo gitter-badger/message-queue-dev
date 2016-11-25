@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Tests\Transport\Null;
 
-use Formapro\Jms\JMSConsumer;
+use Formapro\Fms\Consumer;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueue\Transport\Null\NullConsumer;
 use Formapro\MessageQueue\Transport\Null\NullMessage;
@@ -13,7 +13,7 @@ class NullConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldImplementMessageConsumerInterface()
     {
-        $this->assertClassImplements(JMSConsumer::class, NullConsumer::class);
+        $this->assertClassImplements(Consumer::class, NullConsumer::class);
     }
 
     public function testCouldBeConstructedWithQueueAsArgument()

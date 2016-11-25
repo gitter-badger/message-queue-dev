@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Consumption\Extension;
 
-use Formapro\Jms\Message;
+use Formapro\Fms\Message;
 use Formapro\MessageQueue\Consumption\Context;
 use Formapro\MessageQueue\Consumption\EmptyExtensionTrait;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
@@ -50,13 +50,13 @@ class LoggerExtension implements ExtensionInterface
             case Result::REJECT:
             case Result::REQUEUE:
                 if ($result->getReason()) {
-                    $this->logger->error($result->getReason(), $this->messageToLogContext($context->getMessage()));
+                    $this->logger->error($result->getReason(), $this->messageToLogContext($context->getFMSMessage()));
                 }
 
                 break;
             case Result::ACK:
                 if ($result->getReason()) {
-                    $this->logger->info($result->getReason(), $this->messageToLogContext($context->getMessage()));
+                    $this->logger->info($result->getReason(), $this->messageToLogContext($context->getFMSMessage()));
                 }
 
                 break;

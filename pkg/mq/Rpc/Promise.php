@@ -1,12 +1,12 @@
 <?php
 namespace Formapro\MessageQueue\Rpc;
 
-use Formapro\Jms\JMSConsumer;
+use Formapro\Fms\Consumer;
 
 class Promise
 {
     /**
-     * @var JMSConsumer
+     * @var Consumer
      */
     private $consumer;
 
@@ -20,11 +20,11 @@ class Promise
     private $correlationId;
 
     /**
-     * @param JMSConsumer $consumer
-     * @param string $correlationId
-     * @param int $timeout
+     * @param Consumer $consumer
+     * @param string   $correlationId
+     * @param int      $timeout
      */
-    public function __construct(JMSConsumer $consumer, $correlationId, $timeout)
+    public function __construct(Consumer $consumer, $correlationId, $timeout)
     {
         $this->consumer = $consumer;
         $this->timeout = $timeout;

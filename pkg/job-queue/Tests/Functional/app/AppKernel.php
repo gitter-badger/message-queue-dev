@@ -36,6 +36,11 @@ class AppKernel extends Kernel
         return sys_get_temp_dir().'/FormaproJobQueue/cache/logs';
     }
 
+    protected function getContainerClass()
+    {
+        return parent::getContainerClass().'JobQueue';
+    }
+
     /**
      * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
      */

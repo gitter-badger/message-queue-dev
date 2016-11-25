@@ -13,8 +13,8 @@
         >
 
     <testsuites>
-        <testsuite name="jms">
-            <directory>pkg/jms/Tests</directory>
+        <testsuite name="fms">
+            <directory>pkg/fms/Tests</directory>
         </testsuite>
 
         <testsuite name="mq">
@@ -31,6 +31,10 @@
 
         <testsuite name="bundle">
             <directory>pkg/mq-bundle/Tests</directory>
+        </testsuite>
+
+        <testsuite name="job-queue">
+            <directory>pkg/job-queue/Tests</directory>
         </testsuite>
     </testsuites>
 

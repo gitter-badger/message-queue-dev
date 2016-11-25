@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Client;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 
 class DriverFactory
 {
@@ -19,12 +19,12 @@ class DriverFactory
     }
 
     /**
-     * @param JMSContext $context
-     * @param Config     $config
+     * @param Context $context
+     * @param Config  $config
      *
      * @return DriverInterface
      */
-    public function create(JMSContext $context, Config $config)
+    public function create(Context $context, Config $config)
     {
         $contextClass = get_class($context);
 

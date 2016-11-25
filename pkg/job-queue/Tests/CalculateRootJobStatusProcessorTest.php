@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\JobQueue\Tests;
 
-use Formapro\Jms\JMSContext;
+use Formapro\Fms\Context;
 use Formapro\JobQueue\CalculateRootJobStatusProcessor;
 use Formapro\JobQueue\CalculateRootJobStatusService;
 use Formapro\JobQueue\Job;
@@ -182,11 +182,11 @@ class CalculateRootJobStatusProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|JMSContext
+     * @return \PHPUnit_Framework_MockObject_MockObject|Context
      */
     private function createContextMock()
     {
-        return $this->createMock(JMSContext::class);
+        return $this->createMock(Context::class);
     }
 
     /**

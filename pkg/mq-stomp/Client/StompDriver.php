@@ -1,14 +1,16 @@
 <?php
 namespace Formapro\Stomp\Client;
 
-use Formapro\Jms\Exception\InvalidDestinationException;
-use Formapro\Jms\Queue;
+use Formapro\Fms\InvalidDestinationException;
+use Formapro\Fms\Message as TransportMessage;
+use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Client\Config;
 use Formapro\MessageQueue\Client\DriverInterface;
 use Formapro\MessageQueue\Client\Message;
 use Formapro\MessageQueue\Client\MessagePriority;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompDestination;
+use Formapro\Stomp\StompMessage;
 
 class StompDriver implements DriverInterface
 {
@@ -46,25 +48,13 @@ class StompDriver implements DriverInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function createTransportMessage()
-    {
-        return $this->context->createMessage();
-    }
-
-    /**
-     * {@inheritdoc}
+     * @return StompMessage
      *
-     * @param StompDestination $queue
+     * {@inheritdoc}
      */
-    public function send(Queue $queue, Message $message)
+    public function createTransportMessage(Message $message)
     {
-        InvalidDestinationException::assertDestinationInstanceOf($queue, StompDestination::class);
-
-        $destination = $queue;
         $headers = $message->getHeaders();
-
         $headers['content-type'] = $message->getContentType();
 
         if ($message->getExpire()) {
@@ -81,14 +71,9 @@ class StompDriver implements DriverInterface
 
         if ($message->getDelay()) {
             $headers['x-delay'] = (string) ($message->getDelay() * 1000);
-
-            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
-            $destination->setType(StompDestination::TYPE_EXCHANGE);
-            $destination->setDurable(true);
-            $destination->setAutoDelete(false);
         }
 
-        $transportMessage = $this->createTransportMessage();
+        $transportMessage = $this->context->createMessage();
         $transportMessage->setHeaders($headers);
         $transportMessage->setPersistent(true);
         $transportMessage->setBody($message->getBody());
@@ -100,6 +85,83 @@ class StompDriver implements DriverInterface
 
         if ($message->getTimestamp()) {
             $transportMessage->setTimestamp($message->getTimestamp());
+        }
+
+        return $transportMessage;
+    }
+
+    /**
+     * @param StompMessage $message
+     *
+     * {@inheritdoc}
+     */
+    public function createClientMessage(TransportMessage $message)
+    {
+        $clientMessage = new Message();
+
+        $headers = $message->getHeaders();
+        unset(
+            $headers['content-type'],
+            $headers['x-delay'],
+            $headers['expiration'],
+            $headers['priority'],
+            $headers['message_id'],
+            $headers['timestamp']
+        );
+
+        $clientMessage->setHeaders($headers);
+        $clientMessage->setBody($message->getBody());
+        $clientMessage->setProperties($message->getProperties());
+
+        $clientMessage->setContentType($message->getHeader('content-type'));
+
+        if ($delay = $message->getHeader('x-delay')) {
+            if (false == is_numeric($delay)) {
+                throw new \LogicException(sprintf('x-delay header is not numeric. "%s"', $delay));
+            }
+
+            $clientMessage->setDelay((int) ((int) $delay) / 1000);
+        }
+
+        if ($expiration = $message->getHeader('expiration')) {
+            if (false == is_numeric($expiration)) {
+                throw new \LogicException(sprintf('expiration header is not numeric. "%s"', $expiration));
+            }
+
+            $clientMessage->setExpire((int) ((int) $expiration) / 1000);
+        }
+
+        if ($priority = $message->getHeader('priority')) {
+            if (false === $clientPriority = array_search($priority, $this->priorityMap, true)) {
+                throw new \LogicException(sprintf('Cant convert transport priority to client: "%s"', $priority));
+            }
+
+            $clientMessage->setPriority($priority);
+        }
+
+        $clientMessage->setMessageId($message->getMessageId());
+        $clientMessage->setTimestamp($message->getTimestamp());
+
+        return $clientMessage;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param StompDestination $queue
+     */
+    public function send(Queue $queue, Message $message)
+    {
+        InvalidDestinationException::assertDestinationInstanceOf($queue, StompDestination::class);
+
+        $destination = $queue;
+        $transportMessage = $this->createTransportMessage($message);
+
+        if ($message->getDelay()) {
+            $destination = $this->context->createTopic($queue->getStompName().'.delayed');
+            $destination->setType(StompDestination::TYPE_EXCHANGE);
+            $destination->setDurable(true);
+            $destination->setAutoDelete(false);
         }
 
         $this->context->createProducer()->send($destination, $transportMessage);

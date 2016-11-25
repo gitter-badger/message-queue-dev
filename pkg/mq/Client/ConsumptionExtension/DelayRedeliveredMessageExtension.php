@@ -41,7 +41,7 @@ class DelayRedeliveredMessageExtension implements ExtensionInterface
      */
     public function onPreReceived(Context $context)
     {
-        $message = $context->getMessage();
+        $message = $context->getFMSMessage();
         if (false == $message->isRedelivered()) {
             return;
         }
@@ -59,7 +59,7 @@ class DelayRedeliveredMessageExtension implements ExtensionInterface
         $delayedMessage->setProperties($properties);
         $delayedMessage->setDelay($this->delay);
 
-        $this->driver->send($context->getQueue(), $delayedMessage);
+        $this->driver->send($context->getFMSQueue(), $delayedMessage);
         $context->getLogger()->debug('[DelayRedeliveredMessageExtension] Send delayed message');
 
         $context->setResult(Result::REJECT);
