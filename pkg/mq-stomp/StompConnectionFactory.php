@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\Stomp;
 
-use Formapro\Jms\ConnectionFactory;
+use Formapro\Fms\ConnectionFactory;
 use Stomp\Network\Connection;
 
 class StompConnectionFactory implements ConnectionFactory

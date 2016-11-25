@@ -1,10 +1,10 @@
 <?php
-namespace Formapro\Jms;
+namespace Formapro\Fms;
 
 interface ConnectionFactory
 {
     /**
-     * @return JMSContext
+     * @return Context
      */
     public function createContext();
 }

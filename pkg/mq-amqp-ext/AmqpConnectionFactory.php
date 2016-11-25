@@ -1,7 +1,7 @@
 <?php
 namespace Formapro\AmqpExt;
 
-use Formapro\Jms\ConnectionFactory;
+use Formapro\Fms\ConnectionFactory;
 
 class AmqpConnectionFactory implements ConnectionFactory
 {
