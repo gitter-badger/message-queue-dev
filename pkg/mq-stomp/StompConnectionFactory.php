@@ -27,7 +27,7 @@ class StompConnectionFactory implements ConnectionFactory
             'password' => null,
             'vhost' => null,
             'buffer_size' => 1000,
-            'connection_timeout' => null,
+            'connection_timeout' => 1,
             'sync' => false,
         ], $config);
     }

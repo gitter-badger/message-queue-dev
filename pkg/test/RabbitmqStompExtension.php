@@ -27,6 +27,7 @@ trait RabbitmqStompExtension
             'login' => $rabbitmqUser,
             'password' => $rabbitmqPassword,
             'vhost' => $rabbitmqVhost,
+            'sync' => true,
         ], 1);
     }
 

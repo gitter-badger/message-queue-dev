@@ -15,22 +15,20 @@ if ($autoload) {
     throw new \LogicException('Composer autoload was not found');
 }
 
-use Formapro\Stomp\BufferedStompClient;
-use Formapro\Stomp\StompContext;
+use Formapro\Stomp\StompConnectionFactory;
 use Stomp\Exception\ErrorFrameException;
 
-$url = 'tcp://localhost:61613';
-$login = 'guest';
-$password = 'guest';
-$vhost = '/';
+$config = [
+    'uri' => sprintf('tcp://%s:%s', getenv('SYMFONY__RABBITMQ__HOST'), getenv('SYMFONY__RABBITMQ__STOMP__PORT')),
+    'login' => getenv('SYMFONY__RABBITMQ__USER'),
+    'password' => getenv('SYMFONY__RABBITMQ__PASSWORD'),
+    'vhost' => getenv('SYMFONY__RABBITMQ__VHOST'),
+    'sync' => true,
+];
 
 try {
-    $stomp = new BufferedStompClient($url);
-    $stomp->setLogin($login, $password);
-    $stomp->setVhostname($vhost);
-    $stomp->setSync(false);
-
-    $context = new StompContext($stomp);
+    $factory = new StompConnectionFactory($config);
+    $context = $factory->createContext();
 
     $destination = $context->createQueue('destination');
     $destination->setDurable(true);
