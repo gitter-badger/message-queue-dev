@@ -4,7 +4,7 @@ namespace Formapro\Stomp;
 use Formapro\Fms\Consumer;
 use Formapro\Fms\InvalidMessageException;
 use Formapro\Fms\Message;
-use Formapro\MessageQueue\Util\UUID;
+use Ramsey\Uuid\Uuid;
 use Stomp\Client;
 use Stomp\Transport\Frame;
 
@@ -57,7 +57,7 @@ class StompConsumer implements Consumer
         $this->prefetchCount = 1;
         $this->subscriptionId = $queue->getType() == StompDestination::TYPE_TEMP_QUEUE ?
             $queue->getQueueName() :
-            UUID::generate()
+            Uuid::uuid4()->toString()
         ;
     }
 

@@ -4,7 +4,7 @@ namespace Formapro\Stomp;
 use Formapro\Fms\Context;
 use Formapro\Fms\Destination;
 use Formapro\Fms\InvalidDestinationException;
-use Formapro\MessageQueue\Util\UUID;
+use Ramsey\Uuid\Uuid;
 
 class StompContext implements Context
 {
@@ -56,7 +56,7 @@ class StompContext implements Context
      */
     public function createTemporaryQueue()
     {
-        $queue = $this->createQueue(UUID::generate());
+        $queue = $this->createQueue(Uuid::uuid4()->toString());
         $queue->setType(StompDestination::TYPE_TEMP_QUEUE);
 
         return $queue;
