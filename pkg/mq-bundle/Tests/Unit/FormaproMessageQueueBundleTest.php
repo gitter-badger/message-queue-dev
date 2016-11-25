@@ -3,6 +3,7 @@ namespace Formapro\MessageQueueBundle\Tests\Unit;
 
 use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildDestinationMetaRegistryPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildExtensionsPass;
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildMessageProcessorRegistryPass;
@@ -10,7 +11,6 @@ use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildRouteRegistryP
 use Formapro\MessageQueueBundle\DependencyInjection\Compiler\BuildTopicMetaSubscribersPass;
 use Formapro\MessageQueueBundle\DependencyInjection\FormaproMessageQueueExtension;
 use Formapro\MessageQueueBundle\FormaproMessageQueueBundle;
-use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
