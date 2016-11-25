@@ -3,8 +3,8 @@ namespace Formapro\MessageQueueBundle\Tests\Unit\DependencyInjection;
 
 use Formapro\MessageQueue\DependencyInjection\DefaultTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\NullTransportFactory;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\DependencyInjection\Configuration;
-use Formapro\MessageQueueBundle\Test\ClassExtensionTrait;
 use Formapro\MessageQueueBundle\Tests\Unit\Mocks\FooTransportFactory;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;

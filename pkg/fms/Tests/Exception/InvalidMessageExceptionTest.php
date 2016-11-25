@@ -3,7 +3,7 @@ namespace Formapro\Fms\Tests\Exception;
 
 use Formapro\Fms\Exception as ExceptionInterface;
 use Formapro\Fms\InvalidMessageException;
-use Formapro\Fms\Test\ClassExtensionTrait;
+use Formapro\MessageQueue\Test\ClassExtensionTrait;
 
 class InvalidMessageExceptionTest extends \PHPUnit_Framework_TestCase
 {
