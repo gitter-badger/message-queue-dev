@@ -14,11 +14,11 @@ class AmqpContext implements Context
     private $extChannel;
 
     /**
-     * @param \AMQPChannel $amqpChannel
+     * @param \AMQPChannel $extChannel
      */
-    public function __construct(\AMQPChannel $amqpChannel)
+    public function __construct(\AMQPChannel $extChannel)
     {
-        $this->extChannel = $amqpChannel;
+        $this->extChannel = $extChannel;
     }
 
     /**

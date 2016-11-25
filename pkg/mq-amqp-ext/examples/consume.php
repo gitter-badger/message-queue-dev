@@ -15,17 +15,18 @@ if ($autoload) {
     throw new \LogicException('Composer autoload was not found');
 }
 
-//Establish connection to AMQP
-$connection = new AMQPConnection();
-$connection->setHost(getenv('SYMFONY__RABBITMQ__HOST'));
-$connection->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
-$connection->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
-$connection->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
-$connection->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
+use Formapro\AmqpExt\AmqpConnectionFactory;
 
-\Formapro\MessageQueue\Test\RabbitmqAmqpExtension::tryConnect($connection, 1);
+$config = [
+    'host' => getenv('SYMFONY__RABBITMQ__HOST'),
+    'port' => getenv('SYMFONY__RABBITMQ__AMQP__PORT'),
+    'login' => getenv('SYMFONY__RABBITMQ__USER'),
+    'password' => getenv('SYMFONY__RABBITMQ__PASSWORD'),
+    'vhost' => getenv('SYMFONY__RABBITMQ__VHOST'),
+];
 
-$context = new \Formapro\AmqpExt\AmqpContext($connection);
+$factory = new AmqpConnectionFactory($config);
+$context = $factory->createContext();
 
 $queue = $context->createQueue('foo');
 $fooConsumer = $context->createConsumer($queue);

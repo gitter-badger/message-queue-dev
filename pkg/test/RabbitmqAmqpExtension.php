@@ -1,6 +1,7 @@
 <?php
 namespace Formapro\MessageQueue\Test;
 
+use Formapro\AmqpExt\AmqpConnectionFactory;
 use Formapro\AmqpExt\AmqpContext;
 
 trait RabbitmqAmqpExtension
@@ -14,30 +15,28 @@ trait RabbitmqAmqpExtension
             throw new \PHPUnit_Framework_SkippedTestError('Functional tests are not allowed in this environment');
         }
 
-        $extConnection = new \AMQPConnection();
-        $extConnection->setHost(getenv('SYMFONY__RABBITMQ__HOST'));
-        $extConnection->setPort(getenv('SYMFONY__RABBITMQ__AMQP__PORT'));
-        $extConnection->setLogin(getenv('SYMFONY__RABBITMQ__USER'));
-        $extConnection->setPassword(getenv('SYMFONY__RABBITMQ__PASSWORD'));
-        $extConnection->setVhost(getenv('SYMFONY__RABBITMQ__VHOST'));
-
-        self::tryConnect($extConnection, 1);
-
-        return new AmqpContext(new \AMQPChannel($extConnection));
+        return self::attemptCreateContext([
+            'host' => getenv('SYMFONY__RABBITMQ__HOST'),
+            'port' => getenv('SYMFONY__RABBITMQ__AMQP__PORT'),
+            'login' => getenv('SYMFONY__RABBITMQ__USER'),
+            'password' => getenv('SYMFONY__RABBITMQ__PASSWORD'),
+            'vhost' => getenv('SYMFONY__RABBITMQ__VHOST'),
+        ], 1);
     }
 
-    public static function tryConnect(\AMQPConnection $extConnection, $attempt)
+    private function attemptCreateContext(array $config, $attempt)
     {
         try {
-            $extConnection->connect();
+            return (new AmqpConnectionFactory($config))->createContext();
         } catch (\AMQPConnectionException $e) {
-            if ($attempt > 7) {
+            if ($attempt > 5) {
                 throw $e;
             }
             sleep(1);
 
             ++$attempt;
-            self::tryConnect($extConnection, $attempt);
+
+            return $this->attemptCreateContext($config, $attempt);
         }
     }
 }

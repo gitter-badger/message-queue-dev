@@ -1,41 +1,41 @@
 <?php
-namespace Formapro\Stomp\Tests\Symfony;
+namespace Formapro\AmqpExt\Tests\Symfony;
 
+use Formapro\AmqpExt\AmqpConnectionFactory;
+use Formapro\AmqpExt\Symfony\AmqpTransportFactory;
 use Formapro\MessageQueue\DependencyInjection\TransportFactoryInterface;
 use Formapro\MessageQueue\Test\ClassExtensionTrait;
-use Formapro\Stomp\StompConnectionFactory;
-use Formapro\Stomp\Symfony\StompTransportFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
+class AmqpTransportFactoryTest extends \PHPUnit_Framework_TestCase
 {
     use ClassExtensionTrait;
 
     public function testShouldImplementTransportFactoryInterface()
     {
-        $this->assertClassImplements(TransportFactoryInterface::class, StompTransportFactory::class);
+        $this->assertClassImplements(TransportFactoryInterface::class, AmqpTransportFactory::class);
     }
 
     public function testCouldBeConstructedWithDefaultName()
     {
-        $transport = new StompTransportFactory();
+        $transport = new AmqpTransportFactory();
 
-        $this->assertEquals('stomp', $transport->getName());
+        $this->assertEquals('amqp', $transport->getName());
     }
 
     public function testCouldBeConstructedWithCustomName()
     {
-        $transport = new StompTransportFactory('theCustomName');
+        $transport = new AmqpTransportFactory('theCustomName');
 
         $this->assertEquals('theCustomName', $transport->getName());
     }
 
     public function testShouldAllowAddConfiguration()
     {
-        $transport = new StompTransportFactory();
+        $transport = new AmqpTransportFactory();
         $tb = new TreeBuilder();
         $rootNode = $tb->root('foo');
 
@@ -44,13 +44,12 @@ class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
         $config = $processor->process($tb->buildTree(), []);
 
         $this->assertEquals([
-            'uri' => 'tcp://localhost:61613',
+            'host' => 'localhost',
+            'port' => 5672,
             'login' => 'guest',
             'password' => 'guest',
             'vhost' => '/',
-            'sync' => true,
-            'connection_timeout' => 1,
-            'buffer_size' => 1000,
+            'persisted' => false,
         ], $config);
     }
 
@@ -58,37 +57,35 @@ class StompTransportFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
 
-        $transport = new StompTransportFactory();
+        $transport = new AmqpTransportFactory();
 
         $serviceId = $transport->createService($container, [
-            'uri' => 'tcp://localhost:61613',
+            'host' => 'localhost',
+            'port' => 5672,
             'login' => 'guest',
             'password' => 'guest',
             'vhost' => '/',
-            'sync' => true,
-            'connection_timeout' => 1,
-            'buffer_size' => 1000,
+            'persisted' => false,
         ]);
 
-        $this->assertEquals('formapro_message_queue.transport.stomp.context', $serviceId);
+        $this->assertEquals('formapro_message_queue.transport.amqp.context', $serviceId);
         $this->assertTrue($container->hasDefinition($serviceId));
 
-        $context = $container->getDefinition('formapro_message_queue.transport.stomp.context');
+        $context = $container->getDefinition('formapro_message_queue.transport.amqp.context');
         $this->assertInstanceOf(Reference::class, $context->getFactory()[0]);
-        $this->assertEquals('formapro_message_queue.transport.stomp.connection_factory', (string) $context->getFactory()[0]);
+        $this->assertEquals('formapro_message_queue.transport.amqp.connection_factory', (string) $context->getFactory()[0]);
         $this->assertEquals('createContext', $context->getFactory()[1]);
 
-        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.stomp.connection_factory'));
-        $factory = $container->getDefinition('formapro_message_queue.transport.stomp.connection_factory');
-        $this->assertEquals(StompConnectionFactory::class, $factory->getClass());
+        $this->assertTrue($container->hasDefinition('formapro_message_queue.transport.amqp.connection_factory'));
+        $factory = $container->getDefinition('formapro_message_queue.transport.amqp.connection_factory');
+        $this->assertEquals(AmqpConnectionFactory::class, $factory->getClass());
         $this->assertSame([[
-            'uri' => 'tcp://localhost:61613',
+            'host' => 'localhost',
+            'port' => 5672,
             'login' => 'guest',
             'password' => 'guest',
             'vhost' => '/',
-            'sync' => true,
-            'connection_timeout' => 1,
-            'buffer_size' => 1000,
+            'persisted' => false,
         ]], $factory->getArguments());
     }
 }

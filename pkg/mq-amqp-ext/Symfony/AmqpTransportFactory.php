@@ -37,7 +37,7 @@ class AmqpTransportFactory implements TransportFactoryInterface
                     ->info('The host to connect too. Note: Max 1024 characters')
                 ->end()
                 ->scalarNode('port')
-                    ->defaultValue('localhost')
+                    ->defaultValue(5672)
                     ->cannotBeEmpty()
                     ->info('Port on the host.')
                 ->end()
