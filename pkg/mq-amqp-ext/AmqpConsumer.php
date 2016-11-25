@@ -4,7 +4,7 @@ namespace Formapro\AmqpExt;
 use Formapro\Fms\Consumer;
 use Formapro\Fms\InvalidMessageException;
 use Formapro\Fms\Message;
-use Formapro\MessageQueue\Util\UUID;
+use Ramsey\Uuid\Uuid;
 
 class AmqpConsumer implements Consumer
 {
@@ -42,7 +42,7 @@ class AmqpConsumer implements Consumer
         $this->queue = $queue;
         $this->context = $context;
 
-        $this->consumerId = UUID::generate();
+        $this->consumerId = Uuid::uuid4()->toString();
         $this->isInit = false;
     }
 
