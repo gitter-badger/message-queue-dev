@@ -17,11 +17,15 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - export LC_ALL=C.UTF-8
-    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
-    - sudo apt-get update -y
-    - sudo apt-get install -y --no-install-recommends librabbitmq-dev
-    - yes ''|pecl install -f amqp-1.6.1
+    - cd $HOME
+    - git clone git://github.com/alanxz/rabbitmq-c.git
+    - cd $HOME/rabbitmq-c
+    - git submodule init && git submodule update
+    - autoreconf -i && ./configure --prefix=$HOME/rabbitmq-c && make && make install
+    - cd $HOME
+    - git git@github.com:pdezwart/php-amqp.git
+    - cd $HOME/php-amqp
+    - phpize && ./configure  --with-librabbitmq-dir=$HOME/rabbitmq-c && make
     - composer self-update
     - composer update --prefer-source
 
