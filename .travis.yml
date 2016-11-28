@@ -18,7 +18,7 @@ cache:
 
 install:
     - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
-    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq4
+    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq1
     - pecl install amqp
     - composer self-update
     - composer update --prefer-source
