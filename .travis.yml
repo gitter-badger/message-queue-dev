@@ -19,9 +19,10 @@ cache:
 install:
 #    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
 #    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq1 librabbitmq-dev
-    - LC_ALL=C.UTF-8 sudo add-apt-repository -y ppa:ondrej/php
-    - sudo apt-get update && sudo apt-get install -y --no-install-recommends php-amqp
-    - pecl install amqp
+    - export LC_ALL=C.UTF-8
+    - sudo add-apt-repository -y ppa:ondrej/php
+    - sudo apt-get update -y
+    - sudo apt-get install -y --no-install-recommends php-amqp
     - composer self-update
     - composer update --prefer-source
 
