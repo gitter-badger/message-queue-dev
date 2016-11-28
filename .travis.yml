@@ -12,13 +12,13 @@ php:
 services:
     - docker
 
-#cache:
-#    directories:
-#        - $HOME/.composer/cache
+cache:
+    directories:
+        - $HOME/.composer/cache
 
-#install:
-#    - composer self-update
-#    - composer install --prefer-source
+install:
+    - composer self-update
+    - composer install --prefer-source
 
 script:
     - bin/sandbox -bt
