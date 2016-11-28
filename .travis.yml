@@ -17,8 +17,9 @@ cache:
         - $HOME/.composer/cache
 
 install:
+    - ls ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/
     - composer self-update
-    - composer update --prefer-source --ignore-platform-reqs
+    - composer update --prefer-source
 
 script:
     - bin/phpunit --exclude-group=functional
