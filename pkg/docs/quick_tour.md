@@ -1,5 +1,11 @@
 # Quick tour
  
+* (Transport)[#transport]
+* (Consumption)[#consumption]
+* (Remote Procedure Call (RPC))[#remote-procedure-call-rpc]
+* (Job queue)[#job-queue]
+* (Client)[#client]
+
 ## Transport
 
 The transport layer or FMS (Formapro message service) is a Message Oriented Middleware for sending messages between two or more clients. 
@@ -150,5 +156,21 @@ $queueConsumer->bind('foo', function(Message $message, Context $context) {
 
 $queueConsumer->consume();
 ```
+
+## Client
+
+It provides a high level abstraction.
+The goal of the component is hide as much as possible details from you so you can concentrate on things that really matters. 
+For example, It reduces a need to configure a broker.
+It easy to use abstraction for producing and processing messages. 
+
+## Job queue
+
+There is job queue component build on top of a transport. It provides some additional features:
+
+* Stores jobs to a database. So you can query that information and build a UI for it.
+* Run unique job feature. If used guarantee that there is not any job with the same name running same time.
+* Sub jobs. If used allow split a big job into smaller pieces and process them asynchronously and in parallel.
+* Depended job. If used allow send a message when the whole job is finished (including sub jobs).  
 
 [back to index](index.md)
