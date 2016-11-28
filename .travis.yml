@@ -17,8 +17,7 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - ls ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20131226/
-    - ls ~/.phpenv/versions/$(phpenv version-name)/lib/php/extensions/no-debug-zts-20151012/
+    - pecl install amqp
     - composer self-update
     - composer update --prefer-source
 
