@@ -5,8 +5,10 @@ use Formapro\Fms\Consumer;
 use Formapro\Fms\Context as FMSContext;
 use Formapro\Fms\Message;
 use Formapro\Fms\Queue;
+use Formapro\MessageQueue\Consumption\CallbackMessageProcessor;
 use Formapro\MessageQueue\Consumption\ChainExtension;
 use Formapro\MessageQueue\Consumption\Context;
+use Formapro\MessageQueue\Consumption\Exception\InvalidArgumentException;
 use Formapro\MessageQueue\Consumption\ExtensionInterface;
 use Formapro\MessageQueue\Consumption\MessageProcessorInterface;
 use Formapro\MessageQueue\Consumption\QueueConsumer;
@@ -54,7 +56,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
         $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
 
-        $this->setExpectedException(\LogicException::class, 'The queue name must be not empty.');
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The queue name must be not empty.');
         $consumer->bind(new NullQueue(''), $messageProcessorMock);
     }
 
@@ -66,7 +69,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
         $consumer->bind(new NullQueue('theQueueName'), $messageProcessorMock);
 
-        $this->setExpectedException(\LogicException::class, 'The queue was already bound.');
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The queue was already bound.');
         $consumer->bind(new NullQueue('theQueueName'), $messageProcessorMock);
     }
 
@@ -80,6 +84,58 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $consumer->bind($queue, $messageProcessorMock);
 
         $this->assertAttributeSame(['theQueueName' => [$queue, $messageProcessorMock]], 'boundMessageProcessors', $consumer);
+    }
+
+    public function testThrowIfQueueNeitherInstanceOfQueueNorString()
+    {
+        $messageProcessorMock = $this->createMessageProcessorMock();
+
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The argument must be an instance of Formapro\Fms\Queue but got stdClass.');
+        $consumer->bind(new \stdClass(), $messageProcessorMock);
+    }
+
+    public function testThrowIfMessageProcessorNeitherInstanceOfMessageProcessorNorCallable()
+    {
+        $consumer = new QueueConsumer($this->createFMSContextStub(), null, 0);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The argument must be an instance of Formapro\MessageQueue\Consumption\MessageProcessorInterface but got stdClass.');
+        $consumer->bind(new NullQueue(''), new \stdClass());
+    }
+
+    public function testShouldAllowBindCallbackToQueueName()
+    {
+        $callback = function () {
+        };
+
+        $queueName = 'theQueueName';
+        $queue = new NullQueue($queueName);
+
+        $context = $this->createMock(FMSContext::class);
+        $context
+            ->expects($this->once())
+            ->method('createQueue')
+            ->with($queueName)
+            ->willReturn($queue)
+        ;
+
+        $consumer = new QueueConsumer($context, null, 0);
+
+        $consumer->bind($queueName, $callback);
+
+        $boundProcessors = $this->readAttribute($consumer, 'boundMessageProcessors');
+
+        $this->assertInternalType('array', $boundProcessors);
+        $this->assertCount(1, $boundProcessors);
+        $this->assertArrayHasKey($queueName, $boundProcessors);
+
+        $this->assertInternalType('array', $boundProcessors[$queueName]);
+        $this->assertCount(2, $boundProcessors[$queueName]);
+        $this->assertSame($queue, $boundProcessors[$queueName][0]);
+        $this->assertInstanceOf(CallbackMessageProcessor::class, $boundProcessors[$queueName][1]);
     }
 
     public function testShouldReturnSelfOnBind()
@@ -185,7 +241,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $queueConsumer = new QueueConsumer($contextStub, new BreakCycleExtension(1), 0);
         $queueConsumer->bind(new NullQueue('aQueueName'), $messageProcessorMock);
 
-        $this->setExpectedException(\LogicException::class, 'Status is not supported');
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Status is not supported');
         $queueConsumer->consume();
     }
 
@@ -243,8 +300,6 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowIfMessageProcessorReturnInvalidStatus()
     {
-        $this->setExpectedException(\LogicException::class, 'Status is not supported: invalidStatus');
-
         $messageMock = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($messageMock);
 
@@ -261,6 +316,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $queueConsumer = new QueueConsumer($contextStub, new BreakCycleExtension(1), 0);
         $queueConsumer->bind(new NullQueue('aQueueName'), $messageProcessorMock);
 
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Status is not supported: invalidStatus');
         $queueConsumer->consume();
     }
 
@@ -717,8 +774,6 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldCallOnInterruptedIfExceptionThrow()
     {
-        $this->setExpectedException(\Exception::class, 'Process failed');
-
         $expectedException = new \Exception('Process failed');
         $expectedMessage = $this->createMessageMock();
         $messageConsumerStub = $this->createMessageConsumerStub($expectedMessage);
@@ -759,6 +814,8 @@ class QueueConsumerTest extends \PHPUnit_Framework_TestCase
         $queueConsumer = new QueueConsumer($contextStub, $chainExtensions, 0);
         $queueConsumer->bind(new NullQueue('aQueueName'), $messageProcessorMock);
 
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Process failed');
         $queueConsumer->consume();
     }
 

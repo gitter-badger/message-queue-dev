@@ -5,6 +5,8 @@ use Formapro\Fms\Consumer;
 use Formapro\Fms\Context as FMSContext;
 use Formapro\Fms\Queue;
 use Formapro\MessageQueue\Consumption\Exception\ConsumptionInterruptedException;
+use Formapro\MessageQueue\Consumption\Exception\InvalidArgumentException;
+use Formapro\MessageQueue\Consumption\Exception\LogicException;
 use Formapro\MessageQueue\Util\VarExport;
 use Psr\Log\NullLogger;
 
@@ -60,18 +62,28 @@ class QueueConsumer
     }
 
     /**
-     * @param Queue                     $queue
-     * @param MessageProcessorInterface $messageProcessor
+     * @param Queue|string                       $queue
+     * @param MessageProcessorInterface|callable $messageProcessor
      *
-     * @return self
+     * @return QueueConsumer
      */
-    public function bind(Queue $queue, MessageProcessorInterface $messageProcessor)
+    public function bind($queue, $messageProcessor)
     {
+        if (is_string($queue)) {
+            $queue = $this->fmsContext->createQueue($queue);
+        }
+        if (is_callable($messageProcessor)) {
+            $messageProcessor = new CallbackMessageProcessor($messageProcessor);
+        }
+
+        InvalidArgumentException::assertInstanceOf($queue, Queue::class);
+        InvalidArgumentException::assertInstanceOf($messageProcessor, MessageProcessorInterface::class);
+
         if (empty($queue->getQueueName())) {
-            throw new \LogicException('The queue name must be not empty.');
+            throw new LogicException('The queue name must be not empty.');
         }
         if (array_key_exists($queue->getQueueName(), $this->boundMessageProcessors)) {
-            throw new \LogicException(sprintf('The queue was already bound. Queue: %s', $queue->getQueueName()));
+            throw new LogicException(sprintf('The queue was already bound. Queue: %s', $queue->getQueueName()));
         }
 
         $this->boundMessageProcessors[$queue->getQueueName()] = [$queue, $messageProcessor];

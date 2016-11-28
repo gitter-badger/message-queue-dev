@@ -25,7 +25,7 @@ class InvalidDestinationExceptionTest extends \PHPUnit_Framework_TestCase
         $this->expectException(InvalidDestinationException::class);
         $this->expectExceptionMessage(
             'The destination must be an instance of Formapro\Fms\Tests\Exception\DestinationBar'.
-            ' but it is Formapro\Fms\Tests\Exception\DestinationFoo.'
+            ' but got Formapro\Fms\Tests\Exception\DestinationFoo.'
         );
 
         InvalidDestinationException::assertDestinationInstanceOf(new DestinationFoo(), DestinationBar::class);
