@@ -11,3 +11,5 @@
 * Symfony bundle
     * [Quick tour](bundle/quick_tour.md)
     * [Production settings](bundle/production_settings.md)
+    * [Debuging](bundle/debuging.md)
+    * [Functional testing](bundle/functional_testing.md)

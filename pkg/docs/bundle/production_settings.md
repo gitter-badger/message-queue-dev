@@ -1,4 +1,6 @@
-### Supervisord
+# Production settings
+
+## Supervisord
 
 As you may read in [quick tour](quick_tour.md) you have to run `formapro:message-queue:consume` in order to process messages 
 The php process is not designed to work for a long time. So it has to quit periodically.
