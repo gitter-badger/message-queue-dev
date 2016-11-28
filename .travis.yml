@@ -17,20 +17,20 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - cd $HOME
-    - git clone git://github.com/alanxz/rabbitmq-c.git
-    - cd $HOME/rabbitmq-c
-    - git submodule init && git submodule update
-    - autoreconf -i && ./configure --prefix=$HOME/rabbitmq-c && make && make install
-    - cd $HOME
-    - git clone git://github.com/pdezwart/php-amqp.git
-    - cd $HOME/php-amqp
-    - phpize && ./configure  --with-librabbitmq-dir=$HOME/rabbitmq-c && make && make install
-    - echo "extension=amqp.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-    - cd $TRAVIS_BUILD_DIR
-    - composer self-update
-    - composer update --prefer-source
+#    - cd $HOME
+#    - git clone git://github.com/alanxz/rabbitmq-c.git
+#    - cd $HOME/rabbitmq-c
+#    - git submodule init && git submodule update
+#    - autoreconf -i && ./configure --prefix=$HOME/rabbitmq-c && make && make install
+#    - cd $HOME
+#    - git clone git://github.com/pdezwart/php-amqp.git
+#    - cd $HOME/php-amqp
+#    - phpize && ./configure  --with-librabbitmq-dir=$HOME/rabbitmq-c && make && make install
+#    - echo "extension=amqp.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+#    - cd $TRAVIS_BUILD_DIR
+#    - composer self-update
+#    - composer update --prefer-source
 
 script:
-    - bin/phpunit --exclude-group=functional
-#    - bin/sandbox -bt
+#    - bin/phpunit --exclude-group=functional
+    - bin/sandbox -bt
