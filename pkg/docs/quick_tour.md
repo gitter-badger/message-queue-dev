@@ -1,10 +1,10 @@
 # Quick tour
  
-* (Transport)[#transport]
-* (Consumption)[#consumption]
-* (Remote Procedure Call (RPC))[#remote-procedure-call-rpc]
-* (Job queue)[#job-queue]
-* (Client)[#client]
+* [Transport](#transport)
+* [Consumption](#consumption)
+* [Remote Procedure Call (RPC)](#remote-procedure-call-rpc)
+* [Job queue](#job-queue)
+* [Client](#client)
 
 ## Transport
 

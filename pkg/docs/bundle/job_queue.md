@@ -1,7 +1,7 @@
 # Jobs
 
-* (Unique job)[#unique-job]
-* (Sub jobs)[#sub-jobs]
+* [Unique job](#unique-job)
+* [Sub jobs](#sub-jobs)
 
 
 Use jobs when your message flow has several steps(tasks) which run one after another.
