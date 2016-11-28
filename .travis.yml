@@ -17,7 +17,7 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - echo "extension = amqp.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - sudo apt-get update && apt-get install -y --no-install-recommends php-amqp
     - composer self-update
     - composer update --prefer-source
 
