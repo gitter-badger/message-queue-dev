@@ -17,9 +17,8 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - sudo apt-get update && sudo apt-get install -y --no-install-recommends php-amqp
     - composer self-update
-    - composer update --prefer-source
+    - composer update --prefer-source --ignore-platform-reqs
 
 script:
     - bin/sandbox -bt
