@@ -17,7 +17,7 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq4
+    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq
     - pecl install amqp
     - composer self-update
     - composer update --prefer-source
