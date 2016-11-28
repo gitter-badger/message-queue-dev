@@ -23,6 +23,6 @@ user=apache
 redirect_stderr=true
 ```
 
-_**Note**: Pay attention to `--time-limit` it tells the command to exit after 5 minutes.
+_**Note**: Pay attention to `--time-limit` it tells the command to exit after 5 minutes._
 
 [back to index](../index.md)

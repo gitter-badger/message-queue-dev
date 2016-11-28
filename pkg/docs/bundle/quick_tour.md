@@ -83,7 +83,7 @@ Now you can start consuming messages:
 $ ./app/console formapro:message-queue:consume
 ```
 
-_**Note**: Add -vvv to find out what is going while you are consuming messages. There is a lot of valuable debug info there.
+_**Note**: Add -vvv to find out what is going while you are consuming messages. There is a lot of valuable debug info there._
 
 
 [back to index](../index.md)
