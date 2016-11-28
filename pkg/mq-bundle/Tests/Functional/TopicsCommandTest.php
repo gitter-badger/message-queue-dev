@@ -4,6 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional;
 use Formapro\MessageQueue\Client\Meta\TopicsCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @group functional
+ */
 class TopicsCommandTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

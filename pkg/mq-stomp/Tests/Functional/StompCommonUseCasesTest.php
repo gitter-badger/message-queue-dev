@@ -6,6 +6,9 @@ use Formapro\MessageQueue\Test\RabbitmqStompExtension;
 use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompMessage;
 
+/**
+ * @group functional
+ */
 class StompCommonUseCasesTest extends \PHPUnit_Framework_TestCase
 {
     use RabbitmqStompExtension;

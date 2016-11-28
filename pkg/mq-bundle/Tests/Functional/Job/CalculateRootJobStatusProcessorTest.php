@@ -4,6 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 use Formapro\JobQueue\CalculateRootJobStatusProcessor;
 use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
+/**
+ * @group functional
+ */
 class CalculateRootJobStatusProcessorTest extends WebTestCase
 {
     public function testCouldBeConstructedByContainer()

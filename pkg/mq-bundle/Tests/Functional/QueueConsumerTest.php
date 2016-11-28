@@ -3,6 +3,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\MessageQueue\Consumption\QueueConsumer;
 
+/**
+ * @group functional
+ */
 class QueueConsumerTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

@@ -3,6 +3,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\MessageQueue\Client\Meta\DestinationMetaRegistry;
 
+/**
+ * @group functional
+ */
 class DestinationRegistryTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

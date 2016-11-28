@@ -4,6 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 use Formapro\JobQueue\JobStorage;
 use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
+/**
+ * @group functional
+ */
 class JobStorageTest extends WebTestCase
 {
     public function testCouldGetJobStorageAsServiceFromContainer()

@@ -9,6 +9,9 @@ use Formapro\Stomp\StompContext;
 use Formapro\Stomp\StompMessage;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @group functional
+ */
 class ConsumeMessagesCommandTest extends WebTestCase
 {
     use RabbitmqStompExtension;

@@ -4,6 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional\Job;
 use Formapro\JobQueue\DependentJobService;
 use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
+/**
+ * @group functional
+ */
 class DependentJobServiceTest extends WebTestCase
 {
     public function testCouldBeConstructedByContainer()

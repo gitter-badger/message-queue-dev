@@ -6,6 +6,9 @@ use Formapro\JobQueue\JobStorage;
 use Formapro\JobQueue\Tests\Functional\Entity\Job;
 use Formapro\JobQueue\Tests\Functional\WebTestCase;
 
+/**
+ * @group functional
+ */
 class JobStorageTest extends WebTestCase
 {
     public function testShouldFindJobById()

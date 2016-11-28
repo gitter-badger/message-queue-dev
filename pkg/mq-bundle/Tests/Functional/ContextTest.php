@@ -3,6 +3,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\Fms\Context;
 
+/**
+ * @group functional
+ */
 class ContextTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

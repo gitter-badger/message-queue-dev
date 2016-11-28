@@ -14,6 +14,9 @@ use Formapro\MessageQueue\Consumption\Result;
 use Formapro\MessageQueue\Test\RabbitmqAmqpExtension;
 use Formapro\MessageQueue\Test\RabbitmqManagmentExtensionTrait;
 
+/**
+ * @group functional
+ */
 class AmqpConsumptionUseCasesTest extends \PHPUnit_Framework_TestCase
 {
     use RabbitmqAmqpExtension;

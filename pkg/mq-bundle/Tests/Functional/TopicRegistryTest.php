@@ -3,6 +3,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional;
 
 use Formapro\MessageQueue\Client\Meta\TopicMetaRegistry;
 
+/**
+ * @group functional
+ */
 class TopicRegistryTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

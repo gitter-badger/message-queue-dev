@@ -4,6 +4,9 @@ namespace Formapro\MessageQueueBundle\Tests\Functional\Client;
 use Formapro\MessageQueue\Client\MessageProducerInterface;
 use Formapro\MessageQueueBundle\Tests\Functional\WebTestCase;
 
+/**
+ * @group functional
+ */
 class MessageProducerTest extends WebTestCase
 {
     public function testCouldBeGetFromContainerAsService()

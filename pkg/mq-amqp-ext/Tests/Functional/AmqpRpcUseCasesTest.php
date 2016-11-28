@@ -8,6 +8,9 @@ use Formapro\MessageQueue\Rpc\RpcClient;
 use Formapro\MessageQueue\Test\RabbitmqAmqpExtension;
 use Formapro\MessageQueue\Test\RabbitmqManagmentExtensionTrait;
 
+/**
+ * @group functional
+ */
 class AmqpRpcUseCasesTest extends \PHPUnit_Framework_TestCase
 {
     use RabbitmqAmqpExtension;
