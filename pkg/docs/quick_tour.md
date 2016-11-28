@@ -7,6 +7,8 @@ It is a messaging component that allows applications to create, send, receive, a
 It allows the communication between different components of a distributed application to be loosely coupled, reliable, and asynchronous.
 
 FMS is inspired by JMS (Java Message Service). We tried to be as close as possible to [JSR 914](https://docs.oracle.com/javaee/7/api/javax/jms/package-summary.html) specification.
+For now it supports [AMQP](https://www.rabbitmq.com/tutorials/amqp-concepts.html) and [STOMP](https://stomp.github.io/) message queue protocols.
+You can connect to many modern brokers such as [RabbitMQ](https://www.rabbitmq.com/), [ActiveMQ](http://activemq.apache.org/) and others. 
 
 Produce a message:
 
