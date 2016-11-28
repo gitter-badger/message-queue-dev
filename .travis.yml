@@ -17,12 +17,11 @@ cache:
         - $HOME/.composer/cache
 
 install:
-#    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
-#    - sudo apt-get update && sudo apt-get install -y --no-install-recommends librabbitmq1 librabbitmq-dev
     - export LC_ALL=C.UTF-8
-    - sudo add-apt-repository -y ppa:ondrej/php
+    - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
     - sudo apt-get update -y
-    - sudo apt-get install -y --no-install-recommends php-amqp
+    - sudo apt-get install -y --no-install-recommends librabbitmq-dev
+    - yes ''|pecl install amqp
     - composer self-update
     - composer update --prefer-source
 
