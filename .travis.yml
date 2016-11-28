@@ -21,4 +21,5 @@ install:
     - composer update --prefer-source --ignore-platform-reqs
 
 script:
-    - bin/sandbox -bt
+    - bin/phpunit
+#    - bin/sandbox -bt
