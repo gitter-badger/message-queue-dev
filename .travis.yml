@@ -21,7 +21,7 @@ install:
     - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main universe multiverse restricted"
     - sudo apt-get update -y
     - sudo apt-get install -y --no-install-recommends librabbitmq-dev
-    - yes ''|pecl install amqp
+    - yes ''|pecl install -f amqp-1.6.1
     - composer self-update
     - composer update --prefer-source
 
